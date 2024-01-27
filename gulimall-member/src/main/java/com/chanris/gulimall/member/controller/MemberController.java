@@ -12,17 +12,20 @@ import com.chanris.gulimall.common.validator.group.DefaultGroup;
 import com.chanris.gulimall.common.validator.group.UpdateGroup;
 import com.chanris.gulimall.member.dto.MemberDTO;
 import com.chanris.gulimall.member.excel.MemberExcel;
+import com.chanris.gulimall.member.feign.CouponFeignService;
 import com.chanris.gulimall.member.service.MemberService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -37,8 +40,24 @@ import java.util.Map;
 @RequestMapping("member/member")
 @Api(tags="会员")
 public class MemberController {
-    @Autowired
+    @Resource
     private MemberService memberService;
+    @Resource
+    private CouponFeignService couponFeignService;
+
+    @RequestMapping("/coupons")
+    public Result test() {
+        MemberDTO memberDTO = new MemberDTO();
+        memberDTO.setNickname("张三");
+        Result res = couponFeignService.memebercoupons();
+        if(res.success()) {
+            if (res.getData() instanceof List) {
+                ArrayList data = (ArrayList) res.getData();
+                System.out.println(Arrays.toString(data.toArray()));
+            }
+        }
+        return new Result().ok(memberDTO);
+    }
 
     @GetMapping("page")
     @ApiOperation("分页")

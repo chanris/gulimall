@@ -112,5 +112,4 @@ public class WareInfoController {
 
         ExcelUtils.exportExcelToTarget(response, null, "仓库信息", list, WareInfoExcel.class);
     }
-
 }
