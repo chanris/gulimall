@@ -17,37 +17,61 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
+import java.util.*;
 
 /**
  * 优惠券信息
  *
  * @author Chen Yue chenyue7@foxmail.com
  * @since 1.0.0 2024-01-27
+ *
+ * 配置使用 nacos config
+ * 1.引入 nacos-config 和 cloud-bootstrap
+ * 2. 配置 config 的地址 信息
+ * 3.创建一个bootstrap.properties文件
+ * 4.创建配置项，并使用 实时刷新配置项值 在对应的controller上加@RefreshScope
+ *
+ * !!!!!!!!!!!!!注意!!!!!!!!!!!!!
+ * spring boot 2.4.x 以上版本 禁用了bootstrap 需要配置环境变量 spring.cloud.bootstrap.enabled=true
+ * 再在bootstrap.properties里面写spring.application.name=gulimall-coupon， 这样才能动态刷新配置
+ *
+ * 命名空间：
+ * 默认 public： 默认新增的所有的配置都写在public空间下，
+ * 1.需要哪一个空间下的配置文件，配置 spring.cloud.nacos.config.namespace=命名空间的ID
+ * 2.每一个微服务之间相互隔离配置，每个微服务都创建自己的命名空间，只加载自己命名空间下的所有配置
  */
 @RestController
 @RequestMapping("coupon/coupon")
 @Api(tags="优惠券信息")
+@RefreshScope  // nacos config 配置属性自动刷新
 public class CouponController {
     @Resource
     private CouponService couponService;
+    @Value("${coupon.user.name}")
+    private String username;
+    @Value("${coupon.user.age}")
+    private Long age;
 
     @RequestMapping("/member/list")
     public Result memebercoupons() {
         CouponDTO couponDTO = new CouponDTO();
         couponDTO.setCouponName("满100减10");
         return new Result().ok(List.of(couponDTO));
+    }
+
+    @RequestMapping("/test")
+    public Result test() {
+        HashMap<Object, Object> map = new HashMap<>();
+        map.put("coupon.user.name", username);
+        map.put("coupon.user.age", age);
+        return new Result().ok(map);
     }
 
     @GetMapping("page")
