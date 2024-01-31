@@ -1,0 +1,18 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: gulimall-product
+          uri: lb://gulimall-product
+          predicates:
+            - Path=/api/product/**
+          filters:
+            - RewritePath=/api/?(?<segment>.*), /$\{segment}
+        - id: gulimall-admin
+          #  使用spring cloud loadbalancer  语法： lb:// + <微服务注册名称>
+          uri: lb://gulimall-admin  # 坑点!!!!: uri不支持下划线
+          predicates:
+            - Path=/api/admin/**
+          filters:
+            # 重写uri  /api/admin => /admin
+            - RewritePath=/api/?(?<segment>.*), /$\{segment}

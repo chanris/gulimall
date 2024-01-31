@@ -12,6 +12,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 
 /**
@@ -19,6 +20,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  *
  * @author Mark sunlightcs@gmail.com
  */
+@EnableDiscoveryClient
 @SpringBootApplication
 public class AdminApplication extends SpringBootServletInitializer {
 

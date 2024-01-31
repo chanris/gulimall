@@ -31,6 +31,11 @@
 			<version>5.3.0</version>
 		</dependency>
 		<dependency>
+			<groupId>com.chanris.gulimall</groupId>
+			<artifactId>gulimall-common</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
 			<groupId>io.renren</groupId>
 			<artifactId>renren-dynamic-datasource</artifactId>
 			<version>5.3.0</version>

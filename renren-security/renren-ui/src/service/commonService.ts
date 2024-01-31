@@ -2,7 +2,7 @@ import { IHttpResponse, IObject } from "@/types/interface";
 import http from "../utils/http";
 
 /**
- * renren-scuirty 常用CRUD
+ * 常用CRUD
  */
 export default {
   /**
@@ -13,7 +13,7 @@ export default {
    */
   delete(path: string, params: IObject): Promise<IHttpResponse> {
     return http({
-      url: '/admin' + path,
+      url: path,
       data: params,
       method: "DELETE"
     });
@@ -21,7 +21,7 @@ export default {
   get(path: string, params?: IObject, headers?: IObject): Promise<IHttpResponse> {
     return new Promise((resolve, reject) => {
       http({
-        url: '/admin' + path,
+        url: path,
         params,
         headers,
         method: "GET"
@@ -36,7 +36,7 @@ export default {
   },
   put(path: string, params?: IObject, headers?: IObject): Promise<IHttpResponse> {
     return http({
-      url: '/admin' + path,
+      url: path,
       data: params,
       headers: {
         "Content-Type": "application/json;charset=UTF-8",
@@ -53,7 +53,7 @@ export default {
    */
   post(path: string, body?: IObject, headers?: IObject): Promise<IHttpResponse> {
     return http({
-      url: '/admin' + path,
+      url: path,
       method: "post",
       headers: {
         "Content-Type": "application/json;charset=UTF-8",

@@ -73,7 +73,7 @@ const rules = ref({
 
 const getCaptchaUrl = () => {
   login.uuid = getUuid();
-  state.captchaUrl = `${app.api}/captcha?uuid=${login.uuid}`;
+  state.captchaUrl = `${app.api}/admin/captcha?uuid=${login.uuid}`;
 };
 
 const onRefreshCode = () => {

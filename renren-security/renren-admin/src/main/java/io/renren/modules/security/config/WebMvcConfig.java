@@ -31,13 +31,14 @@ import java.util.TimeZone;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
+    // 注意坑点!!：使用spring cloud gateway 管理 renren-security时，关闭这里的跨域 在网关统一配置
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-            .allowedOriginPatterns("*")
-            .allowCredentials(true)
-            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-            .maxAge(3600);
+//        registry.addMapping("/**")
+//            .allowedOriginPatterns("*")
+//            .allowCredentials(true)
+//            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+//            .maxAge(3600);
     }
 
     @Override

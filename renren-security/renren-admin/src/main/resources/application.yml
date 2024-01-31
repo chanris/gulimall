@@ -5,9 +5,9 @@ server:
     threads:
       max: 1000
       min-spare: 30
-  port: 8080
+  port: 8888
   servlet:
-    context-path: /renren-admin
+    context-path: /admin
     session:
       cookie:
         http-only: true
