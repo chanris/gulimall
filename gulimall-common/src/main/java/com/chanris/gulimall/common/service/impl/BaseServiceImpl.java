@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -141,6 +142,8 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T> implements Bas
 
     @Override
     public boolean insert(T entity) {
+        //log.debug("[category add]: insert: " + entity);
+        System.out.println("[category add]: insert: " + entity);
         return BaseServiceImpl.retBool(baseDao.insert(entity));
     }
 
@@ -207,6 +210,7 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T> implements Bas
 
     @Override
     public boolean deleteBatchIds(Collection<? extends Serializable> idList) {
+        System.out.println("[category batch  delete]: ids" + Arrays.toString(idList.toArray()));
         return SqlHelper.retBool(baseDao.deleteBatchIds(idList));
     }
 }

@@ -47,7 +47,7 @@ public class CategoryServiceImpl extends CrudServiceImpl<CategoryDao, CategoryEn
         return level1Menus;
     }
 
-    private List<CategoryDTO> getChildren(CategoryDTO root,  List<CategoryDTO> all) {
+    private List<CategoryDTO> getChildren(CategoryDTO root, List<CategoryDTO> all) {
         List<CategoryDTO> menus = all.stream().filter(dto -> dto.getParentCid().equals(root.getCatId())).map(dto -> {
             // 递归找到所有的分类的子分类列表
             dto.setChildren(getChildren(dto, all));

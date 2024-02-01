@@ -1,5 +1,6 @@
 package com.chanris.gulimall.product.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -15,9 +16,12 @@ import java.util.Date;
 @TableName("pms_category")
 public class CategoryEntity {
 
+    // 坑点!!: 使用mybatis plus的curd功能，如果 id字段不加@TableId 会报错
+    // org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): com.********Mybatis.deleteBatchIds
     /**
      * 分类id
      */
+    @TableId
 	private Long catId;
     /**
      * 分类名称

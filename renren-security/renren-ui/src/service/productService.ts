@@ -7,9 +7,49 @@ import commonService from "./commonService";
  */
 export default {
 	cateTree(): Promise<IHttpResponse> {
-		return http({
-			url: '/product/category/list/tree',
-			method: 'GET'
+		return new Promise((resolve, reject)=>{
+			http({url: '/product/category/list/tree'})
+			.then(resolve)
+			.catch((err)=>{
+				if(err !== '-999') {
+					reject(err)
+				}
+			})
+		})
+	},
+	saveCate(params: IObject): Promise<IHttpResponse> {
+		return new Promise((resolve, reject)=>{
+			http({
+				url: '/product/category',
+				method: 'POST',
+				data: params
+			}).then(resolve).catch(
+				(err)=>{
+					if(err !== '-999') {
+						reject(err)
+					}
+				}
+			)
+		})
+	},
+	/**
+	 * 批量删掉分类
+	 * @param params number[]
+	 * @returns 
+	 */
+	deleteCate(params: IObject): Promise<IHttpResponse> {
+		return new Promise((resolve, reject)=>{
+			http({
+				url: '/product/category',
+				method: 'DELETE',
+				data: params
+			}).then(resolve).catch(
+				(err)=>{
+					if(err !== '-999') {
+						reject(err)
+					}
+				}
+			)
 		})
 	},
 	...commonService

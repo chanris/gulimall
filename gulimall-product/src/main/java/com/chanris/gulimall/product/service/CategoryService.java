@@ -16,4 +16,5 @@ import java.util.List;
 public interface CategoryService extends CrudService<CategoryEntity, CategoryDTO> {
 
     List<CategoryDTO> listWithTree();
+
 }
