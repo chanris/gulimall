@@ -1,5 +1,7 @@
 package com.chanris.gulimall.product.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -18,6 +20,7 @@ public class BrandEntity {
     /**
      * 品牌id
      */
+    @TableId
 	private Long brandId;
     /**
      * 品牌名
@@ -34,6 +37,7 @@ public class BrandEntity {
     /**
      * 显示状态[0-不显示；1-显示]
      */
+    @TableLogic
 	private Integer showStatus;
     /**
      * 检索首字母

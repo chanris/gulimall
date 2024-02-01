@@ -52,5 +52,25 @@ export default {
 			)
 		})
 	},
+	/**
+	 * 更新分类
+	 * @param params Category
+	 * @returns 
+	 */
+	updateCate(params: IObject): Promise<IHttpResponse> {
+		return new Promise((resolve, reject)=>{
+			http({
+				url: '/product/category',
+				method: 'PUT',
+				data: params
+			}).then(resolve).catch(
+				(err)=>{
+					if(err !== '-999') {
+						reject(err)
+					}
+				}
+			)
+		})
+	},
 	...commonService
 }

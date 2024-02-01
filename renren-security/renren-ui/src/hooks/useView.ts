@@ -3,6 +3,7 @@ import { EMitt, EThemeSetting } from "@/constants/enum";
 import { IObject, IViewHooks, IViewHooksOptions } from "@/types/interface";
 import { registerDynamicToRouterAndNext } from "@/router";
 import baseService from "@/service/baseService";
+import commonService from "@/service/commonService";
 import { getToken } from "@/utils/cache";
 import emits from "@/utils/emits";
 import { getThemeConfigCacheByKey } from "@/utils/theme";
@@ -77,7 +78,9 @@ const useView = (props: IViewHooksOptions | IObject): IViewHooks => {
   //
   const rejectFns = {
     hasPermission(key: string) {
-      return checkPermission(store.state.permissions as string[], key);
+      // return checkPermission(store.state.permissions as string[], key);
+	  // TODO 24/1/2  开发时，
+	  return true; 
     },
     getDictLabel(dictType: string, dictValue: number) {
       return getDictLabel(store.state.dicts, dictType, dictValue);
@@ -86,13 +89,26 @@ const useView = (props: IViewHooksOptions | IObject): IViewHooks => {
 
   //
   const viewFns = {
-    // 获取数据列表
+	// TODO 24/1/2 为了整合renren-admin，这里只能主动判断gulimall的请求走 commonService，renren的请求走 baseService, 后面再想办法优化
+    // 根据uri切换service
+	getService(uri: string | undefined) {
+		if(!uri || uri.startsWith('/product') 
+		  || uri.startsWith('/order')
+		  || uri.startsWith('/member')
+		  || uri.startsWith('/coupon')
+		  || uri.startsWith('/ware')) {
+			return commonService;
+		}
+		return baseService;
+	},
+	// 获取数据列表
     query() {
+      // console.log(`获得 useView API: state.getDataListURL:${state.getDataListURL}`);
       if (!state.getDataListURL) {
         return;
       }
       state.dataListLoading = true;
-      baseService
+      viewFns.getService(state.getDataListURL)
         .get(state.getDataListURL, {
           order: state.order,
           orderField: state.orderField,
@@ -161,7 +177,7 @@ const useView = (props: IViewHooksOptions | IObject): IViewHooks => {
           type: "warning"
         })
           .then(() => {
-            baseService
+			viewFns.getService(state.deleteURL)
               .delete(
                 `${state.deleteURL}${state.deleteIsBatch ? "" : "/" + id}`,
                 state.deleteIsBatch

@@ -1,6 +1,7 @@
 package com.chanris.gulimall.product.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -38,7 +39,9 @@ public class CategoryEntity {
     /**
      * 是否显示[0-不显示，1显示]
      */
-	private Integer showStatus;
+    //@TableLogic(value = "1", delval = "0")// 逻辑删除字段标记
+	@TableLogic
+    private Integer showStatus;
     /**
      * 排序
      */

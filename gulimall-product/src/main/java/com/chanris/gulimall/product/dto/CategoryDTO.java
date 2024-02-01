@@ -1,6 +1,7 @@
 package com.chanris.gulimall.product.dto;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -34,6 +35,7 @@ public class CategoryDTO implements Serializable {
 	private Integer catLevel;
 
 	@ApiModelProperty(value = "是否显示[0-不显示，1显示]")
+	@TableLogic
 	private Integer showStatus;
 
 	@ApiModelProperty(value = "排序")
