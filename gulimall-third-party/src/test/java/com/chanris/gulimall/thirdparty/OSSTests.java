@@ -1,4 +1,4 @@
-package com.chanris.gulimall.product;
+package com.chanris.gulimall.thirdparty;
 
 import com.aliyun.oss.*;
 import com.aliyun.oss.common.auth.CredentialsProviderFactory;
@@ -22,7 +22,7 @@ public class OSSTests {
     OSSClient ossClient;
 
     @Test
-    void testLOSSDownloadFile() throws ClientException, com.aliyuncs.exceptions.ClientException {
+    void testLOSSDownloadFile() throws Exception {
 
         // Endpoint以华东1（杭州）为例，其它Region请按实际情况填写。
         String endpoint = "https://oss-cn-chengdu.aliyuncs.com";

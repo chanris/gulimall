@@ -1,9 +1,7 @@
 package com.chanris.gulimall.product;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.chanris.gulimall.product.dto.BrandDTO;
 import com.chanris.gulimall.product.dto.CategoryDTO;
-import com.chanris.gulimall.product.entity.BrandEntity;
 import com.chanris.gulimall.product.service.BrandService;
 import com.chanris.gulimall.product.service.CategoryService;
 import org.junit.jupiter.api.Test;
