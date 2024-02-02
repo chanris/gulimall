@@ -107,7 +107,19 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bootstrap</artifactId>
         </dependency>
-
+        <!-- spring cloud alibaba oss服务-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>aliyun-oss-spring-boot-starter</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <!--导入高版本的sdk-oss: 3.1.x 版本会报错 -->
+        <!-- https://blog.csdn.net/Zxlizw/article/details/130187851 -->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+            <version>4.4.5</version>
+        </dependency>
     </dependencies>
 
     <build>
