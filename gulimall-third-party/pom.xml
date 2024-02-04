@@ -25,15 +25,29 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>aliyun-oss-spring-boot-starter</artifactId>
             <version>1.0.0</version>
+            <exclusions>
+                <!--starter 自带的oss sdk 为 3.1.0， 排除后引入当前最新3.17.4版本-->
+                <exclusion>
+                    <groupId>com.aliyun.oss</groupId>
+                    <artifactId>aliyun-sdk-oss</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.aliyun.oss/aliyun-sdk-oss -->
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+            <version>3.17.4</version>
+        </dependency>
+
         <!--导入高版本的sdk-oss: 3.1.x 版本会报错 -->
         <!-- https://blog.csdn.net/Zxlizw/article/details/130187851 -->
-        <dependency>
-            <groupId>com.aliyun</groupId>
-            <artifactId>aliyun-java-sdk-core</artifactId>
-            <version>4.4.5</version>
-        </dependency>
-        <!--jdk 9 以上版本 配置， 配合 alibaba oss-->
+<!--        <dependency>-->
+<!--            <groupId>com.aliyun</groupId>-->
+<!--            <artifactId>aliyun-java-sdk-core</artifactId>-->
+<!--            <version>4.4.5</version>-->
+<!--        </dependency>-->
+        <!--jdk 9 以上版本 配置， 配合 alibaba oss START-->
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
@@ -50,6 +64,8 @@
             <artifactId>jaxb-runtime</artifactId>
             <version>2.3.3</version>
         </dependency>
+        <!--jdk 9 以上版本 配置， 配合 alibaba oss END-->
+
         <!--spring mvc-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

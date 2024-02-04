@@ -2,7 +2,7 @@ import { IHttpResponse, IObject } from "@/types/interface";
 import http from "../utils/http";
 
 /**
- * 常用CRUD
+ * gulimall微服务 常用CRUD 封装
  */
 export default {
   /**

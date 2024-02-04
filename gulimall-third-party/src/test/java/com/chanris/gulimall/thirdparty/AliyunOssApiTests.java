@@ -4,6 +4,7 @@ import com.aliyun.oss.*;
 import com.aliyun.oss.common.auth.CredentialsProviderFactory;
 import com.aliyun.oss.common.auth.EnvironmentVariableCredentialsProvider;
 import com.aliyun.oss.model.OSSObject;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -16,12 +17,13 @@ import java.io.*;
  * @description
  */
 @SpringBootTest
-public class OSSTests {
+public class AliyunOssApiTests {
 
     @Resource
     OSSClient ossClient;
 
     @Test
+    @Disabled // 禁用测试方法
     void testLOSSDownloadFile() throws Exception {
 
         // Endpoint以华东1（杭州）为例，其它Region请按实际情况填写。
@@ -73,6 +75,7 @@ public class OSSTests {
     }
 
     @Test
+    @Disabled
     void testOSSUploadFile() throws Exception {
         // Endpoint以华东1（杭州）为例，其它Region请按实际情况填写。
         String endpoint = "https://oss-cn-chengdu.aliyuncs.com";
@@ -118,7 +121,7 @@ public class OSSTests {
     void testOSSClient() throws Exception {
         //上传文件流。
         InputStream inputStream = new FileInputStream("E:\\IMAGES\\14004_e8d9efcc2a.jpg");
-        ossClient.putObject("gulimall-chanris", "小绿.jpg", inputStream);
+        ossClient.putObject("gulimall-chanris", "小绿2.jpg", inputStream);
 
         // 关闭OSSClient。
         ossClient.shutdown();

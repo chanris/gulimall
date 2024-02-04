@@ -1,24 +1,25 @@
 <template>
   <el-dialog v-model="visible" :title="!dataForm.brandId ? '新增' : '修改'" :close-on-click-modal="false" :close-on-press-escape="false">
     <el-form :model="dataForm" :rules="rules" ref="dataFormRef" @keyup.enter="dataFormSubmitHandle()" label-width="120px">
-          <el-form-item label="品牌名" prop="name">
-        <el-input v-model="dataForm.name" placeholder="品牌名"></el-input>
-      </el-form-item>
-          <el-form-item label="品牌logo地址" prop="logo">
-        <el-input v-model="dataForm.logo" placeholder="品牌logo地址"></el-input>
-      </el-form-item>
-          <el-form-item label="介绍" prop="descript">
-        <el-input v-model="dataForm.descript" placeholder="介绍"></el-input>
-      </el-form-item>
-          <el-form-item label="显示状态" prop="showStatus">
-        <el-input v-model="dataForm.showStatus" placeholder="显示状态"></el-input>
-      </el-form-item>
-          <el-form-item label="检索首字母" prop="firstLetter">
-        <el-input v-model="dataForm.firstLetter" placeholder="检索首字母"></el-input>
-      </el-form-item>
-          <el-form-item label="排序" prop="sort">
-        <el-input v-model="dataForm.sort" placeholder="排序"></el-input>
-      </el-form-item>
+        <el-form-item label="品牌名" prop="name">
+        	<el-input v-model="dataForm.name" placeholder="品牌名"></el-input>
+      	</el-form-item>
+    	<el-form-item label="品牌logo地址" prop="logo">
+        	<!-- <el-input v-model="dataForm.logo" placeholder="品牌logo地址"></el-input> -->
+			<SingleFileUpload></SingleFileUpload>
+      	</el-form-item>
+        <el-form-item label="介绍" prop="descript">
+        	<el-input v-model="dataForm.descript" placeholder="介绍"></el-input>
+      	</el-form-item>
+        <el-form-item label="显示状态" prop="showStatus">
+        	<el-input v-model="dataForm.showStatus" placeholder="显示状态"></el-input>
+      	</el-form-item>
+        <el-form-item label="检索首字母" prop="firstLetter">
+        	<el-input v-model="dataForm.firstLetter" placeholder="检索首字母"></el-input>
+      	</el-form-item>
+        <el-form-item label="排序" prop="sort">
+        	<el-input v-model="dataForm.sort" placeholder="排序"></el-input>
+      	</el-form-item>
       </el-form>
     <template #footer>
       <el-button @click="visible = false">取消</el-button>
@@ -29,6 +30,7 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from "vue";
+import SingleFileUpload from '@/components/base-chanris/SingleFileUpload.vue'
 // import baseService from "@/service/baseService";
 import commonService from "@/service/commonService";
 import { ElMessage } from "element-plus";
