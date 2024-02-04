@@ -18,6 +18,7 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -42,7 +43,7 @@ public class OssController {
     public Result policy(HttpServletResponse response, HttpServletRequest request) {
         String host = "https://" + bucketName + "." + ossClient.getEndpoint().getHost();
         // 用户上传文件时指定的前缀
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String dir = sdf.format(new Date()) + "/";
         try {
             long expireTime = 30;
@@ -53,7 +54,6 @@ public class OssController {
             PolicyConditions policyConds = new PolicyConditions();
             policyConds.addConditionItem(PolicyConditions.COND_CONTENT_LENGTH_RANGE, 0, 1048576000);
             policyConds.addConditionItem(MatchMode.StartWith, PolicyConditions.COND_KEY, dir);
-
             String postPolicy = ossClient.generatePostPolicy(expiration, policyConds);
             byte[] binaryData = postPolicy.getBytes(StandardCharsets.UTF_8);
             String accessId = ossClient.getCredentialsProvider().getCredentials().getAccessKeyId();
@@ -93,9 +93,11 @@ public class OssController {
     @GetMapping("/bucketName")
     public Result getBucketName() {
         URI endpoint = ossClient.getEndpoint();
+        HashMap<String, String> m = new HashMap<>();
+        m.put("endpoint", endpoint.toString());
 
 //        return new Result().ok(ossClient.getBucketLocation(bucketName));
-        return new Result().ok(endpoint.getHost());
+        return new Result().ok(m);
     }
 
 }

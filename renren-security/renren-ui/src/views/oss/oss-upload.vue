@@ -25,7 +25,7 @@ const fileList = ref<IObject[]>();
 
 const init = () => {
   visible.value = true;
-  url.value = `${app.api}/sys/oss/upload?token=${getToken()}`;
+  url.value = `${app.api}/admin/sys/oss/upload?token=${getToken()}`;
   num.value = 0;
   fileList.value = [];
 };
@@ -39,6 +39,7 @@ const beforeUploadHandle = (file: IObject) => {
   num.value++;
 };
 
+// web端直传 效率低，占服务器带宽
 // 上传成功
 const successHandle = (res: IObject, file: IObject, list: IObject[]) => {
   if (res.code !== 0) {
