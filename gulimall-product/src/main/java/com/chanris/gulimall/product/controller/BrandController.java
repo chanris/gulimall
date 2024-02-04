@@ -17,12 +17,15 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.BindResult;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -36,9 +39,12 @@ import java.util.Map;
 @RestController
 @RequestMapping("product/brand")
 @Api(tags="品牌")
+@Slf4j
 public class BrandController {
-    @Autowired
+    @Resource
     private BrandService brandService;
+
+
 
     @GetMapping("page")
     @ApiOperation("分页")
@@ -71,6 +77,7 @@ public class BrandController {
     public Result save(@RequestBody BrandDTO dto){
         //效验数据
         ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
+
 
         brandService.save(dto);
 

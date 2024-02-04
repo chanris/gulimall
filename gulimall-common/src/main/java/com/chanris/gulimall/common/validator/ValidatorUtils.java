@@ -21,6 +21,7 @@ import java.util.Set;
  */
 public class ValidatorUtils {
 
+    // i18n 国际化
     private static ResourceBundleMessageSource getMessageSource() {
         ResourceBundleMessageSource bundleMessageSource = new ResourceBundleMessageSource();
         bundleMessageSource.setDefaultEncoding("UTF-8");
@@ -29,7 +30,7 @@ public class ValidatorUtils {
     }
 
     /**
-     * 校验对象
+     * 校验对象  检查不通过，抛出带信息的RenException(继承自RuntimeException)
      * @param object        待校验对象
      * @param groups        待校验的组
      */
