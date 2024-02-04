@@ -12,11 +12,16 @@
       <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
               <el-table-column prop="brandId" label="品牌id" header-align="center" align="center"></el-table-column>
               <el-table-column prop="name" label="品牌名" header-align="center" align="center"></el-table-column>
-              <el-table-column prop="logo" label="品牌logo地址" header-align="center" align="center"></el-table-column>
+              <el-table-column prop="logo" label="品牌logo地址" header-align="center" align="center">
+				<template #default="scope">
+					<el-image style="width: 100px; height: 100px" :src="scope.row.logo" fit="cover" />
+				</template>
+			  </el-table-column>
               <el-table-column prop="descript" label="介绍" header-align="center" align="center"></el-table-column>
               <el-table-column prop="showStatus" label="显示状态" header-align="center" align="center">
 				<template #default="scope">
 					<el-switch
+						:disabled="true"
 						:v-loading="loading"
 						v-model="scope.row.showStatus"
 						inline-prompt

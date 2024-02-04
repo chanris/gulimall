@@ -1,18 +1,11 @@
 <template>
-	<el-upload
-    v-model:file-list="fileList"
-    class="upload-demo"
-    :action="dataObj.host"
-	:data="getData"
-	list-type="picture"
-	accept=".png,.jpeg,.jpg"
-	:auto-upload="true"
-	:before-upload="handlebeforeUpload">
+	<el-upload v-model:file-list="fileList" class="upload-demo" :action="dataObj.host" :data="getData" list-type="picture"
+		accept=".png,.jpeg,.jpg" :on-success="handleUploadSuccess" :before-upload="handlebeforeUpload">
 		<el-button type="primary">上传图片</el-button>
 		<template #tip>
 			<div class="el-upload__tip">jpg/png文件不能超过10MB大小</div>
 		</template>
-  </el-upload>
+	</el-upload>
 </template>
 <script lang="ts" setup>
 /**
@@ -25,12 +18,19 @@
  * 
  */
 import { getUuid } from '@/utils/utils';
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import type { UploadProps, UploadUserFile } from 'element-plus'
 import commonService from '@/service/commonService';
 
-const fileList = ref<UploadUserFile[]>([])
+const visible = defineModel('visible')
+const fileList = defineModel('fileList')
+watch(() => visible.value, (val, prevVal) => {
+	if (val === false) {
+		// 不显示 brand-add-or-update组件时，将上传的文件列表置空
+		fileList.value = []
+	}
+}, { immediate: true })
 const dataObj = ref({
 	OSSAccessKeyId: '',
 	key: '', // 代表上传到bucket内的object的完整路径，例如 exampledir/exampleobj.txt
@@ -52,30 +52,39 @@ const handlebeforeUpload: UploadProps['beforeUpload'] = (rawFile) => {
 	// 请求服务端OSS签名
 	return new Promise((resolve, reject) => {
 		commonService.get('/thirdparty/oss/policy')
-		.then(({data})=>{
-			if(new Date().getTime() <= parseInt(data.expire) * 1000) {
-				dataObj.value.OSSAccessKeyId = data.accessid
-				dataObj.value.host = data.host
-				dataObj.value.policy = data.policy
-				dataObj.value.signature = data.signature
-				dataObj.value.key = data.dir + getUuid().replaceAll('-', '') + rawFile.name.substring(rawFile.name.lastIndexOf('.'))
-				resolve(true)
-			}else {
-				ElMessage.error('过期的签名')
-				resolve(false)
-			}
-		}).catch(error=>{
-			ElMessage.error('获得OSS签名失败')
-			reject(error)
-		})
+			.then(({ data }) => {
+				if (new Date().getTime() <= parseInt(data.expire) * 1000) {
+					dataObj.value.OSSAccessKeyId = data.accessid
+					dataObj.value.host = data.host
+					dataObj.value.policy = data.policy
+					dataObj.value.signature = data.signature
+					// uuid设置文件名称，防止文件名冲突
+					dataObj.value.key = data.dir + getUuid().replaceAll('-', '')
+						+ rawFile.name.substring(rawFile.name.lastIndexOf('.'))
+					resolve(true)
+				} else {
+					ElMessage.error('过期的签名')
+					resolve(false)
+				}
+			}).catch(error => {
+				ElMessage.error('获得OSS签名失败')
+				reject(error)
+			})
 	})
 }
-
+/**
+ * 获得上传请求的参数
+ */
 const getData = () => {
-	return new Promise((resolve, reject)=>{
+	return new Promise((resolve, reject) => {
 		// console.log('upload 调用getData: dataObj:', dataObj.value)
 		resolve(dataObj.value)
 	})
+}
+const resourceUrl = defineModel('resourceUrl')
+const handleUploadSuccess: UploadProps['onSuccess'] = (response, uploadFile) => {
+	resourceUrl.value = dataObj.value.host + '/' + dataObj.value.key
+	// console.log(resourceUrl.value)
 }
 
 </script>
