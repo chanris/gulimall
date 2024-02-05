@@ -12,6 +12,7 @@ package com.chanris.gulimall.common.exception;
 public interface ErrorCode {
     int INTERNAL_SERVER_ERROR = 500;
     int UNAUTHORIZED = 401;
+    int BAD_REQUEST_PARAMETER = 400;
 
     int NOT_NULL = 10001;
     int DB_RECORD_EXISTS = 10002;
