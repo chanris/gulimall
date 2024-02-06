@@ -1,9 +1,8 @@
 <template>
 	<div>
-		<el-tree ref="treeEl" 
-		:data="treeData" 
-		node-key="catId" 
-	
+		<el-tree
+		:data="treeData"
+		node-key="catId"
 		:expand-on-click-node="false" 
 		:props="defaultProps"
 			@node-click="handleNodeClick">
@@ -79,7 +78,6 @@ const handleNodeClick = (data: CateNode) => {
 
 // 添加子分类
 const addCateDialog = ref<boolean>(false)
-const treeEl = ref()
 const append = (node: ElTreeNode, data: CateNode) => {
 	ElMessageBox.prompt('请输入分类名称', '添加分类', {
 		confirmButtonText: '添加',
@@ -95,11 +93,10 @@ const append = (node: ElTreeNode, data: CateNode) => {
 				message: '添加成功'
 			})
 			// 更新数据 方式一：
-			// productService.cateTree().then(({ data }) => {
-			// 	treeData.value = data
-			// })
-			// 方式二：
-			node.data.name = value
+			productService.cateTree().then(({ data }) => {
+				treeData.value = data
+			})
+			// 方式二： 直接在ElTree上加节点
 		}).finally(() => {
 			addCateDialog.value = false
 		})

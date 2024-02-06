@@ -9,3 +9,4 @@ Element-Plus 组件文档: https://element.eleme.cn/#/zh-CN/component/installati
 Spring Cloud Alibaba:  https://spring-cloud-alibaba-group.github.io/github-pages/2021/en-us/index.html
 阿里云OSS Java SDK 3.17.2文档: https://help.aliyun.com/zh/oss/developer-reference/preface-1
 Hibernate-Validation 6.2.5.Final https://docs.jboss.org/hibernate/validator/6.2/reference/en-US/html_single/
+Hutool 工具类库文档 5.8.25 https://doc.hutool.cn/pages/index/

@@ -79,8 +79,8 @@ const useView = (props: IViewHooksOptions | IObject): IViewHooks => {
   const rejectFns = {
     hasPermission(key: string) {
       // return checkPermission(store.state.permissions as string[], key);
-	  // TODO 24/1/2  开发时，
-	  return true; 
+      // TODO 24/1/2  开发时打开权限
+      return true;
     },
     getDictLabel(dictType: string, dictValue: number) {
       return getDictLabel(store.state.dicts, dictType, dictValue);
@@ -89,26 +89,30 @@ const useView = (props: IViewHooksOptions | IObject): IViewHooks => {
 
   //
   const viewFns = {
-	// TODO 24/1/2 为了整合renren-admin，这里只能主动判断gulimall的请求走 commonService，renren的请求走 baseService, 后面再想办法优化
+    // TODO 24/1/2 为了整合renren-admin，这里主动判断: gulimall的请求走 commonService，renren的请求走 baseService, 后面再想办法优化
     // 根据uri切换service
-	getService(uri: string | undefined) {
-		if(!uri || uri.startsWith('/product') 
-		  || uri.startsWith('/order')
-		  || uri.startsWith('/member')
-		  || uri.startsWith('/coupon')
-		  || uri.startsWith('/ware')) {
-			return commonService;
-		}
-		return baseService;
-	},
-	// 获取数据列表
+    getService(uri: string | undefined) {
+      if (
+        !uri ||
+        uri.startsWith("/product") ||
+        uri.startsWith("/order") ||
+        uri.startsWith("/member") ||
+        uri.startsWith("/coupon") ||
+        uri.startsWith("/ware")
+      ) {
+        return commonService;
+      }
+      return baseService;
+    },
+    // 获取数据列表
     query() {
       // console.log(`获得 useView API: state.getDataListURL:${state.getDataListURL}`);
       if (!state.getDataListURL) {
         return;
       }
       state.dataListLoading = true;
-      viewFns.getService(state.getDataListURL)
+      viewFns
+        .getService(state.getDataListURL)
         .get(state.getDataListURL, {
           order: state.order,
           orderField: state.orderField,
@@ -153,6 +157,7 @@ const useView = (props: IViewHooksOptions | IObject): IViewHooks => {
     },
     //搜索
     getDataList() {
+      // console.log('key enter trigger this.')
       state.page = 1;
       viewFns.query();
     },
@@ -177,7 +182,8 @@ const useView = (props: IViewHooksOptions | IObject): IViewHooks => {
           type: "warning"
         })
           .then(() => {
-			viewFns.getService(state.deleteURL)
+            viewFns
+              .getService(state.deleteURL)
               .delete(
                 `${state.deleteURL}${state.deleteIsBatch ? "" : "/" + id}`,
                 state.deleteIsBatch
