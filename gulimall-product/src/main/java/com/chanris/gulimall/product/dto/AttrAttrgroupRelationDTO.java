@@ -1,9 +1,11 @@
 package com.chanris.gulimall.product.dto;
 
+import com.chanris.gulimall.common.validator.group.UpdateGroup;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -22,9 +24,11 @@ public class AttrAttrgroupRelationDTO implements Serializable {
 	@ApiModelProperty(value = "id")
 	private Long id;
 
+	@NotNull(groups = {UpdateGroup.class})
 	@ApiModelProperty(value = "属性id")
 	private Long attrId;
 
+	@NotNull(groups = {UpdateGroup.class})
 	@ApiModelProperty(value = "属性分组id")
 	private Long attrGroupId;
 

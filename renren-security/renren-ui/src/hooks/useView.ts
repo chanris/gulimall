@@ -131,6 +131,7 @@ const useView = (props: IViewHooksOptions | IObject): IViewHooks => {
     },
     // 多选
     dataListSelectionChangeHandle(val: IObject[]) {
+      // console.log(val)
       state.dataListSelections = val;
     },
     // 排序

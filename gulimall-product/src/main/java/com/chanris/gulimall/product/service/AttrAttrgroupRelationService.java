@@ -4,6 +4,8 @@ import com.chanris.gulimall.common.service.CrudService;
 import com.chanris.gulimall.product.dto.AttrAttrgroupRelationDTO;
 import com.chanris.gulimall.product.entity.AttrAttrgroupRelationEntity;
 
+import java.util.List;
+
 /**
  * 属性&属性分组关联
  *
@@ -12,4 +14,5 @@ import com.chanris.gulimall.product.entity.AttrAttrgroupRelationEntity;
  */
 public interface AttrAttrgroupRelationService extends CrudService<AttrAttrgroupRelationEntity, AttrAttrgroupRelationDTO> {
 
+    void deleteBatchByAttrGroupId(List<Long> attrGroupIds);
 }

@@ -16,5 +16,19 @@
         <result property="showDesc" column="show_desc"/>
     </resultMap>
 
+    <select id="pageWithAttrGroupId" resultType="com.chanris.gulimall.product.dto.AttrDTO">
+        select pa.*, paar.attr_group_id from pms_attr pa left join pms_attr_attrgroup_relation paar on pa.attr_id = paar.attr_id
+        where 1 = 1
+        <if test="catelogId != null">
+            and pa.catelog_id = #{catelogId}
+        </if>
+        <if test="attrType != null">
+            and pa.attr_type = #{attrType}
+        </if>
+    </select>
 
+    <select id="getWithAttrGroupId" resultType="com.chanris.gulimall.product.dto.AttrDTO">
+        select pms_attr.* , paar.attr_group_id from pms_attr left join pms_attr_attrgroup_relation paar on pms_attr.attr_id = paar.attr_id
+        where pms_attr.attr_id = #{val}
+    </select>
 </mapper>

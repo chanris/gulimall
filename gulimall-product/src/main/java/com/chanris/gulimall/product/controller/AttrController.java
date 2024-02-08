@@ -1,5 +1,7 @@
 package com.chanris.gulimall.product.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.chanris.gulimall.common.annotation.LogOperation;
 import com.chanris.gulimall.common.constant.Constant;
 import com.chanris.gulimall.common.page.PageData;
@@ -18,10 +20,10 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +39,7 @@ import java.util.Map;
 @RequestMapping("product/attr")
 @Api(tags="商品属性")
 public class AttrController {
-    @Autowired
+    @Resource
     private AttrService attrService;
 
     @GetMapping("page")
@@ -50,8 +52,8 @@ public class AttrController {
     })
     @RequiresPermissions("product:attr:page")
     public Result<PageData<AttrDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params){
-        PageData<AttrDTO> page = attrService.page(params);
-
+        //PageData<AttrDTO> page = attrService.page(params);
+        PageData<AttrDTO> page = attrService.pageWithAttrGroupId(params);
         return new Result<PageData<AttrDTO>>().ok(page);
     }
 
@@ -59,7 +61,8 @@ public class AttrController {
     @ApiOperation("信息")
     @RequiresPermissions("product:attr:info")
     public Result<AttrDTO> get(@PathVariable("id") Long id){
-        AttrDTO data = attrService.get(id);
+//        AttrDTO data = attrService.get(id);
+        AttrDTO data = attrService.getWithAttrGroupId(id);
 
         return new Result<AttrDTO>().ok(data);
     }
@@ -72,8 +75,8 @@ public class AttrController {
         //效验数据
         ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
 
-        attrService.save(dto);
-
+//        attrService.save(dto);
+        attrService.saveWithAttrGroupRelation(dto);
         return new Result();
     }
 
@@ -85,8 +88,8 @@ public class AttrController {
         //效验数据
         ValidatorUtils.validateEntity(dto, UpdateGroup.class, DefaultGroup.class);
 
-        attrService.update(dto);
-
+//        attrService.update(dto);
+        attrService.updateWithAttrGroupRelation(dto);
         return new Result();
     }
 
@@ -97,9 +100,10 @@ public class AttrController {
     public Result delete(@RequestBody Long[] ids){
         //效验数据
         AssertUtils.isArrayEmpty(ids, "id");
+//        attrService.delete(ids);
 
-        attrService.delete(ids);
-
+        // 删除attr以及attr和 attrgroup 的关联
+        attrService.deleteWithRelation(ids);
         return new Result();
     }
 

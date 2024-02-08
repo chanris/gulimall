@@ -12,4 +12,5 @@ import com.chanris.gulimall.product.entity.AttrGroupEntity;
  */
 public interface AttrGroupService extends CrudService<AttrGroupEntity, AttrGroupDTO> {
 
+    void deleteWithRelation(Long[] attrGroupIds);
 }

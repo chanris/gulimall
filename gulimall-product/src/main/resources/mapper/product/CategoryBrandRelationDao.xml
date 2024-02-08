@@ -11,5 +11,19 @@
         <result property="catelogName" column="catelog_name"/>
     </resultMap>
 
+    <delete id="deleteBatchByCategoryIds">
+        delete from pms_category_brand_relation
+        where pms_category_brand_relation.catelog_id in
+        <foreach collection="list" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
 
+    <delete id="deleteBatchByBrandIds">
+        delete from pms_category_brand_relation
+        where pms_category_brand_relation.brand_id in
+        <foreach collection="list" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
 </mapper>

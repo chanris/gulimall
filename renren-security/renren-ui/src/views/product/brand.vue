@@ -36,17 +36,19 @@
 			  </el-table-column>
               <el-table-column prop="firstLetter" label="检索首字母" header-align="center" align="center"></el-table-column>
               <el-table-column prop="sort" label="排序" header-align="center" align="center"></el-table-column>
-            <el-table-column label="操作" fixed="right" header-align="center" align="center" width="150">
+            <el-table-column label="操作" fixed="right" header-align="center" align="center" width="200">
         <template v-slot="scope">
 			<!-- 有坑：默认 生成的addOrUpdateHandle(scope.row.id)，找不到id 修改会变成新增 需要改成对应的表id字段 eg: addOrUpdateHandle(scope.row.brandId)，其他同理 -->
-          <el-button v-if="state.hasPermission('product:brand:update')" type="primary" link @click="addOrUpdateHandle(scope.row.brandId)">修改</el-button>
+			<el-button v-if="state.hasPermission('product:brand:delete')" type="primary" link @click="handleCategoryBrandRelation(scope.row.brandId)">关联分类</el-button>
+		  <el-button v-if="state.hasPermission('product:brand:update')" type="primary" link @click="addOrUpdateHandle(scope.row.brandId)">修改</el-button>
           <el-button v-if="state.hasPermission('product:brand:delete')" type="primary" link @click="state.deleteHandle(scope.row.brandId)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination :current-page="state.page" :page-sizes="[10, 20, 50, 100]" :page-size="state.limit" :total="state.total" layout="total, sizes, prev, pager, next, jumper" @size-change="state.pageSizeChangeHandle" @current-change="state.pageCurrentChangeHandle"> </el-pagination>
+    <el-pagination :current-page="state.page" :page-sizes="[5, 10, 20, 50, 100]" :page-size="state.limit" :total="state.total" layout="total, sizes, prev, pager, next, jumper" @size-change="state.pageSizeChangeHandle" @current-change="state.pageCurrentChangeHandle"> </el-pagination>
     <!-- 弹窗, 新增 / 修改 -->
     <add-or-update ref="addOrUpdateRef" @refreshDataList="state.getDataList">确定</add-or-update>
+	<categorybrandrelation ref="categorybrandrelationRef"></categorybrandrelation>
   </div>
 </template>
 
@@ -56,13 +58,16 @@ import { reactive, ref, toRefs, computed , watch} from "vue";
 import AddOrUpdate from "./brand-add-or-update.vue";
 import commonService from "@/service/commonService";
 import { ElMessage } from "element-plus";
+import categorybrandrelation from "./categorybrandrelation.vue";
 
 const view = reactive({
   deleteIsBatch: true,
   getDataListURL: "/product/brand/page",
   getDataListIsPage: true,
   exportURL: "/product/brand/export",
-  deleteURL: "/product/brand"
+  deleteURL: "/product/brand",
+  deleteIsBatchKey: 'brandId',
+  limit: 5
 });
 
 const state = reactive({ ...useView(view), ...toRefs(view) });
@@ -96,4 +101,9 @@ const changeShowStatus = (row?: any) => {
 	}).finally(()=>{ loading.value = false })
 }
 
+
+const categorybrandrelationRef = ref()
+const handleCategoryBrandRelation = (brandId: number) => {
+	categorybrandrelationRef.value.init(brandId)
+}
 </script>

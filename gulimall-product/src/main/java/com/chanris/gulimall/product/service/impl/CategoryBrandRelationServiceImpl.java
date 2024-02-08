@@ -1,7 +1,9 @@
 package com.chanris.gulimall.product.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.chanris.gulimall.common.service.impl.CrudServiceImpl;
+import com.chanris.gulimall.common.utils.ObjectConvert;
 import com.chanris.gulimall.product.dao.CategoryBrandRelationDao;
 import com.chanris.gulimall.product.dto.CategoryBrandRelationDTO;
 import com.chanris.gulimall.product.entity.CategoryBrandRelationEntity;
@@ -23,10 +25,12 @@ public class CategoryBrandRelationServiceImpl extends CrudServiceImpl<CategoryBr
     @Override
     public QueryWrapper<CategoryBrandRelationEntity> getWrapper(Map<String, Object> params){
         String id = (String)params.get("id");
-
+        Long brandId = ObjectConvert.toLong(params.get("brandId"));
+        Long catelogId = ObjectConvert.toLong(params.get("catelogId"));
         QueryWrapper<CategoryBrandRelationEntity> wrapper = new QueryWrapper<>();
         wrapper.eq(StrUtil.isNotBlank(id), "id", id);
-
+        wrapper.eq(ObjectUtil.isNotNull(brandId), "brand_id", brandId);
+        wrapper.eq(ObjectUtil.isNotNull(catelogId), "catelog_id", catelogId);
         return wrapper;
     }
 

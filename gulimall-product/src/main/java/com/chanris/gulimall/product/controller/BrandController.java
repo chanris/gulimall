@@ -77,8 +77,6 @@ public class BrandController {
     public Result save(@RequestBody BrandDTO dto){
         //效验数据
         ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
-
-
         brandService.save(dto);
 
         return new Result();

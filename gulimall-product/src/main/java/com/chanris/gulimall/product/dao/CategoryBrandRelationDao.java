@@ -3,6 +3,9 @@ package com.chanris.gulimall.product.dao;
 import com.chanris.gulimall.common.dao.BaseDao;
 import com.chanris.gulimall.product.entity.CategoryBrandRelationEntity;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 品牌分类关联
@@ -12,5 +15,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface CategoryBrandRelationDao extends BaseDao<CategoryBrandRelationEntity> {
-	
+
+    void deleteBatchByCategoryIds(@Param("list") List<Long> categoryIds);
+    void deleteBatchByBrandIds(@Param("list") List<Long> brandIds);
 }

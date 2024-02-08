@@ -49,4 +49,11 @@ public class ConvertUtils {
 
         return targetList;
     }
+
+    public static void main(String[] args) {
+        Object source = "10000";
+
+        Long aLong = ConvertUtils.sourceToTarget(source, Long.class);
+        System.out.println(aLong);
+    }
 }

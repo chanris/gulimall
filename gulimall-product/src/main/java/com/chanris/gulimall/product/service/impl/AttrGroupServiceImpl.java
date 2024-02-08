@@ -3,6 +3,7 @@ package com.chanris.gulimall.product.service.impl;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.chanris.gulimall.common.service.impl.CrudServiceImpl;
+import com.chanris.gulimall.product.dao.AttrAttrgroupRelationDao;
 import com.chanris.gulimall.product.dao.AttrGroupDao;
 import com.chanris.gulimall.product.dto.AttrGroupDTO;
 import com.chanris.gulimall.product.entity.AttrGroupEntity;
@@ -10,7 +11,10 @@ import com.chanris.gulimall.product.service.AttrGroupService;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,6 +26,10 @@ import java.util.Map;
 @Slf4j
 @Service
 public class AttrGroupServiceImpl extends CrudServiceImpl<AttrGroupDao, AttrGroupEntity, AttrGroupDTO> implements AttrGroupService {
+
+    @Resource
+    private AttrAttrgroupRelationDao attrAttrgroupRelationDao;
+
 
     /**
      * AttrGroupServiceImpl调用的page 的所有QueryWrapper查询条件定义在这里
@@ -49,5 +57,11 @@ public class AttrGroupServiceImpl extends CrudServiceImpl<AttrGroupDao, AttrGrou
         return wrapper;
     }
 
-
+    @Override
+    @Transactional
+    public void deleteWithRelation(Long[] attrGroupIds) {
+        this.delete(attrGroupIds);
+        // 删除attrgroup 与 attr的关联
+        attrAttrgroupRelationDao.deleteByAttrGroupIds(List.of(attrGroupIds));
+    }
 }

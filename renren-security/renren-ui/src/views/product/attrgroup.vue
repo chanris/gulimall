@@ -42,8 +42,10 @@
           <el-table-column prop="descript" label="描述" header-align="center" align="center"></el-table-column>
           <el-table-column prop="icon" label="组图标" header-align="center" align="center"></el-table-column>
           <el-table-column prop="catelogId" label="所属分类id" header-align="center" align="center"></el-table-column>
-          <el-table-column label="操作" fixed="right" header-align="center" align="center" width="150">
+          <el-table-column label="操作" fixed="right" header-align="center" align="center" width="200">
             <template v-slot="scope">
+              <el-button v-if="state.hasPermission('product:attrgroup:update')" type="primary" link
+                @click="attrattrgrouprelationHandle(scope.row.attrGroupId)">关联属性</el-button>
               <el-button v-if="state.hasPermission('product:attrgroup:update')" type="primary" link
                 @click="addOrUpdateHandle(scope.row.attrGroupId)">修改</el-button>
               <el-button v-if="state.hasPermission('product:attrgroup:delete')" type="primary" link
@@ -56,6 +58,7 @@
           @current-change="state.pageCurrentChangeHandle"> </el-pagination>
         <!-- 弹窗, 新增 / 修改 -->
         <add-or-update ref="addOrUpdateRef" @refreshDataList="state.getDataList">确定</add-or-update>
+        <attrattrgrouprelation ref="attrattrgrouprelationRef"></attrattrgrouprelation>
       </div>
     </el-col>
   </el-row>
@@ -64,6 +67,9 @@
 import CommonTree from '@/components/base-chanris/CommonTree.vue';
 import productService from '@/service/productService';
 import { ref, onMounted, reactive, toRefs } from 'vue'
+import attrattrgrouprelation from './attrattrgrouprelation.vue';
+import useView from "@/hooks/useView";
+import AddOrUpdate from "./attrgroup-add-or-update.vue";
 
 const treeList = ref([])
 onMounted(() => {
@@ -72,16 +78,14 @@ onMounted(() => {
   })
 })
 
-
-import useView from "@/hooks/useView";
-import AddOrUpdate from "./attrgroup-add-or-update.vue";
-
 const view = reactive({
   deleteIsBatch: true,
   getDataListURL: "/product/attrgroup/page",
   getDataListIsPage: true,
   exportURL: "/product/attrgroup/export",
   deleteURL: "/product/attrgroup",
+  // 配置批量删除id
+  deleteIsBatchKey: 'attrGroupId',
   // 这里添加需要条件查询 
   dataForm: {
     attrGroupName: '',
@@ -101,5 +105,11 @@ const handleNodeClick = (data: any) => {
 	state.dataForm.catelogId = data.catId
   state.getDataList()
 }
+const attrattrgrouprelationRef = ref()
+const attrattrgrouprelationHandle = (attrGroupId: number) => {
+  attrattrgrouprelationRef.value.init(attrGroupId)
+}
+
+
 </script>
 <style lang="less"></style>

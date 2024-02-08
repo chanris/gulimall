@@ -6,6 +6,22 @@ import commonService from "./commonService";
  * 商品微服务相关api
  */
 export default {
+	/**
+	 * 根据分类id 获得 属性分组列表，不分页
+	 * @param catelogId
+	 * @returns
+	 */
+	attrGroupList(catelogId: string | number): Promise<IHttpResponse> {
+		return new Promise((resolve, reject)=>{
+			http({url: 'product/attrgroup/page', params: {catelogId} })
+			.then(resolve)
+			.catch((err)=>{
+				if(err !== '-999') {
+					reject(err)
+				}
+			})
+		})
+	},
 	cateTree(): Promise<IHttpResponse> {
 		return new Promise((resolve, reject)=>{
 			http({url: '/product/category/list/tree'})

@@ -10,5 +10,29 @@
         <result property="attrSort" column="attr_sort"/>
     </resultMap>
 
+    <delete id="deleteByAttrIdAndAttrGroupId">
+        delete from pms_attr_attrgroup_relation where attr_id = #{attrId} and attr_group_id = #{attrGroupId}
+    </delete>
+
+
+    <delete id="deleteByAttrGroupIds">
+        delete from pms_attr_attrgroup_relation
+        where pms_attr_attrgroup_relation.attr_group_id in
+        <foreach collection="list" open="(" close=")" separator="," item="item">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByAttrIds">
+        delete from pms_attr_attrgroup_relation
+        where pms_attr_attrgroup_relation.attr_id in
+        <foreach collection="list" open="(" close=")" separator="," item="item">
+            #{item}
+        </foreach>
+    </delete>
+    <!-- 注意：一个属性只能绑定一个分组, 但一个分组可以绑定多个属性-->
+    <update id="updateByAttrId" parameterType="com.chanris.gulimall.product.dto.AttrDTO">
+        update pms_attr_attrgroup_relation set attr_group_id = #{attrGroupId} where attr_id = #{attrId}
+    </update>
 
 </mapper>

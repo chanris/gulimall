@@ -1,8 +1,13 @@
 package com.chanris.gulimall.product.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.chanris.gulimall.common.page.PageData;
 import com.chanris.gulimall.common.service.CrudService;
 import com.chanris.gulimall.product.dto.AttrDTO;
 import com.chanris.gulimall.product.entity.AttrEntity;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 商品属性
@@ -12,4 +17,13 @@ import com.chanris.gulimall.product.entity.AttrEntity;
  */
 public interface AttrService extends CrudService<AttrEntity, AttrDTO> {
 
+    void saveWithAttrGroupRelation(AttrDTO attrDTO);
+
+    void updateWithAttrGroupRelation(AttrDTO attrDTO);
+
+    PageData<AttrDTO> pageWithAttrGroupId(Map<String, Object> params);
+
+    AttrDTO getWithAttrGroupId(Long attrId);
+
+    void deleteWithRelation(Long[] attrIds);
 }

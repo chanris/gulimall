@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +38,7 @@ import java.util.Map;
 @RequestMapping("product/categorybrandrelation")
 @Api(tags="品牌分类关联")
 public class CategoryBrandRelationController {
-    @Autowired
+    @Resource
     private CategoryBrandRelationService categoryBrandRelationService;
 
     @GetMapping("page")

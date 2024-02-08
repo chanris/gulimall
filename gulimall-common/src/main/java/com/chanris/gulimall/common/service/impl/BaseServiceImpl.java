@@ -22,6 +22,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
@@ -35,6 +36,7 @@ import java.util.function.BiConsumer;
  * @author Mark sunlightcs@gmail.com
  */
 public abstract class BaseServiceImpl<M extends BaseMapper<T>, T> implements BaseService<T> {
+    // 只能用Autowired 不能用Resource
     @Autowired
     protected M baseDao;
     protected Log log = LogFactory.getLog(getClass());

@@ -1,11 +1,14 @@
 package com.chanris.gulimall.product.dto;
 
+import com.chanris.gulimall.common.validator.group.AddGroup;
+import com.chanris.gulimall.common.validator.group.UpdateGroup;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Date;
 
 
 /**
@@ -19,9 +22,11 @@ import java.util.Date;
 public class AttrGroupDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
+	@NotNull(groups = {UpdateGroup.class})
 	@ApiModelProperty(value = "分组id")
 	private Long attrGroupId;
 
+	@NotBlank(groups = {AddGroup.class})
 	@ApiModelProperty(value = "组名")
 	private String attrGroupName;
 

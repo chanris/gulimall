@@ -98,8 +98,8 @@ public class AttrGroupController {
         //效验数据
         AssertUtils.isArrayEmpty(ids, "id");
 
-        attrGroupService.delete(ids);
-
+//        attrGroupService.delete(ids);
+        attrGroupService.deleteWithRelation(ids);
         return new Result();
     }
 
