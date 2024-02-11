@@ -12,5 +12,61 @@
         <result property="catelogId" column="catelog_id"/>
     </resultMap>
 
+    <resultMap type="com.chanris.gulimall.product.dto.AttrGroupDTO" id="attrGroupDTOMap">
+        <result property="attrGroupId" column="attr_group_id"/>
+        <result property="attrGroupName" column="attr_group_name"/>
+        <result property="sort" column="sort"/>
+        <result property="descript" column="descript"/>
+        <result property="icon" column="icon"/>
+        <result property="catelogId" column="catelog_id"/>
+        <result property="attrs" column="attrs" typeHandler="com.chanris.gulimall.product.config.mybatis.typeHandler.AttrGroupDtoTypeHandler"/>
+    </resultMap>
 
+    <select id="getAttrGroupListWithAttr" resultMap="attrGroupDTOMap">
+        SELECT
+            any_value ( pms_attr_group.attr_group_id ) attr_group_id,
+            any_value ( pms_attr_group.attr_group_name ) attr_group_name,
+            any_value ( pms_attr_group.descript ) descript,
+            any_value ( pms_attr_group.icon ) icon,
+            any_value ( pms_attr_group.catelog_id ) catelog_id,
+            any_value ( pms_attr_group.sort ) sort,
+            concat(
+                    '[',
+                    GROUP_CONCAT(
+                            concat(
+                                    '{"attrId":',
+                                    pa.attr_id,
+                                    ',"attrName":"',
+                                    pa.attr_name,
+                                    '","searchType":',
+                                    pa.search_type,
+                                    ',"valueType":',
+                                    pa.value_type,
+                                    ',"attrType":',
+                                    pa.attr_type,
+                                    ',"valueSelect":"',
+                                    pa.value_select,
+                                    '","icon":"',
+                                    pa.icon,
+                                    '","enable":',
+                                    pa.`enable`,
+                                    ',"catelogId":',
+                                    pa.catelog_id,
+                                    ',"showDesc":',
+                                    pa.show_desc,
+                                    ',"attrGroupId":',
+                                    pms_attr_group.attr_group_id,
+                                    '}'
+                                )),
+                    ']'
+                ) AS attrs
+        FROM
+            pms_attr_group
+                LEFT JOIN pms_attr_attrgroup_relation paar ON pms_attr_group.attr_group_id = paar.attr_group_id
+                LEFT JOIN pms_attr pa ON paar.attr_id = pa.attr_id
+        <if test="catelogId != null">
+        WHERE pms_attr_group.attr_group_id = #{catelogId}
+        </if>
+        GROUP BY pms_attr_group.attr_group_id
+    </select>
 </mapper>

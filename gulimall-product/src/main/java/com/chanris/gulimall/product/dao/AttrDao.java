@@ -16,7 +16,7 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface AttrDao extends BaseDao<AttrEntity> {
 
-    IPage<AttrDTO> pageWithAttrGroupId(IPage<?> page, @Param("catelogId") Long catelogId, @Param("attrType") Integer attrType);
+    IPage<AttrDTO> pageWithOtherInfo(IPage<?> page, @Param("catelogId") Long catelogId, @Param("attrType") Integer attrType);
 
     AttrDTO getWithAttrGroupId(Long attrId);
 }

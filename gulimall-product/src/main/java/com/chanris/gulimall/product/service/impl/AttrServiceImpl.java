@@ -12,7 +12,6 @@ import com.chanris.gulimall.product.dao.AttrAttrgroupRelationDao;
 import com.chanris.gulimall.product.dao.AttrDao;
 import com.chanris.gulimall.product.dto.AttrAttrgroupRelationDTO;
 import com.chanris.gulimall.product.dto.AttrDTO;
-import com.chanris.gulimall.product.entity.AttrAttrgroupRelationEntity;
 import com.chanris.gulimall.product.entity.AttrEntity;
 import com.chanris.gulimall.product.service.AttrAttrgroupRelationService;
 import com.chanris.gulimall.product.service.AttrService;
@@ -41,7 +40,6 @@ public class AttrServiceImpl extends CrudServiceImpl<AttrDao, AttrEntity, AttrDT
 
     @Resource
     private AttrDao attrDao;
-
 
     @Override
     public QueryWrapper<AttrEntity> getWrapper(Map<String, Object> params){
@@ -81,7 +79,7 @@ public class AttrServiceImpl extends CrudServiceImpl<AttrDao, AttrEntity, AttrDT
      * @return
      */
     @Override
-    public PageData<AttrDTO> pageWithAttrGroupId(Map<String, Object> params) {
+    public PageData<AttrDTO> pageWithOtherInfo(Map<String, Object> params) {
         long curPage = 1;
         long limit = -1; // 没有传page参数，不分页
         if (params.get(Constant.PAGE) != null) {
@@ -93,7 +91,7 @@ public class AttrServiceImpl extends CrudServiceImpl<AttrDao, AttrEntity, AttrDT
         IPage<?> ipage = new Page<>(curPage, limit);
         Long catelogId = ObjectConvert.toLong(params.get("catelogId")); // can return null
         Integer attrType = ObjectConvert.toInteger(params.get("attrType"));
-        IPage<AttrDTO> page = attrDao.pageWithAttrGroupId(ipage, catelogId, attrType);
+        IPage<AttrDTO> page = attrDao.pageWithOtherInfo(ipage, catelogId, attrType);
         return getPageData(page, AttrDTO.class);
     }
 

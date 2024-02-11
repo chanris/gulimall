@@ -17,6 +17,7 @@ import axios from "axios";
 import "virtual:svg-icons-register";
 
 const app = createApp(App);
+// 全局引入 element-plus icon 
 Object.keys(ElementPlusIcons).forEach((iconName) => {
   app.component(iconName, ElementPlusIcons[iconName as keyof typeof ElementPlusIcons]);
 });

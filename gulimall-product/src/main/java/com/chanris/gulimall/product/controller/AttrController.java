@@ -1,7 +1,5 @@
 package com.chanris.gulimall.product.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.chanris.gulimall.common.annotation.LogOperation;
 import com.chanris.gulimall.common.constant.Constant;
 import com.chanris.gulimall.common.page.PageData;
@@ -53,7 +51,7 @@ public class AttrController {
     @RequiresPermissions("product:attr:page")
     public Result<PageData<AttrDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params){
         //PageData<AttrDTO> page = attrService.page(params);
-        PageData<AttrDTO> page = attrService.pageWithAttrGroupId(params);
+        PageData<AttrDTO> page = attrService.pageWithOtherInfo(params);
         return new Result<PageData<AttrDTO>>().ok(page);
     }
 
@@ -92,6 +90,8 @@ public class AttrController {
         attrService.updateWithAttrGroupRelation(dto);
         return new Result();
     }
+
+
 
     @DeleteMapping
     @ApiOperation("删除")

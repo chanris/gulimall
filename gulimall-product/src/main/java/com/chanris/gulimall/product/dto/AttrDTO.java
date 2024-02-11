@@ -51,4 +51,6 @@ public class AttrDTO implements Serializable {
 
 	// non db field
 	private Long attrGroupId;
+	private String groupName;
+	private String catelogName;
 }

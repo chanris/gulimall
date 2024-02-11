@@ -21,6 +21,7 @@ mybatis-plus:
       id-type: auto  # 主键自增
       logic-delete-value: 0 # 逻辑已删除值（默认1）
       logic-not-delete-value: 1 # 逻辑未删除值（默认0）
+  type-handlers-package: com.chanris.gulimall.product.config.typeHandler
 #      logic-delete-field: show_status
 
 server:

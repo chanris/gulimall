@@ -55,6 +55,11 @@ public class AttrGroupController {
         return new Result<PageData<AttrGroupDTO>>().ok(page);
     }
 
+    @GetMapping("/{catelogId}/withattr")
+    public Result<List<AttrGroupDTO>> pageWithAttrs(@PathVariable("catelogId") Long catelogId) {
+        return new Result<List<AttrGroupDTO>>().ok(attrGroupService.attrGroupWithAttr(catelogId));
+    }
+
     @GetMapping("{id}")
     @ApiOperation("信息")
     @RequiresPermissions("product:attrgroup:info")

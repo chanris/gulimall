@@ -3,6 +3,9 @@ package com.chanris.gulimall.product.service;
 import com.chanris.gulimall.common.service.CrudService;
 import com.chanris.gulimall.product.dto.AttrGroupDTO;
 import com.chanris.gulimall.product.entity.AttrGroupEntity;
+import org.springframework.lang.Nullable;
+
+import java.util.List;
 
 /**
  * 属性分组
@@ -13,4 +16,6 @@ import com.chanris.gulimall.product.entity.AttrGroupEntity;
 public interface AttrGroupService extends CrudService<AttrGroupEntity, AttrGroupDTO> {
 
     void deleteWithRelation(Long[] attrGroupIds);
+
+    List<AttrGroupDTO> attrGroupWithAttr(Long catelogId);
 }

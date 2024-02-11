@@ -10,6 +10,7 @@ import com.chanris.gulimall.product.entity.AttrGroupEntity;
 import com.chanris.gulimall.product.service.AttrGroupService;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +30,9 @@ public class AttrGroupServiceImpl extends CrudServiceImpl<AttrGroupDao, AttrGrou
 
     @Resource
     private AttrAttrgroupRelationDao attrAttrgroupRelationDao;
+
+    @Resource
+    private AttrGroupDao attrGroupDao;
 
 
     /**
@@ -63,5 +67,11 @@ public class AttrGroupServiceImpl extends CrudServiceImpl<AttrGroupDao, AttrGrou
         this.delete(attrGroupIds);
         // 删除attrgroup 与 attr的关联
         attrAttrgroupRelationDao.deleteByAttrGroupIds(List.of(attrGroupIds));
+    }
+
+    @Override
+    public List<AttrGroupDTO> attrGroupWithAttr(Long catelogId) {
+        List<AttrGroupDTO> list = attrGroupDao.getAttrGroupListWithAttr(catelogId);
+        return list;
     }
 }

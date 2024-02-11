@@ -11,4 +11,7 @@ Spring Cloud Alibaba:  https://spring-cloud-alibaba-group.github.io/github-pages
 Hibernate-Validation 6.2.5.Final: https://docs.jboss.org/hibernate/validator/6.2/reference/en-US/html_single/
 Hutool 工具类库文档 5.8.25: https://doc.hutool.cn/pages/index/
 knife4j(swagger2+OpenAPI3): https://doc.xiaominfo.com/docs/quick-start
+Mybatis: https://mybatis.net.cn/
 Mybatis-Plus: https://baomidou.com/pages/24112f/
+### 接口文档
+https://easydoc.net/s/78237135/ZUqEdvA4/6JM6txHf
