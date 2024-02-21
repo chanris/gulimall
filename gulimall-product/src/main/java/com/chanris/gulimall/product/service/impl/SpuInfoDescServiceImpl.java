@@ -30,5 +30,8 @@ public class SpuInfoDescServiceImpl extends CrudServiceImpl<SpuInfoDescDao, SpuI
         return wrapper;
     }
 
-
+    @Override
+    public void saveSpuInfoDesc(SpuInfoDescEntity spuInfoDescEntity) {
+        this.insert(spuInfoDescEntity);
+    }
 }

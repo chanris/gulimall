@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
 
 
 /**
@@ -16,7 +15,7 @@ import java.util.Date;
  */
 @Data
 @ApiModel(value = "sku图片")
-public class SkuImagesDTO implements Serializable {
+public class SkuImagesEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty(value = "id")

@@ -19,7 +19,12 @@
 			<el-table-column prop="catalogId" label="所属分类id" header-align="center" align="center"></el-table-column>
 			<el-table-column prop="brandId" label="品牌id" header-align="center" align="center"></el-table-column>
 			<el-table-column prop="weight" label="商品重量" header-align="center" align="center"></el-table-column>
-			<el-table-column prop="publishStatus" label="上架状态" header-align="center" align="center"></el-table-column>
+			<el-table-column prop="publishStatus" label="上架状态" header-align="center" align="center">
+				<template #default="scope">
+					<el-tag v-if="scope.row.publishStatus === 1" type="primary">已上架</el-tag>
+					<el-tag v-else type="danger">未上架</el-tag>
+				</template>
+			</el-table-column>
 			<el-table-column prop="createTime" label="创建时间" header-align="center" align="center"></el-table-column>
 			<el-table-column prop="updateTime" label="更新时间" header-align="center" align="center"></el-table-column>
 			<el-table-column label="操作" fixed="right" header-align="center" align="center" width="150">

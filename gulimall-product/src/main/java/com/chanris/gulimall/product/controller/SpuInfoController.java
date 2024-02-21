@@ -13,6 +13,7 @@ import com.chanris.gulimall.common.validator.group.UpdateGroup;
 import com.chanris.gulimall.product.dto.SpuInfoDTO;
 import com.chanris.gulimall.product.excel.SpuInfoExcel;
 import com.chanris.gulimall.product.service.SpuInfoService;
+import com.chanris.gulimall.product.vo.SpuSaveVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -22,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +39,7 @@ import java.util.Map;
 @RequestMapping("product/spuinfo")
 @Api(tags="spu信息")
 public class SpuInfoController {
-    @Autowired
+    @Resource
     private SpuInfoService spuInfoService;
 
     @GetMapping("page")
@@ -48,7 +50,7 @@ public class SpuInfoController {
         @ApiImplicitParam(name = Constant.ORDER_FIELD, value = "排序字段", paramType = "query", dataType="String") ,
         @ApiImplicitParam(name = Constant.ORDER, value = "排序方式，可选值(asc、desc)", paramType = "query", dataType="String")
     })
-    @RequiresPermissions("product:spuinfo:page")
+//    @RequiresPermissions("product:spuinfo:page")
     public Result<PageData<SpuInfoDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params){
         PageData<SpuInfoDTO> page = spuInfoService.page(params);
 
@@ -57,7 +59,7 @@ public class SpuInfoController {
 
     @GetMapping("{id}")
     @ApiOperation("信息")
-    @RequiresPermissions("product:spuinfo:info")
+//    @RequiresPermissions("product:spuinfo:info")
     public Result<SpuInfoDTO> get(@PathVariable("id") Long id){
         SpuInfoDTO data = spuInfoService.get(id);
 
@@ -67,20 +69,20 @@ public class SpuInfoController {
     @PostMapping
     @ApiOperation("保存")
     @LogOperation("保存")
-    @RequiresPermissions("product:spuinfo:save")
-    public Result save(@RequestBody SpuInfoDTO dto){
+//    @RequiresPermissions("product:spuinfo:save")
+    public Result save(@RequestBody SpuSaveVo spuSaveVo){
         //效验数据
-        ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
+        ValidatorUtils.validateEntity(spuSaveVo, AddGroup.class, DefaultGroup.class);
 
-        spuInfoService.save(dto);
-
+//        spuInfoService.save(dto);
+        spuInfoService.savesupInfo(spuSaveVo);
         return new Result();
     }
 
     @PutMapping
     @ApiOperation("修改")
     @LogOperation("修改")
-    @RequiresPermissions("product:spuinfo:update")
+//    @RequiresPermissions("product:spuinfo:update")
     public Result update(@RequestBody SpuInfoDTO dto){
         //效验数据
         ValidatorUtils.validateEntity(dto, UpdateGroup.class, DefaultGroup.class);
@@ -93,7 +95,7 @@ public class SpuInfoController {
     @DeleteMapping
     @ApiOperation("删除")
     @LogOperation("删除")
-    @RequiresPermissions("product:spuinfo:delete")
+//    @RequiresPermissions("product:spuinfo:delete")
     public Result delete(@RequestBody Long[] ids){
         //效验数据
         AssertUtils.isArrayEmpty(ids, "id");
@@ -106,7 +108,7 @@ public class SpuInfoController {
     @GetMapping("export")
     @ApiOperation("导出")
     @LogOperation("导出")
-    @RequiresPermissions("product:spuinfo:export")
+//    @RequiresPermissions("product:spuinfo:export")
     public void export(@ApiIgnore @RequestParam Map<String, Object> params, HttpServletResponse response) throws Exception {
         List<SpuInfoDTO> list = spuInfoService.list(params);
 

@@ -1,6 +1,7 @@
 package com.chanris.gulimall.coupon.service;
 
 import com.chanris.gulimall.common.service.CrudService;
+import com.chanris.gulimall.common.to.SkuReductionTo;
 import com.chanris.gulimall.coupon.dto.SkuFullReductionDTO;
 import com.chanris.gulimall.coupon.entity.SkuFullReductionEntity;
 
@@ -12,4 +13,5 @@ import com.chanris.gulimall.coupon.entity.SkuFullReductionEntity;
  */
 public interface SkuFullReductionService extends CrudService<SkuFullReductionEntity, SkuFullReductionDTO> {
 
+    void saveSkuReduction(SkuReductionTo skuReductionTo);
 }

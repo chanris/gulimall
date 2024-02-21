@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +38,7 @@ import java.util.Map;
 @RequestMapping("coupon/spubounds")
 @Api(tags="商品spu积分设置")
 public class SpuBoundsController {
-    @Autowired
+    @Resource
     private SpuBoundsService spuBoundsService;
 
     @GetMapping("page")
@@ -48,7 +49,7 @@ public class SpuBoundsController {
         @ApiImplicitParam(name = Constant.ORDER_FIELD, value = "排序字段", paramType = "query", dataType="String") ,
         @ApiImplicitParam(name = Constant.ORDER, value = "排序方式，可选值(asc、desc)", paramType = "query", dataType="String")
     })
-    @RequiresPermissions("coupon:spubounds:page")
+//    @RequiresPermissions("coupon:spubounds:page")
     public Result<PageData<SpuBoundsDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params){
         PageData<SpuBoundsDTO> page = spuBoundsService.page(params);
 
@@ -57,7 +58,7 @@ public class SpuBoundsController {
 
     @GetMapping("{id}")
     @ApiOperation("信息")
-    @RequiresPermissions("coupon:spubounds:info")
+//    @RequiresPermissions("coupon:spubounds:info")
     public Result<SpuBoundsDTO> get(@PathVariable("id") Long id){
         SpuBoundsDTO data = spuBoundsService.get(id);
 
@@ -67,7 +68,7 @@ public class SpuBoundsController {
     @PostMapping
     @ApiOperation("保存")
     @LogOperation("保存")
-    @RequiresPermissions("coupon:spubounds:save")
+//    @RequiresPermissions("coupon:spubounds:save")
     public Result save(@RequestBody SpuBoundsDTO dto){
         //效验数据
         ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
@@ -80,7 +81,7 @@ public class SpuBoundsController {
     @PutMapping
     @ApiOperation("修改")
     @LogOperation("修改")
-    @RequiresPermissions("coupon:spubounds:update")
+//    @RequiresPermissions("coupon:spubounds:update")
     public Result update(@RequestBody SpuBoundsDTO dto){
         //效验数据
         ValidatorUtils.validateEntity(dto, UpdateGroup.class, DefaultGroup.class);
@@ -93,7 +94,7 @@ public class SpuBoundsController {
     @DeleteMapping
     @ApiOperation("删除")
     @LogOperation("删除")
-    @RequiresPermissions("coupon:spubounds:delete")
+//    @RequiresPermissions("coupon:spubounds:delete")
     public Result delete(@RequestBody Long[] ids){
         //效验数据
         AssertUtils.isArrayEmpty(ids, "id");
@@ -106,7 +107,7 @@ public class SpuBoundsController {
     @GetMapping("export")
     @ApiOperation("导出")
     @LogOperation("导出")
-    @RequiresPermissions("coupon:spubounds:export")
+//    @RequiresPermissions("coupon:spubounds:export")
     public void export(@ApiIgnore @RequestParam Map<String, Object> params, HttpServletResponse response) throws Exception {
         List<SpuBoundsDTO> list = spuBoundsService.list(params);
 

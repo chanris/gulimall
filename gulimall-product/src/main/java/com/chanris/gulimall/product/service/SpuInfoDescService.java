@@ -12,4 +12,5 @@ import com.chanris.gulimall.product.entity.SpuInfoDescEntity;
  */
 public interface SpuInfoDescService extends CrudService<SpuInfoDescEntity, SpuInfoDescDTO> {
 
+    void saveSpuInfoDesc(SpuInfoDescEntity spuInfoDescEntity);
 }

@@ -3,6 +3,7 @@ package com.chanris.gulimall.coupon.controller;
 import com.chanris.gulimall.common.annotation.LogOperation;
 import com.chanris.gulimall.common.constant.Constant;
 import com.chanris.gulimall.common.page.PageData;
+import com.chanris.gulimall.common.to.SkuReductionTo;
 import com.chanris.gulimall.common.utils.ExcelUtils;
 import com.chanris.gulimall.common.utils.Result;
 import com.chanris.gulimall.common.validator.AssertUtils;
@@ -22,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
@@ -37,8 +39,14 @@ import java.util.Map;
 @RequestMapping("coupon/skufullreduction")
 @Api(tags="商品满减信息")
 public class SkuFullReductionController {
-    @Autowired
+    @Resource
     private SkuFullReductionService skuFullReductionService;
+
+    @PostMapping("saveinfo")
+    public Result saveInfo(@RequestBody SkuReductionTo skuReductionTo) {
+        skuFullReductionService.saveSkuReduction(skuReductionTo);
+        return new Result();
+    }
 
     @GetMapping("page")
     @ApiOperation("分页")
@@ -48,7 +56,7 @@ public class SkuFullReductionController {
         @ApiImplicitParam(name = Constant.ORDER_FIELD, value = "排序字段", paramType = "query", dataType="String") ,
         @ApiImplicitParam(name = Constant.ORDER, value = "排序方式，可选值(asc、desc)", paramType = "query", dataType="String")
     })
-    @RequiresPermissions("coupon:skufullreduction:page")
+//    @RequiresPermissions("coupon:skufullreduction:page")
     public Result<PageData<SkuFullReductionDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params){
         PageData<SkuFullReductionDTO> page = skuFullReductionService.page(params);
 
@@ -57,7 +65,7 @@ public class SkuFullReductionController {
 
     @GetMapping("{id}")
     @ApiOperation("信息")
-    @RequiresPermissions("coupon:skufullreduction:info")
+//    @RequiresPermissions("coupon:skufullreduction:info")
     public Result<SkuFullReductionDTO> get(@PathVariable("id") Long id){
         SkuFullReductionDTO data = skuFullReductionService.get(id);
 
@@ -67,7 +75,7 @@ public class SkuFullReductionController {
     @PostMapping
     @ApiOperation("保存")
     @LogOperation("保存")
-    @RequiresPermissions("coupon:skufullreduction:save")
+//    @RequiresPermissions("coupon:skufullreduction:save")
     public Result save(@RequestBody SkuFullReductionDTO dto){
         //效验数据
         ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
@@ -80,7 +88,7 @@ public class SkuFullReductionController {
     @PutMapping
     @ApiOperation("修改")
     @LogOperation("修改")
-    @RequiresPermissions("coupon:skufullreduction:update")
+//    @RequiresPermissions("coupon:skufullreduction:update")
     public Result update(@RequestBody SkuFullReductionDTO dto){
         //效验数据
         ValidatorUtils.validateEntity(dto, UpdateGroup.class, DefaultGroup.class);
@@ -93,7 +101,7 @@ public class SkuFullReductionController {
     @DeleteMapping
     @ApiOperation("删除")
     @LogOperation("删除")
-    @RequiresPermissions("coupon:skufullreduction:delete")
+//    @RequiresPermissions("coupon:skufullreduction:delete")
     public Result delete(@RequestBody Long[] ids){
         //效验数据
         AssertUtils.isArrayEmpty(ids, "id");
@@ -106,7 +114,7 @@ public class SkuFullReductionController {
     @GetMapping("export")
     @ApiOperation("导出")
     @LogOperation("导出")
-    @RequiresPermissions("coupon:skufullreduction:export")
+//    @RequiresPermissions("coupon:skufullreduction:export")
     public void export(@ApiIgnore @RequestParam Map<String, Object> params, HttpServletResponse response) throws Exception {
         List<SkuFullReductionDTO> list = skuFullReductionService.list(params);
 

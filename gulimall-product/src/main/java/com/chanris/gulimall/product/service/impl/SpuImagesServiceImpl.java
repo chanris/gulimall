@@ -9,7 +9,9 @@ import com.chanris.gulimall.product.service.SpuImagesService;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * spu图片
@@ -30,5 +32,17 @@ public class SpuImagesServiceImpl extends CrudServiceImpl<SpuImagesDao, SpuImage
         return wrapper;
     }
 
+    @Override
+    public void saveImages(Long id, List<String> images) {
+        if(images == null || images.size() == 0) return;
 
+        List<SpuImagesEntity> collect = images.stream().map(img -> {
+            SpuImagesEntity spuImagesEntity = new SpuImagesEntity();
+            spuImagesEntity.setSpuId(id);
+            spuImagesEntity.setImgUrl(img);
+            return spuImagesEntity;
+        }).toList();
+        // 批量新增图片
+        this.insertBatch(collect);
+    }
 }
