@@ -21,6 +21,6 @@ public class Skus {
   private BigDecimal fullPrice;
   private BigDecimal reducePrice;
   private int priceStatus;
-  private List<MemberPrice> memberPrice;
+  private List<com.chanris.gulimall.common.to.MemberPrice> memberPrice;
 
 }

@@ -28,3 +28,9 @@ spring:
             - Path=/api/member/**
           filters:
             - RewritePath=/api/?(?<segment>.*), /$\{segment}
+        - id: gulimall-ware
+          uri: lb://gulimall-ware
+          predicates:
+            - Path=/api/ware/**
+          filters:
+            - RewritePath=/api/?(?<segment>.*), /$\{segment}

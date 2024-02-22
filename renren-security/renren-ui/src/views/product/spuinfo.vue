@@ -1,6 +1,31 @@
 <template>
 	<div class="mod-product__spuinfo">
 		<el-form :inline="true" :model="state.dataForm" @keyup.enter="state.getDataList()">
+			<el-form-item label="分类" props="catalogId">
+				<!-- <el-tree-select v-model="state.dataForm.catalogId" :data="treeList" check-strictly :render-after-expand="false"
+          					style="width: 240px" :props="{ children: 'children', label: 'name', value: 'catId' }" /> -->
+				<category-cascader v-model:catalog-id="state.dataForm.catalogId"></category-cascader>
+			</el-form-item>
+			<el-form-item label="分类" props="brandId">
+				<brandSelect v-model:brand-id="state.dataForm.brandId"></brandSelect>
+			</el-form-item>
+			<el-form-item label="上架状态" props="publishStatus">
+				<el-select
+					v-model="state.dataForm.publishStatus"
+					placeholder="选择上架状态"
+					size="large"
+					style="width: 240px">
+					<el-option
+						v-for="item in publisStatusCollect"
+						:key="item.value"
+						:label="item.label"
+						:value="item.value"
+					/>
+				</el-select>
+			</el-form-item>
+			<el-form-item>
+				<el-button color="#626aef" @click.stop="state.getDataList()">检索</el-button>
+			</el-form-item>
 			<el-form-item>
 				<el-button v-if="state.hasPermission('product:spuinfo:save')" type="primary"
 					@click="addOrUpdateHandle()">新增</el-button>
@@ -25,8 +50,8 @@
 					<el-tag v-else type="danger">未上架</el-tag>
 				</template>
 			</el-table-column>
-			<el-table-column prop="createTime" label="创建时间" header-align="center" align="center"></el-table-column>
-			<el-table-column prop="updateTime" label="更新时间" header-align="center" align="center"></el-table-column>
+			<el-table-column prop="createTime" label="创建时间" header-align="center" min-width="100" align="center"></el-table-column>
+			<el-table-column prop="updateTime" label="更新时间" header-align="center" min-width="100" align="center"></el-table-column>
 			<el-table-column label="操作" fixed="right" header-align="center" align="center" width="150">
 				<template v-slot="scope">
 					<el-button v-if="state.hasPermission('product:spuinfo:update')" type="primary" link
@@ -46,17 +71,35 @@
 
 <script lang="ts" setup>
 import useView from "@/hooks/useView";
-import { reactive, ref, toRefs } from "vue";
+import { reactive, ref, toRefs, onMounted} from "vue";
 import AddOrUpdate from "./spuinfo-add-or-update.vue";
-
+import productService from "@/service/productService";
+import brandSelect from "../common/brand-select.vue";
+import categoryCascader from "../common/category-cascader.vue";
 const view = reactive({
 	deleteIsBatch: true,
 	getDataListURL: "/product/spuinfo/page",
 	getDataListIsPage: true,
 	exportURL: "/product/spuinfo/export",
-	deleteURL: "/product/spuinfo"
+	deleteURL: "/product/spuinfo",
+	dataForm: {
+		catalogId: null,
+		brandId: null,
+		publishStatus: null
+	}
 });
+const treeList = ref([])
+const publisStatusCollect = ref<any>([])
 
+onMounted(()=>{
+	publisStatusCollect.value.push({label: '已上架', value: 1})
+	publisStatusCollect.value.push({label: '未上架', value: 0})
+	publisStatusCollect.value.push({label: '全部', value: null})
+	productService.cateTree().then(({data})=>{
+			// console.log(data)
+			treeList.value = data
+		})
+})
 const state = reactive({ ...useView(view), ...toRefs(view) });
 
 const addOrUpdateRef = ref();

@@ -12,6 +12,8 @@ spring:
         server-addr: 127.0.0.1:8848  # nacos 服务发现地址
   jackson:
     default-property-inclusion: non_null # json化排除null字段
+    date-format: yyyy-MM-dd HH:mm:ss
+#    date-format: java.text.SimpleDateFormat
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 开启sql日志，打印执行的sql语句

@@ -1,5 +1,5 @@
 <template>
-	<el-upload v-model:file-list="fileList" multiple :limit="5" :action="dataObj.host" :data="getData" list-type="picture"
+	<el-upload v-model:file-list="fileList" multiple :limit="5" :list-type="props.listType" :show-file-list="props.showFile" :action="dataObj.host" :data="getData"
 		accept=".png,.jpeg,.jpg" :on-success="handleUploadSuccess" :before-upload="handlebeforeUpload">
 		<el-button type="primary">上传图片</el-button>
 		<template #tip>
@@ -25,6 +25,16 @@ import commonService from '@/service/commonService';
 
 const visible = defineModel('visible', {type: Boolean, default: true})
 const fileList = defineModel('fileList', {type: Array, default: []})
+const props = defineProps({
+	showFile: {
+		type: Boolean,
+		default: true
+	},
+	listType: {
+		type: String,
+		default: 'picture'
+	}
+})
 watch(() => visible.value, (val, prevVal) => {
 	if (val === false) {
 		// 不显示 brand-add-or-update组件时，将上传的文件列表置空

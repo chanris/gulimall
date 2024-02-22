@@ -21,11 +21,12 @@
 						</el-form-item>
 						<el-form-item label="选择分类" prop="catalogId">
 							<!-- <category-cascader></category-cascader> -->
-							<el-tree-select v-model="spu.catalogId" :data="treeList" check-strictly :render-after-expand="false"
-          					style="width: 240px" :props="{ children: 'children', label: 'name', value: 'catId' }" />
+							<!-- <el-tree-select v-model="spu.catalogId" :data="treeList" check-strictly :render-after-expand="false"
+          					style="width: 240px" :props="{ children: 'children', label: 'name', value: 'catId' }" /> -->
+							<category-cascader v-model:catalog-id="spu.catalogId"></category-cascader>
 						</el-form-item>
 						<el-form-item label="选择品牌" prop="brandId">
-							<brand-select v-model:brand-id="spu.brandId" :brandList="brandList"></brand-select>
+							<brand-select v-model:brand-id="spu.brandId"></brand-select>
 						</el-form-item>
 						<el-form-item label="商品重量(Kg)" prop="weight">
 							<el-input-number v-model.number="spu.weight" :min="0" :precision="3"
@@ -149,8 +150,8 @@
 								<el-row>
 									<el-col :span="24">
 										<label style="display:block;float:left">选择图集 或</label>
-										<!-- <multi-upload style="float:left;margin-left:10px;" :showFile="false"
-											:listType="'text'" v-model="uploadImages"></multi-upload> -->
+										<multi-upload style="float:left;margin-left:10px;" :showFile="false"
+											:listType="'text'" v-model:file-list="uploadImages"></multi-upload>
 									</el-col>
 									<el-col :span="24">
 										<el-divider></el-divider>
@@ -162,7 +163,7 @@
 											<div style="padding: 14px;">
 												<el-row>
 													<el-col :span="12">
-														<el-checkbox v-model="scope.row.images[index].imgUrl"
+														<el-checkbox @click.stop="handleClick" v-model="scope.row.images[index].imgUrl"
 															:true-label="img" false-label></el-checkbox>
 													</el-col>
 													<el-col :span="12">
@@ -182,16 +183,16 @@
 								</el-row>
 								<!-- 折扣，满减，会员价 -->
 								<el-form :model="scope.row">
-									<el-row>
+									<el-row @click="handleClick">
 										<el-col :span="24">
 											<el-form-item label="设置折扣">
 												<label>满</label>
-												<el-input-number style="width:160px" :min="0" controls-position="right"
+												<el-input-number @click.stop="handleClick" style="width:160px" :min="0" controls-position="right"
 													v-model="scope.row.fullCount"></el-input-number>
 												<label>件</label>
 
 												<label style="margin-left:15px;">打</label>
-												<el-input-number style="width:160px" v-model="scope.row.discount"
+												<el-input-number @click.stop="handleClick" style="width:160px" v-model="scope.row.discount"
 													:precision="2" :max="1" :min="0" :step="0.01"
 													controls-position="right"></el-input-number>
 												<label>折</label>
@@ -202,11 +203,11 @@
 										<el-col :span="24">
 											<el-form-item label="设置满减">
 												<label>满</label>
-												<el-input-number style="width:160px" v-model="scope.row.fullPrice"
+												<el-input-number @click.stop="handleClick" style="width:160px" v-model="scope.row.fullPrice"
 													:step="100" :min="0" controls-position="right"></el-input-number>
 												<label>元</label>
 												<label style="margin-left:15px;">减</label>
-												<el-input-number style="width:160px" v-model="scope.row.reducePrice"
+												<el-input-number @click.stop="handleClick" style="width:160px" v-model="scope.row.reducePrice"
 													:step="10" :min="0" controls-position="right"></el-input-number>
 												<label>元</label>
 												<el-checkbox v-model="scope.row.priceStatus" :true-label="1"
@@ -220,8 +221,7 @@
 												<!--   @change="handlePriceChange(scope,mpidx,$event)" -->
 												<el-form-item v-for="(mp, mpidx) in scope.row.memberPrice" :key="mp.id">
 													{{ mp.name }}
-													<el-input-number style="width:160px"
-														v-model="scope.row.memberPrice[mpidx].price" :precision="2" :min="0"
+													<el-input-number style="width:160px" v-model="scope.row.memberPrice[mpidx].price" :precision="2" :min="0"
 														controls-position="right"></el-input-number>
 												</el-form-item>
 											</el-form-item>
@@ -255,18 +255,19 @@ import BrandSelect from "../common/brand-select.vue";
 import CommonTree from '@/components/base-chanris/CommonTree.vue';
 import productService from '@/service/productService';
 import multiUpload from "../common/multi-upload.vue";
+import categoryCascader from "../common/category-cascader.vue";
 import { ElMessage } from "element-plus";
 export default {
 	//import引入的组件需要注入到对象中才能使用
-	components: { CommonTree, BrandSelect, multiUpload, ElMessage /* CategoryCascader, BrandSelect, MultiUpload */ },
+	components: { CommonTree, BrandSelect, multiUpload, ElMessage, categoryCascader /* CategoryCascader, BrandSelect, MultiUpload */ },
 	props: {},
 	data() {
 		return {
 			multiUploadVisible: true,
 			multiUploadFileList: [],
 			multiUploadDecriptFileList: [],
-			treeList: [], // 分类树
-			brandList: [], // 品牌列表
+			//treeList: [], // 分类树
+			//brandList: [], // 品牌列表
 			catPathSub: null,
 			brandIdSub: null,
 			uploadDialogVisible: false,
@@ -356,6 +357,12 @@ export default {
 	},
 	//方法集合
 	methods: {
+		handleClick(event) {
+			event.stopPropagation();
+
+			// 其他逻辑...
+			console.log('按钮被点击，但事件不会冒泡');
+		},
 		addAgian() {
 			this.step = 0;
 			this.resetSpuData();
@@ -641,7 +648,6 @@ export default {
 					})
 			}
 		},
-
 		submitSkus() {
 			console.log("~~~~~", JSON.stringify(this.spu));
 
@@ -765,16 +771,16 @@ export default {
 		// });
 		this.getMemberLevels();
 
-		productService.get('product/brand/page', {limit: -1})
-		.then(({data})=>{
-			// console.log(data)
-			this.brandList = data.list
-		})
+		// productService.get('product/brand/page', {limit: -1})
+		// .then(({data})=>{
+		// 	// console.log(data)
+		// 	this.brandList = data.list
+		// })
 
-		productService.cateTree().then(({data})=>{
-			// console.log(data)
-			this.treeList = data
-		})
+		// productService.cateTree().then(({data})=>{
+		// 	// console.log(data)
+		// 	this.treeList = data
+		// })
 	},
 	beforeCreate() { }, //生命周期 - 创建之前
 	beforeMount() { }, //生命周期 - 挂载之前

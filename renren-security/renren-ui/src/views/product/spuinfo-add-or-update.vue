@@ -22,12 +22,12 @@
 				<!-- <el-input v-model="dataForm.publishStatus" placeholder="上架状态[0 - 下架，1 - 上架]"></el-input> -->
 				<el-switch v-model="dataForm.publishStatus" :active-value="1" :inactive-value="0" active-text="上架" inactive-text="下架"></el-switch>
 			</el-form-item>
-			<el-form-item label="创建时间" prop="createTime">
+			<!-- <el-form-item label="创建时间" prop="createTime">
 				<el-input v-model="dataForm.createTime" placeholder=""></el-input>
 			</el-form-item>
 			<el-form-item label="更新时间" prop="updateTime">
 				<el-input v-model="dataForm.updateTime" placeholder=""></el-input>
-			</el-form-item>
+			</el-form-item> -->
 		</el-form>
 		<template #footer>
 			<el-button @click="visible = false">取消</el-button>
@@ -38,7 +38,8 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from "vue";
-import baseService from "@/service/baseService";
+// import baseService from "@/service/baseService";
+import baseService from "@/service/commonService";
 import { ElMessage } from "element-plus";
 const emit = defineEmits(["refreshDataList"]);
 
@@ -68,12 +69,12 @@ const rules = ref({
 	publishStatus: [
 		{ required: true, message: '必填项不能为空', trigger: 'blur' }
 	],
-	createTime: [
-		{ required: true, message: '必填项不能为空', trigger: 'blur' }
-	],
-	updateTime: [
-		{ required: true, message: '必填项不能为空', trigger: 'blur' }
-	]
+	// createTime: [
+	// 	{ required: true, message: '必填项不能为空', trigger: 'blur' }
+	// ],
+	// updateTime: [
+	// 	{ required: true, message: '必填项不能为空', trigger: 'blur' }
+	// ]
 });
 
 const init = (id?: number) => {

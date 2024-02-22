@@ -1,9 +1,11 @@
 package com.chanris.gulimall.product.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.chanris.gulimall.common.service.impl.CrudServiceImpl;
 import com.chanris.gulimall.common.to.SkuReductionTo;
 import com.chanris.gulimall.common.to.SpuBoundTo;
+import com.chanris.gulimall.common.utils.ObjectConvert;
 import com.chanris.gulimall.common.utils.Result;
 import com.chanris.gulimall.product.dao.SpuInfoDao;
 import com.chanris.gulimall.product.dto.*;
@@ -54,9 +56,14 @@ public class SpuInfoServiceImpl extends CrudServiceImpl<SpuInfoDao, SpuInfoEntit
     @Override
     public QueryWrapper<SpuInfoEntity> getWrapper(Map<String, Object> params){
         String id = (String)params.get("id");
-
+        Long catalogId = ObjectConvert.toLong(params.get("catalogId"));
+        Long brandId = ObjectConvert.toLong(params.get("brandId"));
+        Integer publishStatus = ObjectConvert.toInteger(params.get("publishStatus"));
         QueryWrapper<SpuInfoEntity> wrapper = new QueryWrapper<>();
         wrapper.eq(StrUtil.isNotBlank(id), "id", id);
+        wrapper.eq(ObjectUtil.isNotNull(catalogId), "catalog_id", catalogId);
+        wrapper.eq(ObjectUtil.isNotNull(brandId), "brand_id", brandId);
+        wrapper.eq(ObjectUtil.isNotNull(publishStatus), "publish_status", publishStatus);
 
         return wrapper;
     }
@@ -128,7 +135,8 @@ public class SpuInfoServiceImpl extends CrudServiceImpl<SpuInfoDao, SpuInfoEntit
                 SkuInfoDTO skuInfoDTO = new SkuInfoDTO();
                 BeanUtils.copyProperties(item, skuInfoDTO);
                 skuInfoDTO.setBrandId(spuInfoEntity.getBrandId());
-                skuInfoDTO.setCatalogId(skuInfoDTO.getCatalogId());
+                skuInfoDTO.setCatalogId(spuInfoEntity.getCatalogId());
+
                 skuInfoDTO.setSaleCount(0L);
                 skuInfoDTO.setSpuId(spuInfoEntity.getId());
                 skuInfoDTO.setSkuDefaultImg(defaultImg);
@@ -141,7 +149,7 @@ public class SpuInfoServiceImpl extends CrudServiceImpl<SpuInfoDao, SpuInfoEntit
                     skuImagesEntity.setImgUrl(img.getImgUrl());
                     skuImagesEntity.setDefaultImg(img.getDefaultImg());
                     return skuImagesEntity;
-                }).filter(dto -> !StringUtils.hasLength(dto.getImgUrl())).toList();
+                }).filter(dto -> StringUtils.hasLength(dto.getImgUrl())).toList();
 
                 //5.2 sku的图片信息: pms_sku_images
                 skuImagesService.insertBatch(skuImagesEntities);
@@ -159,6 +167,8 @@ public class SpuInfoServiceImpl extends CrudServiceImpl<SpuInfoDao, SpuInfoEntit
                 //5.4 sku的优惠、减免等信息： sms_sku_ladder
                 SkuReductionTo skuReductionTo = new SkuReductionTo();
                 BeanUtils.copyProperties(item, skuReductionTo);
+                // Spring BeanUtils.copyProperties 不会copy的 List类型的属性
+//                skuReductionTo.setMemberPrice(item.getMemberPrice());
                 skuReductionTo.setSkuId(skuId);
                 if(skuReductionTo.getFullCount() > 0 || skuReductionTo.getFullPrice().compareTo(BigDecimal.ZERO) > 0) {
                     Result r1 = couponFeignService.saveSkuReduction(skuReductionTo);

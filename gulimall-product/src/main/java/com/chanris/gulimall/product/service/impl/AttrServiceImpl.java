@@ -44,7 +44,7 @@ public class AttrServiceImpl extends CrudServiceImpl<AttrDao, AttrEntity, AttrDT
     @Override
     public QueryWrapper<AttrEntity> getWrapper(Map<String, Object> params){
         String id = (String)params.get("id");
-        Long attrGroupId = ObjectConvert.toLong(params.get("attr_group_id"));
+        Long attrGroupId = ObjectConvert.toLong(params.get("attrGroupId"));
         QueryWrapper<AttrEntity> wrapper = new QueryWrapper<>();
         wrapper.eq(StrUtil.isNotBlank(id), "id", id);
         wrapper.eq(ObjectUtil.isNotNull(attrGroupId), "attr_group_id", attrGroupId);
