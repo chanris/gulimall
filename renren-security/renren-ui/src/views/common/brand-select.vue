@@ -3,6 +3,7 @@
     v-model="brandId"
     placeholder="选择品牌"
     size="large"
+	clearable
     style="width: 240px">
     <el-option
       v-for="item in brandList"

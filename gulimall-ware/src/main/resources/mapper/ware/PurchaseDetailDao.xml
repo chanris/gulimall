@@ -14,4 +14,9 @@
     </resultMap>
 
 
+    <update id="merge" parameterType="com.chanris.gulimall.ware.vo.MergeVo">
+        update wms_purchase_detail set purchase_id = #{vo.purchaseId}, `status` = 1
+        where id in
+        <foreach collection="vo.items" item="item" open="(" close=")" separator=",">#{item}</foreach>
+    </update>
 </mapper>

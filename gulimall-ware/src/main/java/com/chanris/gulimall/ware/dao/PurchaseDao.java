@@ -1,8 +1,12 @@
 package com.chanris.gulimall.ware.dao;
 
 import com.chanris.gulimall.common.dao.BaseDao;
+import com.chanris.gulimall.ware.dto.PurchaseDTO;
 import com.chanris.gulimall.ware.entity.PurchaseEntity;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 采购信息
@@ -12,5 +16,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface PurchaseDao extends BaseDao<PurchaseEntity> {
-	
+
+    List<PurchaseDTO> unreceivePurchaseList();
+
 }

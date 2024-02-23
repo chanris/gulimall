@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +38,7 @@ import java.util.Map;
 @RequestMapping("ware/purchasedetail")
 @Api(tags="")
 public class PurchaseDetailController {
-    @Autowired
+    @Resource
     private PurchaseDetailService purchaseDetailService;
 
     @GetMapping("page")
@@ -48,7 +49,7 @@ public class PurchaseDetailController {
         @ApiImplicitParam(name = Constant.ORDER_FIELD, value = "排序字段", paramType = "query", dataType="String") ,
         @ApiImplicitParam(name = Constant.ORDER, value = "排序方式，可选值(asc、desc)", paramType = "query", dataType="String")
     })
-    @RequiresPermissions("ware:purchasedetail:page")
+//    @RequiresPermissions("ware:purchasedetail:page")
     public Result<PageData<PurchaseDetailDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params){
         PageData<PurchaseDetailDTO> page = purchaseDetailService.page(params);
 
@@ -57,7 +58,7 @@ public class PurchaseDetailController {
 
     @GetMapping("{id}")
     @ApiOperation("信息")
-    @RequiresPermissions("ware:purchasedetail:info")
+//    @RequiresPermissions("ware:purchasedetail:info")
     public Result<PurchaseDetailDTO> get(@PathVariable("id") Long id){
         PurchaseDetailDTO data = purchaseDetailService.get(id);
 
@@ -67,7 +68,7 @@ public class PurchaseDetailController {
     @PostMapping
     @ApiOperation("保存")
     @LogOperation("保存")
-    @RequiresPermissions("ware:purchasedetail:save")
+//    @RequiresPermissions("ware:purchasedetail:save")
     public Result save(@RequestBody PurchaseDetailDTO dto){
         //效验数据
         ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
@@ -80,7 +81,7 @@ public class PurchaseDetailController {
     @PutMapping
     @ApiOperation("修改")
     @LogOperation("修改")
-    @RequiresPermissions("ware:purchasedetail:update")
+//    @RequiresPermissions("ware:purchasedetail:update")
     public Result update(@RequestBody PurchaseDetailDTO dto){
         //效验数据
         ValidatorUtils.validateEntity(dto, UpdateGroup.class, DefaultGroup.class);
@@ -93,7 +94,7 @@ public class PurchaseDetailController {
     @DeleteMapping
     @ApiOperation("删除")
     @LogOperation("删除")
-    @RequiresPermissions("ware:purchasedetail:delete")
+//    @RequiresPermissions("ware:purchasedetail:delete")
     public Result delete(@RequestBody Long[] ids){
         //效验数据
         AssertUtils.isArrayEmpty(ids, "id");
@@ -106,7 +107,7 @@ public class PurchaseDetailController {
     @GetMapping("export")
     @ApiOperation("导出")
     @LogOperation("导出")
-    @RequiresPermissions("ware:purchasedetail:export")
+//    @RequiresPermissions("ware:purchasedetail:export")
     public void export(@ApiIgnore @RequestParam Map<String, Object> params, HttpServletResponse response) throws Exception {
         List<PurchaseDetailDTO> list = purchaseDetailService.list(params);
 

@@ -9,6 +9,7 @@ import com.chanris.gulimall.ware.service.WareSkuService;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Map;
 
 /**
@@ -20,6 +21,9 @@ import java.util.Map;
 @Service
 public class WareSkuServiceImpl extends CrudServiceImpl<WareSkuDao, WareSkuEntity, WareSkuDTO> implements WareSkuService {
 
+    @Resource
+    private WareSkuDao wareSkuDao;
+
     @Override
     public QueryWrapper<WareSkuEntity> getWrapper(Map<String, Object> params){
         String id = (String)params.get("id");
@@ -30,5 +34,9 @@ public class WareSkuServiceImpl extends CrudServiceImpl<WareSkuDao, WareSkuEntit
         return wrapper;
     }
 
-
+    @Override
+    public WareSkuEntity getByWrapper(QueryWrapper<WareSkuEntity> wrapper) {
+        WareSkuEntity skuEntity = wareSkuDao.selectOne(wrapper);
+        return skuEntity;
+    }
 }

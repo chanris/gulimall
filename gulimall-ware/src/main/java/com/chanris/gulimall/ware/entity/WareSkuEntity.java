@@ -1,5 +1,6 @@
 package com.chanris.gulimall.ware.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -15,9 +16,11 @@ import java.util.Date;
 @TableName("wms_ware_sku")
 public class WareSkuEntity {
 
+
     /**
      * id
      */
+    @TableId
 	private Long id;
     /**
      * sku_id

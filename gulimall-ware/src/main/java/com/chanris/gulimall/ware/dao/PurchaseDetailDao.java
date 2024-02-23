@@ -2,7 +2,9 @@ package com.chanris.gulimall.ware.dao;
 
 import com.chanris.gulimall.common.dao.BaseDao;
 import com.chanris.gulimall.ware.entity.PurchaseDetailEntity;
+import com.chanris.gulimall.ware.vo.MergeVo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 
@@ -12,5 +14,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface PurchaseDetailDao extends BaseDao<PurchaseDetailEntity> {
-	
+
+    void merge(@Param("vo") MergeVo mergeVo);
 }

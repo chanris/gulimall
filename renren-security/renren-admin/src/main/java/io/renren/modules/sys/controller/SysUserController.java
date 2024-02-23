@@ -66,7 +66,7 @@ public class SysUserController {
             @ApiImplicitParam(name = "gender", value = "性别", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "deptId", value = "部门ID", paramType = "query", dataType = "String")
     })
-    @RequiresPermissions("sys:user:page")
+//    @RequiresPermissions("sys:user:page")
     public Result<PageData<SysUserDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params) {
         PageData<SysUserDTO> page = sysUserService.page(params);
 
@@ -75,7 +75,7 @@ public class SysUserController {
 
     @GetMapping("{id}")
     @ApiOperation("信息")
-    @RequiresPermissions("sys:user:info")
+//    @RequiresPermissions("sys:user:info")
     public Result<SysUserDTO> get(@PathVariable("id") Long id) {
         SysUserDTO data = sysUserService.get(id);
 
@@ -115,7 +115,7 @@ public class SysUserController {
     @PostMapping
     @ApiOperation("保存")
     @LogOperation("保存")
-    @RequiresPermissions("sys:user:save")
+//    @RequiresPermissions("sys:user:save")
     public Result save(@RequestBody SysUserDTO dto) {
         //效验数据
         ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
@@ -128,7 +128,7 @@ public class SysUserController {
     @PutMapping
     @ApiOperation("修改")
     @LogOperation("修改")
-    @RequiresPermissions("sys:user:update")
+//    @RequiresPermissions("sys:user:update")
     public Result update(@RequestBody SysUserDTO dto) {
         //效验数据
         ValidatorUtils.validateEntity(dto, UpdateGroup.class, DefaultGroup.class);
@@ -141,7 +141,7 @@ public class SysUserController {
     @DeleteMapping
     @ApiOperation("删除")
     @LogOperation("删除")
-    @RequiresPermissions("sys:user:delete")
+//    @RequiresPermissions("sys:user:delete")
     public Result delete(@RequestBody Long[] ids) {
         //效验数据
         AssertUtils.isArrayEmpty(ids, "id");
@@ -154,7 +154,7 @@ public class SysUserController {
     @GetMapping("export")
     @ApiOperation("导出")
     @LogOperation("导出")
-    @RequiresPermissions("sys:user:export")
+//    @RequiresPermissions("sys:user:export")
     @ApiImplicitParam(name = "username", value = "用户名", paramType = "query", dataType = "String")
     public void export(@ApiIgnore @RequestParam Map<String, Object> params, HttpServletResponse response) throws Exception {
         List<SysUserDTO> list = sysUserService.list(params);
