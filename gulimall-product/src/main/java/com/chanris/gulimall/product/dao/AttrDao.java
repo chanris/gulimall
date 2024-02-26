@@ -7,6 +7,8 @@ import com.chanris.gulimall.product.entity.AttrEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * 商品属性
  *
@@ -19,4 +21,6 @@ public interface AttrDao extends BaseDao<AttrEntity> {
     IPage<AttrDTO> pageWithOtherInfo(IPage<?> page, @Param("catelogId") Long catelogId, @Param("attrType") Integer attrType);
 
     AttrDTO getWithAttrGroupId(Long attrId);
+
+    List<AttrDTO> attrListWithoutRelation(Long attrgroupId);
 }

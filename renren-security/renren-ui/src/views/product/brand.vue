@@ -23,10 +23,12 @@
 			<el-table-column prop="descript" label="介绍" header-align="center" align="center"></el-table-column>
 			<el-table-column prop="showStatus" label="显示状态" header-align="center" align="center">
 				<template #default="scope">
-					<el-switch :disabled="true" :v-loading="loading" v-model="scope.row.showStatus" inline-prompt
+					<!-- <el-switch :disabled="true" :v-loading="loading" v-model="scope.row.showStatus" inline-prompt
 						@change="changeShowStatus(scope.row)"
 						style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949" active-text="启用"
-						inactive-text="禁用" :active-value="1" :inactive-value="0" />
+						inactive-text="禁用" :active-value="1" :inactive-value="0" /> -->
+						<el-tag v-if="scope.row.showStatus === 1" type="success">启用</el-tag>
+    					<el-tag v-else type="danger">禁用</el-tag>
 				</template>
 			</el-table-column>
 			<el-table-column prop="firstLetter" label="检索首字母" header-align="center" align="center"></el-table-column>

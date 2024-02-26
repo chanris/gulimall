@@ -4,13 +4,14 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.chanris.gulimall.common.service.impl.CrudServiceImpl;
 import com.chanris.gulimall.product.dao.AttrAttrgroupRelationDao;
+import com.chanris.gulimall.product.dao.AttrDao;
 import com.chanris.gulimall.product.dao.AttrGroupDao;
+import com.chanris.gulimall.product.dto.AttrDTO;
 import com.chanris.gulimall.product.dto.AttrGroupDTO;
 import com.chanris.gulimall.product.entity.AttrGroupEntity;
 import com.chanris.gulimall.product.service.AttrGroupService;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +34,9 @@ public class AttrGroupServiceImpl extends CrudServiceImpl<AttrGroupDao, AttrGrou
 
     @Resource
     private AttrGroupDao attrGroupDao;
+
+    @Resource
+    private AttrDao attrDao;
 
 
     /**
@@ -73,5 +77,10 @@ public class AttrGroupServiceImpl extends CrudServiceImpl<AttrGroupDao, AttrGrou
     public List<AttrGroupDTO> attrGroupWithAttr(Long catelogId) {
         List<AttrGroupDTO> list = attrGroupDao.getAttrGroupListWithAttr(catelogId);
         return list;
+    }
+
+    @Override
+    public List<AttrDTO> attrListWithoutRelation(Long attrgroupId) {
+        return attrDao.attrListWithoutRelation(attrgroupId);
     }
 }

@@ -21,9 +21,8 @@ productService.cateTree().then(({data})=>{
 watch(()=> catalogIds.value, (val, oldVal)=>{
 	if(val) {
 		catalogId.value = val[val.length-1]
-		console.log(catalogId.value)
+		// console.log(catalogId.value)
 	}
-	
 })
 </script>
 <style lang="less">

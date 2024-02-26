@@ -65,6 +65,16 @@ public class AttrController {
         return new Result<AttrDTO>().ok(data);
     }
 
+    /**
+     * 获得spu规格属性
+     * @param spuId
+     * @return
+     */
+    @GetMapping("base/listforspu/{spuId}")
+    public Result listforspu(@PathVariable("spuId") Long spuId) {
+        return new Result().ok(attrService.listforspu(spuId));
+    }
+
     @PostMapping
     @ApiOperation("保存")
     @LogOperation("保存")

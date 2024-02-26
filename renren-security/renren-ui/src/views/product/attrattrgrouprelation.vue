@@ -31,7 +31,7 @@
         :total="state.total" layout="total, sizes, prev, pager, next, jumper" @size-change="state.pageSizeChangeHandle"
         @current-change="state.pageCurrentChangeHandle"></el-pagination>
       <!-- 弹窗, 新增 / 修改 -->
-      <add-or-update ref="addOrUpdateRef"  @refreshDataList="state.getDataList">确定</add-or-update>
+      <add-or-update ref="addOrUpdateRef" @refreshDataList="state.getDataList">确定</add-or-update>
     </div>
   </el-dialog>
 </template>
@@ -52,11 +52,12 @@ const view = reactive({
   }
 });
 
+const fixedAttrGroupId = ref();
 const state = reactive({ ...useView(view), ...toRefs(view) });
 
 const addOrUpdateRef = ref();
 const addOrUpdateHandle = (id?: number) => {
-  addOrUpdateRef.value.init(id);
+  addOrUpdateRef.value.init(fixedAttrGroupId.value, id);
 };
 
 const visible = ref(false)
@@ -64,6 +65,7 @@ const visible = ref(false)
 const init = (attrGroupId: number) => {
   visible.value = true
   state.dataForm.attrGroupId = '' + attrGroupId
+  fixedAttrGroupId.value = '' + attrGroupId
   state.getDataList()
 }
 

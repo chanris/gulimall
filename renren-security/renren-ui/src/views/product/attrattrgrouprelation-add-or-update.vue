@@ -3,10 +3,10 @@
     :close-on-press-escape="false">
     <el-form :model="dataForm" :rules="rules" ref="dataFormRef" @keyup.enter="dataFormSubmitHandle()" label-width="120px">
       <el-form-item label="属性id" prop="attrId">
-        <el-input v-model="dataForm.attrId" placeholder="属性id"></el-input>
+		<attr-select v-model:attr-id="dataForm.attrId" v-model:attrgroup-id="dataForm.attrGroupId"></attr-select>
       </el-form-item>
       <el-form-item label="属性分组id" prop="attrGroupId">
-        <el-input v-model="dataForm.attrGroupId" placeholder="属性分组id"></el-input>
+        <el-input v-model="dataForm.attrGroupId" placeholder="属性分组id" disabled ></el-input>
       </el-form-item>
       <el-form-item label="属性组内排序" prop="attrSort">
         <el-input v-model="dataForm.attrSort" placeholder="属性组内排序"></el-input>
@@ -20,13 +20,24 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from "vue";
-import baseService from "@/service/baseService";
+import { reactive, ref, watch} from "vue";
+// import baseService from "@/service/baseService";
+import baseService from "@/service/commonService";
 import { ElMessage } from "element-plus";
+import attrSelect from "../common/attr-select.vue";
 const emit = defineEmits(["refreshDataList"]);
 
 const visible = ref(false);
 const dataFormRef = ref();
+
+// const props = defineProps<{attrgroupId: any}>()
+// watch(()=>props.attrgroupId, (val, oldVal)=>{
+// 	if(val) {
+// 		console.log('watch attrgourpId:', val)
+// 		dataForm.attrGroupId = val
+// 		console.log('watch dataForm.attrgourpId:', 	dataForm.attrGroupId)
+// 	}
+// })
 
 const dataForm = reactive({
   id: '', attrId: '', attrGroupId: '', attrSort: ''
@@ -44,15 +55,16 @@ const rules = ref({
   ]
 });
 
-const init = (id?: number) => {
+const init = (attrGroupId: string, id?: number) => {
   visible.value = true;
   dataForm.id = "";
-
+//   console.log('add-or-update dataForm.attrGroupId: ', attrGroupId)
   // 重置表单数据
   if (dataFormRef.value) {
     dataFormRef.value.resetFields();
   }
-
+  // 设置新增关联的 attrgroupId 
+  dataForm.attrGroupId = attrGroupId
   if (id) {
     getInfo(id);
   }

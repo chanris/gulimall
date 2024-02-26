@@ -10,16 +10,20 @@ import com.chanris.gulimall.common.service.impl.CrudServiceImpl;
 import com.chanris.gulimall.common.utils.ObjectConvert;
 import com.chanris.gulimall.product.dao.AttrAttrgroupRelationDao;
 import com.chanris.gulimall.product.dao.AttrDao;
+import com.chanris.gulimall.product.dao.ProductAttrValueDao;
 import com.chanris.gulimall.product.dto.AttrAttrgroupRelationDTO;
 import com.chanris.gulimall.product.dto.AttrDTO;
+import com.chanris.gulimall.product.dto.ProductAttrValueDTO;
 import com.chanris.gulimall.product.entity.AttrEntity;
 import com.chanris.gulimall.product.service.AttrAttrgroupRelationService;
 import com.chanris.gulimall.product.service.AttrService;
 import cn.hutool.core.util.StrUtil;
+import com.chanris.gulimall.product.service.ProductAttrValueService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,6 +44,12 @@ public class AttrServiceImpl extends CrudServiceImpl<AttrDao, AttrEntity, AttrDT
 
     @Resource
     private AttrDao attrDao;
+
+    @Resource
+    private ProductAttrValueDao productAttrValueDao;
+
+    @Resource
+    private ProductAttrValueService productAttrValueService;
 
     @Override
     public QueryWrapper<AttrEntity> getWrapper(Map<String, Object> params){
@@ -105,5 +115,13 @@ public class AttrServiceImpl extends CrudServiceImpl<AttrDao, AttrEntity, AttrDT
     public void deleteWithRelation(Long[] attrIds) {
         this.delete(attrIds);
         attrAttrgroupRelationDao.deleteByAttrIds(List.of(attrIds));
+    }
+
+    @Override
+    public List<ProductAttrValueDTO> listforspu(Long spuId) {
+        Map<String, Object> wrapper = new HashMap<>(1);
+        wrapper.put("spuId", spuId);
+        List<ProductAttrValueDTO> list = productAttrValueService.list(wrapper);
+        return list;
     }
 }

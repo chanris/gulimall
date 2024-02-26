@@ -65,7 +65,7 @@
                 LEFT JOIN pms_attr_attrgroup_relation paar ON pms_attr_group.attr_group_id = paar.attr_group_id
                 LEFT JOIN pms_attr pa ON paar.attr_id = pa.attr_id
         <if test="catelogId != null">
-        WHERE pms_attr_group.attr_group_id = #{catelogId}
+        WHERE pms_attr_group.catelog_id = #{catelogId}
         </if>
         GROUP BY pms_attr_group.attr_group_id
     </select>

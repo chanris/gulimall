@@ -6,6 +6,7 @@ import commonService from "./commonService";
  * 商品微服务相关api
  */
 export default {
+	// 获得分类下所有分组&关联属性
 	attrGroupListWithAttr(catelogId: string | number): Promise<IHttpResponse> {
 		return new Promise((resolve, reject)=>{
 			http({url: `product/attrgroup/${catelogId}/withattr`, method: 'get'})

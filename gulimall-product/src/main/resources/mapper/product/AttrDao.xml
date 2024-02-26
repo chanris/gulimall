@@ -35,4 +35,8 @@
         select pms_attr.* , paar.attr_group_id from pms_attr left join pms_attr_attrgroup_relation paar on pms_attr.attr_id = paar.attr_id
         where pms_attr.attr_id = #{val}
     </select>
+
+    <select id="attrListWithoutRelation" parameterType="long" resultType="com.chanris.gulimall.product.dto.AttrDTO">
+        select * from pms_attr where attr_id not in (select paar.attr_id from pms_attr_attrgroup_relation paar where paar.attr_group_id = #{attrgroupId})
+    </select>
 </mapper>

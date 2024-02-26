@@ -1,7 +1,9 @@
 package com.chanris.gulimall.product.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.chanris.gulimall.common.service.impl.CrudServiceImpl;
+import com.chanris.gulimall.common.utils.ObjectConvert;
 import com.chanris.gulimall.product.dao.ProductAttrValueDao;
 import com.chanris.gulimall.product.dto.ProductAttrValueDTO;
 import com.chanris.gulimall.product.entity.ProductAttrValueEntity;
@@ -23,10 +25,10 @@ public class ProductAttrValueServiceImpl extends CrudServiceImpl<ProductAttrValu
     @Override
     public QueryWrapper<ProductAttrValueEntity> getWrapper(Map<String, Object> params){
         String id = (String)params.get("id");
-
+        Long spuId = ObjectConvert.toLong(params.get("spuId"));
         QueryWrapper<ProductAttrValueEntity> wrapper = new QueryWrapper<>();
         wrapper.eq(StrUtil.isNotBlank(id), "id", id);
-
+        wrapper.eq(ObjectUtil.isNotNull(spuId), "spu_id", spuId);
         return wrapper;
     }
 

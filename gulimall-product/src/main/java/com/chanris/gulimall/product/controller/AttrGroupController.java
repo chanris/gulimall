@@ -10,6 +10,7 @@ import com.chanris.gulimall.common.validator.ValidatorUtils;
 import com.chanris.gulimall.common.validator.group.AddGroup;
 import com.chanris.gulimall.common.validator.group.DefaultGroup;
 import com.chanris.gulimall.common.validator.group.UpdateGroup;
+import com.chanris.gulimall.product.dto.AttrDTO;
 import com.chanris.gulimall.product.dto.AttrGroupDTO;
 import com.chanris.gulimall.product.excel.AttrGroupExcel;
 import com.chanris.gulimall.product.service.AttrGroupService;
@@ -44,6 +45,7 @@ public class AttrGroupController {
     @GetMapping("page")
     @ApiOperation("分页")
     @ApiImplicitParams({
+
         @ApiImplicitParam(name = Constant.PAGE, value = "当前页码，从1开始", paramType = "query", required = true, dataType="int") ,
         @ApiImplicitParam(name = Constant.LIMIT, value = "每页显示记录数", paramType = "query",required = true, dataType="int") ,
         @ApiImplicitParam(name = Constant.ORDER_FIELD, value = "排序字段", paramType = "query", dataType="String") ,
@@ -59,6 +61,12 @@ public class AttrGroupController {
     @GetMapping("/{catelogId}/withattr")
     public Result<List<AttrGroupDTO>> pageWithAttrs(@PathVariable("catelogId") Long catelogId) {
         return new Result<List<AttrGroupDTO>>().ok(attrGroupService.attrGroupWithAttr(catelogId));
+    }
+
+    @GetMapping("{attrgroupId}/noattr/relation")
+    public Result noattrRelation(@PathVariable("attrgroupId") Long attrgroupId) {
+        List<AttrDTO> attrDTOS = attrGroupService.attrListWithoutRelation(attrgroupId);
+        return new Result().ok(attrDTOS);
     }
 
     @GetMapping("{id}")

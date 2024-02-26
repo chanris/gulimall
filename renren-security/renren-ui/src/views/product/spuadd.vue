@@ -47,7 +47,8 @@
 						</el-form-item>
 
 						<el-form-item label="商品图集" prop="images">
-							<multi-upload v-model:visible="multiUploadVisible" v-model:file-list="multiUploadFileList"  v-model:resource-url="spu.images"></multi-upload>
+							<multi-upload v-model:visible="multiUploadVisible" v-model:file-list="multiUploadFileList"
+								v-model:resource-url="spu.images"></multi-upload>
 						</el-form-item>
 						<el-form-item>
 							<el-button type="success" @click="collectSpuBaseInfo">下一步：设置基本参数</el-button>
@@ -158,13 +159,15 @@
 									</el-col>
 									<el-col :span="24">
 										<el-card style="width:170px;float:left;margin-left:15px;margin-top:15px;"
-											:body-style="{ padding: '0px' }" v-for="(img, index) in spu.images" :key="index">
+											:body-style="{ padding: '0px' }" v-for="(img, index) in spu.images"
+											:key="index">
 											<img :src="img" style="width:160px;height:120px" />
 											<div style="padding: 14px;">
 												<el-row>
 													<el-col :span="12">
-														<el-checkbox @click.stop="handleClick" v-model="scope.row.images[index].imgUrl"
-															:true-label="img" false-label></el-checkbox>
+														<el-checkbox @click.stop="handleClick"
+															v-model="scope.row.images[index].imgUrl" :true-label="img"
+															false-label></el-checkbox>
 													</el-col>
 													<el-col :span="12">
 														<el-tag v-if="scope.row.images[index].defaultImg == 1">
@@ -187,14 +190,15 @@
 										<el-col :span="24">
 											<el-form-item label="设置折扣">
 												<label>满</label>
-												<el-input-number @click.stop="handleClick" style="width:160px" :min="0" controls-position="right"
+												<el-input-number @click.stop="handleClick" style="width:160px" :min="0"
+													controls-position="right"
 													v-model="scope.row.fullCount"></el-input-number>
 												<label>件</label>
 
 												<label style="margin-left:15px;">打</label>
-												<el-input-number @click.stop="handleClick" style="width:160px" v-model="scope.row.discount"
-													:precision="2" :max="1" :min="0" :step="0.01"
-													controls-position="right"></el-input-number>
+												<el-input-number @click.stop="handleClick" style="width:160px"
+													v-model="scope.row.discount" :precision="2" :max="1" :min="0"
+													:step="0.01" controls-position="right"></el-input-number>
 												<label>折</label>
 												<el-checkbox v-model="scope.row.countStatus" :true-label="1"
 													:false-label="0">可叠加优惠</el-checkbox>
@@ -203,12 +207,14 @@
 										<el-col :span="24">
 											<el-form-item label="设置满减">
 												<label>满</label>
-												<el-input-number @click.stop="handleClick" style="width:160px" v-model="scope.row.fullPrice"
-													:step="100" :min="0" controls-position="right"></el-input-number>
+												<el-input-number @click.stop="handleClick" style="width:160px"
+													v-model="scope.row.fullPrice" :step="100" :min="0"
+													controls-position="right"></el-input-number>
 												<label>元</label>
 												<label style="margin-left:15px;">减</label>
-												<el-input-number @click.stop="handleClick" style="width:160px" v-model="scope.row.reducePrice"
-													:step="10" :min="0" controls-position="right"></el-input-number>
+												<el-input-number @click.stop="handleClick" style="width:160px"
+													v-model="scope.row.reducePrice" :step="10" :min="0"
+													controls-position="right"></el-input-number>
 												<label>元</label>
 												<el-checkbox v-model="scope.row.priceStatus" :true-label="1"
 													:false-label="0">可叠加优惠</el-checkbox>
@@ -221,7 +227,8 @@
 												<!--   @change="handlePriceChange(scope,mpidx,$event)" -->
 												<el-form-item v-for="(mp, mpidx) in scope.row.memberPrice" :key="mp.id">
 													{{ mp.name }}
-													<el-input-number style="width:160px" v-model="scope.row.memberPrice[mpidx].price" :precision="2" :min="0"
+													<el-input-number style="width:160px"
+														v-model="scope.row.memberPrice[mpidx].price" :precision="2" :min="0"
 														controls-position="right"></el-input-number>
 												</el-form-item>
 											</el-form-item>
@@ -631,20 +638,23 @@ export default {
 
 				productService.attrGroupListWithAttr(this.spu.catalogId)
 					.then(({ data }) => {
+						console.log(data)
 						//先对表单的baseAttrs进行初始化
 						data.forEach(item => {
 							let attrArray = [];
-							item.attrs.forEach(attr => {
-								attrArray.push({
-									attrId: attr.attrId,
-									attrValues: "",
-									showDesc: attr.showDesc
+							if (item.attrs) {
+								item.attrs.forEach(attr => {
+									attrArray.push({
+										attrId: attr.attrId,
+										attrValues: "",
+										showDesc: attr.showDesc
+									});
 								});
-							});
+							}
 							this.dataResp.baseAttrs.push(attrArray);
 						});
 						this.dataResp.steped[0] = 0;
-						this.dataResp.attrGroups = data.data;
+						this.dataResp.attrGroups = data;
 					})
 			}
 		},
@@ -652,22 +662,22 @@ export default {
 			console.log("~~~~~", JSON.stringify(this.spu));
 
 			productService.post('/product/spuinfo', { ...this.spu })
-					.then((data) => {
-						if (data.code == 0) {
-							//   this.$message({
-							//     type: "success",
-							//     message: "新增商品成功!"
-							//   });
-							ElMessage.success({message: '新增商品成功'})
-							this.step = 4;
-						} else {
-							//   this.$message({
-							//     type: "error",
-							//     message: "保存失败，原因【" + data.msg + "】"
-							//   });
-							ElMessage.error({message: '保存失败,原因【' + data.msg + '】'})
-						}
-					})
+				.then((data) => {
+					if (data.code == 0) {
+						//   this.$message({
+						//     type: "success",
+						//     message: "新增商品成功!"
+						//   });
+						ElMessage.success({ message: '新增商品成功' })
+						this.step = 4;
+					} else {
+						//   this.$message({
+						//     type: "error",
+						//     message: "保存失败，原因【" + data.msg + "】"
+						//   });
+						ElMessage.error({ message: '保存失败,原因【' + data.msg + '】' })
+					}
+				})
 			/*
 			this.$confirm("将要提交商品数据，需要一小段时间，是否继续?", "提示", {
 				confirmButtonText: "确定",
@@ -676,7 +686,7 @@ export default {
 			})
 			.then(() => {
 
-				    this.$http({
+					this.$http({
 						url: this.$http.adornUrl("/product/spuinfo/save"),
 						method: "post",
 						data: this.$http.adornData(this.spu, false)

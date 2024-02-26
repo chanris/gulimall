@@ -1,11 +1,11 @@
 <template>
   <el-row :gutter="20">
-    <el-col :span="8">
+    <el-col :span="4">
       <CommonTree :data="treeList" :node-key="'catId'" @node-click="handleNodeClick" :expand-on-click-node="false"
         :props="{ children: 'children', label: 'name' }">
       </CommonTree>
     </el-col>
-    <el-col :span="16">
+    <el-col :span="20">
       <div class="mod-product__attr">
         <el-form :inline="true" :model="state.dataForm" @keyup.enter="state.getDataList()">
           <el-form-item>
@@ -25,7 +25,7 @@
           <el-table-column prop="searchType" label="是否需要检索" header-align="center" align="center"></el-table-column>
           <el-table-column prop="valueType" label="值类型" header-align="center" align="center"></el-table-column>
           <el-table-column prop="icon" label="属性图标" header-align="center" align="center"></el-table-column>
-          <el-table-column prop="valueSelect" label="可选值列表" header-align="center" align="center"></el-table-column>
+          <el-table-column prop="valueSelect" label="可选值列表" header-align="center" align="center" min-width="200"></el-table-column>
           <el-table-column prop="attrType" label="属性类型" header-align="center" align="center"></el-table-column>
           <el-table-column prop="enable" label="启用状态" header-align="center" align="center"></el-table-column>
           <el-table-column prop="catelogId" label="所属分类id" header-align="center" align="center"></el-table-column>
