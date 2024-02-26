@@ -55,9 +55,13 @@
 			<el-table-column label="操作" fixed="right" header-align="center" align="center" width="150">
 				<template v-slot="scope">
 					<el-button v-if="state.hasPermission('product:spuinfo:update')" type="primary" link
-						@click="addOrUpdateHandle(scope.row.id)">修改</el-button>
+						@click="listing(scope.row.id)">上架</el-button>
+					<!-- <el-button v-if="state.hasPermission('product:spuinfo:update')" type="primary" link
+						@click="addOrUpdateHandle(scope.row.id)">修改</el-button> -->
+					<!-- <el-button v-if="state.hasPermission('product:spuinfo:delete')" type="primary" link
+						@click="state.deleteHandle(scope.row.id)">删除</el-button> -->
 					<el-button v-if="state.hasPermission('product:spuinfo:delete')" type="primary" link
-						@click="state.deleteHandle(scope.row.id)">删除</el-button>
+						@click="attrUpdateShow(scope.row)">规格维护</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -76,6 +80,8 @@ import AddOrUpdate from "./spuinfo-add-or-update.vue";
 import productService from "@/service/productService";
 import brandSelect from "../common/brand-select.vue";
 import categoryCascader from "../common/category-cascader.vue";
+import { ElMessage } from "element-plus";
+import { useRouter } from "vue-router";
 const view = reactive({
 	deleteIsBatch: true,
 	getDataListURL: "/product/spuinfo/page",
@@ -96,13 +102,30 @@ onMounted(()=>{
 	publisStatusCollect.value.push({label: '未上架', value: 0})
 	publisStatusCollect.value.push({label: '全部', value: null})
 	productService.cateTree().then(({data})=>{
-			// console.log(data)
 			treeList.value = data
 		})
 })
 const state = reactive({ ...useView(view), ...toRefs(view) });
 
 const addOrUpdateRef = ref();
+const listing = (spuId: number) => {
+	productService.put('/product/spuinfo', {id: spuId, publishStatus: 1})
+	.then((resp)=>{
+		if(resp.code === 0) {
+			ElMessage.success({message: '上架成功'})
+			state.getDataList()
+		}else {
+			ElMessage.error({message: '上架失败'})
+		}
+	})
+}
+const router = useRouter()
+const attrUpdateShow = (row: any) => {
+	router.push({
+	path: "/product-attrupdate",
+	query: { spuId: row.id, catalogId: row.catalogId }
+	});
+}
 const addOrUpdateHandle = (id?: number) => {
 	addOrUpdateRef.value.init(id);
 };

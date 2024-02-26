@@ -4,6 +4,8 @@ import com.chanris.gulimall.common.service.CrudService;
 import com.chanris.gulimall.product.dto.ProductAttrValueDTO;
 import com.chanris.gulimall.product.entity.ProductAttrValueEntity;
 
+import java.util.List;
+
 /**
  * spu属性值
  *
@@ -12,4 +14,5 @@ import com.chanris.gulimall.product.entity.ProductAttrValueEntity;
  */
 public interface ProductAttrValueService extends CrudService<ProductAttrValueEntity, ProductAttrValueDTO> {
 
+    void updateSpuAttr(Long spuId, List<ProductAttrValueDTO> dtos);
 }

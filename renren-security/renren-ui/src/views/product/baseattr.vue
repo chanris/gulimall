@@ -22,15 +22,40 @@
           <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
           <el-table-column prop="attrId" label="属性id" header-align="center" align="center"></el-table-column>
           <el-table-column prop="attrName" label="属性名" header-align="center" align="center"></el-table-column>
-          <el-table-column prop="searchType" label="是否需要检索" header-align="center" align="center"></el-table-column>
-          <el-table-column prop="valueType" label="值类型" header-align="center" align="center"></el-table-column>
+          <el-table-column prop="searchType" label="是否需要检索" header-align="center" align="center" min-width="100">
+			<template #default="scope">
+				<el-tag v-if="scope.row.searchType === 1" type="primary">检索</el-tag>
+				<el-tag v-else type="error">不检索</el-tag>
+			</template>
+		  </el-table-column>
+          <el-table-column prop="valueType" label="值类型" header-align="center" align="center">
+			<template #default="scope">
+				<el-tag v-if="scope.row.valueType === 0" type="primary">单值</el-tag>
+				<el-tag v-else type="info">多值</el-tag>
+			</template>
+		  </el-table-column>
           <el-table-column prop="icon" label="属性图标" header-align="center" align="center"></el-table-column>
           <el-table-column prop="valueSelect" label="可选值列表" header-align="center" align="center" min-width="200"></el-table-column>
-          <el-table-column prop="attrType" label="属性类型" header-align="center" align="center"></el-table-column>
-          <el-table-column prop="enable" label="启用状态" header-align="center" align="center"></el-table-column>
+          <el-table-column prop="attrType" label="属性类型" header-align="center" align="center">
+			<template #default="scope">
+				<el-tag v-if="scope.row.attrType === 0" type="success">销售属性</el-tag>
+				<el-tag v-else type="warning">基本属性</el-tag>
+			</template>
+		  </el-table-column>
+          <el-table-column prop="enable" label="启用状态" header-align="center" align="center">
+			<template #default="scope">
+				<el-tag v-if="scope.row.enable === 1" type="success">启用</el-tag>
+				<el-tag v-else type="error">禁用</el-tag>
+			</template>
+		  </el-table-column>
           <el-table-column prop="catelogId" label="所属分类id" header-align="center" align="center"></el-table-column>
           <el-table-column prop="attrGroupId" label="所属分组id" header-align="center" align="center"></el-table-column>
-          <el-table-column prop="showDesc" label="快速展示" header-align="center" align="center"></el-table-column>
+          <el-table-column prop="showDesc" label="快速展示" header-align="center" align="center">
+			<template #default="scope">
+				<el-tag v-if="scope.row.showDesc === 1" type="success">是</el-tag>
+				<el-tag v-else type="error">否</el-tag>
+			</template>
+		  </el-table-column>
           <el-table-column label="操作" fixed="right" header-align="center" align="center" width="150">
             <template v-slot="scope">
               <el-button v-if="state.hasPermission('product:attr:update')" type="primary" link
@@ -80,7 +105,6 @@ const view = reactive({
 });
 
 const state = reactive({ ...useView(view), ...toRefs(view) });
-
 const addOrUpdateRef = ref();
 const addOrUpdateHandle = (id?: number) => {
   addOrUpdateRef.value.init(id);

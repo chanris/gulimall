@@ -41,6 +41,12 @@ const routes: Array<RouteRecordRaw> = [
     name: "error",
     component: Error,
     meta: { title: "错误页面", isNavigationMenu: false }
+  },
+  {
+	path: '/product-attrupdate', 
+	component: import('@/views/product/attrupdate.vue'), 
+	name: 'attr-update', 
+	meta: { title: '规格维护', isTab: true, isNavigationMenu: false } 
   }
 ];
 

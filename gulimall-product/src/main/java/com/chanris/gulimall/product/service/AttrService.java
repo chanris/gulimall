@@ -28,4 +28,5 @@ public interface AttrService extends CrudService<AttrEntity, AttrDTO> {
     void deleteWithRelation(Long[] attrIds);
 
     List<ProductAttrValueDTO> listforspu(Long spuId);
+
 }

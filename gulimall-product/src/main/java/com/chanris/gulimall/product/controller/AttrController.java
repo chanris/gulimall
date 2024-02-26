@@ -11,8 +11,10 @@ import com.chanris.gulimall.common.validator.group.AddGroup;
 import com.chanris.gulimall.common.validator.group.DefaultGroup;
 import com.chanris.gulimall.common.validator.group.UpdateGroup;
 import com.chanris.gulimall.product.dto.AttrDTO;
+import com.chanris.gulimall.product.dto.ProductAttrValueDTO;
 import com.chanris.gulimall.product.excel.AttrExcel;
 import com.chanris.gulimall.product.service.AttrService;
+import com.chanris.gulimall.product.service.ProductAttrValueService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -39,6 +41,9 @@ import java.util.Map;
 public class AttrController {
     @Resource
     private AttrService attrService;
+
+    @Resource
+    private ProductAttrValueService productAttrValueService;
 
     @GetMapping("page")
     @ApiOperation("分页")
@@ -75,6 +80,15 @@ public class AttrController {
         return new Result().ok(attrService.listforspu(spuId));
     }
 
+    /**
+     * 修改商品规格属性
+     * @return
+     */
+    @PostMapping("update/{spuId}")
+    public Result updateBaseAttr(@PathVariable("spuId") Long spuId,@RequestBody List<ProductAttrValueDTO> dtos) {
+        productAttrValueService.updateSpuAttr(spuId, dtos);
+        return new Result();
+    }
     @PostMapping
     @ApiOperation("保存")
     @LogOperation("保存")
