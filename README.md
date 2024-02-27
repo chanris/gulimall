@@ -13,5 +13,8 @@ Hutool 工具类库文档 5.8.25: https://doc.hutool.cn/pages/index/
 knife4j(swagger2+OpenAPI3): https://doc.xiaominfo.com/docs/quick-start
 Mybatis: https://mybatis.net.cn/
 Mybatis-Plus: https://baomidou.com/pages/24112f/
+ElasticSearch 7.17 https://www.elastic.co/guide/en/elasticsearch/reference/7.17/getting-started.html
+Kibana 7.17 https://www.elastic.co/guide/en/kibana/7.17/install.html
+Spring Data Elasticsearch 4.4.x文档 https://docs.spring.io/spring-data/elasticsearch/docs/4.4.18/reference/html/#reference
 ### 接口文档
 https://easydoc.net/s/78237135/ZUqEdvA4/6JM6txHf
