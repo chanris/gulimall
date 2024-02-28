@@ -50,4 +50,16 @@ public class ProductAttrValueServiceImpl extends CrudServiceImpl<ProductAttrValu
         List<ProductAttrValueEntity> productAttrValueEntities = ConvertUtils.sourceToTarget(dtos, ProductAttrValueEntity.class);
         this.insertBatch(productAttrValueEntities);
     }
+
+    /**
+     * 根据spuId 获得 规格属性
+     * @param spuId
+     * @return
+     */
+    @Override
+    public List<ProductAttrValueEntity> baseAttrListForSpuId(Long spuId) {
+        QueryWrapper<ProductAttrValueEntity> wrapper = new QueryWrapper<>();
+        wrapper.eq("spu_id", spuId);
+        return productAttrValueDao.selectList(wrapper);
+    }
 }

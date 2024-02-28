@@ -11,6 +11,8 @@ import com.chanris.gulimall.product.service.SkuInfoService;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,6 +23,9 @@ import java.util.Map;
  */
 @Service
 public class SkuInfoServiceImpl extends CrudServiceImpl<SkuInfoDao, SkuInfoEntity, SkuInfoDTO> implements SkuInfoService {
+
+    @Resource
+    private SkuInfoDao skuInfoDao;
 
     @Override
     public QueryWrapper<SkuInfoEntity> getWrapper(Map<String, Object> params){
@@ -34,5 +39,10 @@ public class SkuInfoServiceImpl extends CrudServiceImpl<SkuInfoDao, SkuInfoEntit
         return wrapper;
     }
 
-
+    @Override
+    public List<SkuInfoEntity> getSkusBySpuId(Long spuId) {
+        QueryWrapper<SkuInfoEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("spu_id", spuId);
+        return skuInfoDao.selectList(queryWrapper);
+    }
 }

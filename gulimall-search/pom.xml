@@ -36,7 +36,7 @@
 <!--			<version>4.4.18</version>-->
 <!--		</dependency>-->
 
-		<!-- 官方过时的-->
+		<!-- 官方过时的, 学习就 将就者用吧-->
 		<!-- https://mvnrepository.com/artifact/org.elasticsearch.client/elasticsearch-rest-high-level-client -->
 		<dependency>
 			<groupId>org.elasticsearch.client</groupId>

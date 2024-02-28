@@ -109,7 +109,17 @@ const state = reactive({ ...useView(view), ...toRefs(view) });
 
 const addOrUpdateRef = ref();
 const listing = (spuId: number) => {
-	productService.put('/product/spuinfo', {id: spuId, publishStatus: 1})
+	// productService.put('/product/spuinfo', {id: spuId, publishStatus: 1})
+	// .then((resp)=>{
+	// 	if(resp.code === 0) {
+	// 		ElMessage.success({message: '上架成功'})
+	// 		state.getDataList()
+	// 	}else {
+	// 		ElMessage.error({message: '上架失败'})
+	// 	}
+	// })
+
+	productService.post(`/product/spuinfo/${spuId}/up`)
 	.then((resp)=>{
 		if(resp.code === 0) {
 			ElMessage.success({message: '上架成功'})

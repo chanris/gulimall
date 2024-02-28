@@ -16,5 +16,6 @@ Mybatis-Plus: https://baomidou.com/pages/24112f/
 ElasticSearch 7.17 https://www.elastic.co/guide/en/elasticsearch/reference/7.17/getting-started.html
 Kibana 7.17 https://www.elastic.co/guide/en/kibana/7.17/install.html
 Spring Data Elasticsearch 4.4.x文档 https://docs.spring.io/spring-data/elasticsearch/docs/4.4.18/reference/html/#reference
+Java Rest Client 7.17 文档 https://www.elastic.co/guide/en/elasticsearch/client/java-rest/current/java-rest-high-getting-started-initialization.html
 ### 接口文档
 https://easydoc.net/s/78237135/ZUqEdvA4/6JM6txHf

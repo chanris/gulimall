@@ -124,4 +124,10 @@ public class AttrServiceImpl extends CrudServiceImpl<AttrDao, AttrEntity, AttrDT
         List<ProductAttrValueDTO> list = productAttrValueService.list(wrapper);
         return list;
     }
+
+    @Override
+    public List<Long> selectSearchAttrs(List<Long> attrIds) {
+
+        return attrDao.selectSearchAttrs(attrIds);
+    }
 }

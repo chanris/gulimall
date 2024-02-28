@@ -4,6 +4,8 @@ import com.chanris.gulimall.common.service.CrudService;
 import com.chanris.gulimall.product.dto.SkuInfoDTO;
 import com.chanris.gulimall.product.entity.SkuInfoEntity;
 
+import java.util.List;
+
 /**
  * sku信息
  *
@@ -12,4 +14,5 @@ import com.chanris.gulimall.product.entity.SkuInfoEntity;
  */
 public interface SkuInfoService extends CrudService<SkuInfoEntity, SkuInfoDTO> {
 
+    List<SkuInfoEntity> getSkusBySpuId(Long spuId);
 }

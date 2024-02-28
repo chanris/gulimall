@@ -12,7 +12,8 @@ package com.chanris.gulimall.common.exception;
  */
 public enum CodeEnum {
     INTERNAL_SERVER_ERROR(10000, "系统内部错误"),
-    VAILD_EXCEPTION(10001, "请求参数校验错误");
+    VALID_EXCEPTION(10001, "请求参数校验错误"),
+    PRODUCT_UP_EXCEPTION(11000, "商品上架异常");
 
     public final int code;
     public final String msg;

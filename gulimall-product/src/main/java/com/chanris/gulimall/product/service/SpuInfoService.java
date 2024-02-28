@@ -15,4 +15,6 @@ public interface SpuInfoService extends CrudService<SpuInfoEntity, SpuInfoDTO> {
     void savesupInfo(SpuSaveVo vo);
 
     void saveBaseSpuInfo(SpuInfoEntity spuInfoEntity);
+
+    void up(Long spuId);
 }

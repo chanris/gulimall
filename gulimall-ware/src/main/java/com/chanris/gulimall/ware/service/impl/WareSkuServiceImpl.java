@@ -7,9 +7,11 @@ import com.chanris.gulimall.ware.dto.WareSkuDTO;
 import com.chanris.gulimall.ware.entity.WareSkuEntity;
 import com.chanris.gulimall.ware.service.WareSkuService;
 import cn.hutool.core.util.StrUtil;
+import com.chanris.gulimall.ware.vo.SkuHasStockVo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,5 +40,17 @@ public class WareSkuServiceImpl extends CrudServiceImpl<WareSkuDao, WareSkuEntit
     public WareSkuEntity getByWrapper(QueryWrapper<WareSkuEntity> wrapper) {
         WareSkuEntity skuEntity = wareSkuDao.selectOne(wrapper);
         return skuEntity;
+    }
+
+    @Override
+    public List<SkuHasStockVo> getSkuHasStock(List<Long> skuIds) {
+//        skuIds.stream().map(sku -> {
+//            SkuHasStockVo vo = new SkuHasStockVo();
+//           //select sum(stock - stoc k_locked) from wms_ware_sku where sku_id = 1
+//            //查询当前sku的总库存量
+//            return vo;
+//        })
+
+        return wareSkuDao.getSkuHasStock(skuIds);
     }
 }

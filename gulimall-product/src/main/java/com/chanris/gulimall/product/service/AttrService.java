@@ -29,4 +29,5 @@ public interface AttrService extends CrudService<AttrEntity, AttrDTO> {
 
     List<ProductAttrValueDTO> listforspu(Long spuId);
 
+    List<Long> selectSearchAttrs(List<Long> attrIds);
 }

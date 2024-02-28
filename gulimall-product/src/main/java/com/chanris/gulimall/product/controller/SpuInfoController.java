@@ -57,6 +57,13 @@ public class SpuInfoController {
         return new Result<PageData<SpuInfoDTO>>().ok(page);
     }
 
+    // product/spuinfo/{spuId}/up
+    @PostMapping("/{spuId}/up")
+    public Result spuInfo(@PathVariable("spuId") Long spuId) {
+        spuInfoService.up(spuId);
+        return new Result();
+    }
+
     @GetMapping("{id}")
     @ApiOperation("信息")
 //    @RequiresPermissions("product:spuinfo:info")
@@ -66,6 +73,7 @@ public class SpuInfoController {
         return new Result<SpuInfoDTO>().ok(data);
     }
 
+    // 保存商品信息
     @PostMapping
     @ApiOperation("保存")
     @LogOperation("保存")

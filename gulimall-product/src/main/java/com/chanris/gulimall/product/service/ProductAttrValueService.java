@@ -15,4 +15,6 @@ import java.util.List;
 public interface ProductAttrValueService extends CrudService<ProductAttrValueEntity, ProductAttrValueDTO> {
 
     void updateSpuAttr(Long spuId, List<ProductAttrValueDTO> dtos);
+
+    List<ProductAttrValueEntity> baseAttrListForSpuId(Long spuId);
 }

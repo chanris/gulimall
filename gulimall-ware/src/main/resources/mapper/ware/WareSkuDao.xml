@@ -12,5 +12,17 @@
         <result property="stockLocked" column="stock_locked"/>
     </resultMap>
 
+    <resultMap id="SkuHasStockVoMap" type="com.chanris.gulimall.ware.vo.SkuHasStockVo">
+        <result property="skuId" column="sku_id"/>
+        <result property="hasStock" column="stock" typeHandler="org.apache.ibatis.type.BooleanTypeHandler"/>
+    </resultMap>
+
+    <select id="getSkuHasStock" resultMap="SkuHasStockVoMap">
+        select ws.sku_id, sum(ws.stock - ws.stock_locked) as stock from wms_ware_sku ws where sku_id in
+            <foreach collection="skuIds" item="id" open="(" close=")" separator=",">
+                #{id}
+            </foreach>
+        group by ws.sku_id
+    </select>
 
 </mapper>

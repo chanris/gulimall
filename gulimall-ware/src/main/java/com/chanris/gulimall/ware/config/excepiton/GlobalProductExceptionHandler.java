@@ -35,7 +35,7 @@ public class GlobalProductExceptionHandler {
         log.warn("异常类型: {}", ex.getClass().toGenericString());
         log.warn("异常信息：{}", ex.getMessage());
         log.warn("=============================================================================");
-        return new Result().error(CodeEnum.VAILD_EXCEPTION.code, CodeEnum.VAILD_EXCEPTION.msg + ": " +ex.getMessage());
+        return new Result().error(CodeEnum.VALID_EXCEPTION.code, CodeEnum.VALID_EXCEPTION.msg + ": " +ex.getMessage());
     }
 
     /*@ExceptionHandler(value = {RenException.class})

@@ -23,4 +23,6 @@ public interface AttrDao extends BaseDao<AttrEntity> {
     AttrDTO getWithAttrGroupId(Long attrId);
 
     List<AttrDTO> attrListWithoutRelation(Long attrgroupId);
+
+    List<Long> selectSearchAttrs(@Param("attrIds") List<Long> attrIds);
 }
