@@ -46,15 +46,16 @@
 			<el-table-column prop="weight" label="商品重量" header-align="center" align="center"></el-table-column>
 			<el-table-column prop="publishStatus" label="上架状态" header-align="center" align="center">
 				<template #default="scope">
-					<el-tag v-if="scope.row.publishStatus === 1" type="primary">已上架</el-tag>
-					<el-tag v-else type="danger">未上架</el-tag>
+					<el-tag v-if="scope.row.publishStatus === 0" type="primary">新建</el-tag>
+					<el-tag v-else-if="scope.row.publishStatus === 1" type="success">已上架</el-tag>
+					<el-tag v-else type="danger">已下架</el-tag>
 				</template>
 			</el-table-column>
 			<el-table-column prop="createTime" label="创建时间" header-align="center" min-width="100" align="center"></el-table-column>
 			<el-table-column prop="updateTime" label="更新时间" header-align="center" min-width="100" align="center"></el-table-column>
 			<el-table-column label="操作" fixed="right" header-align="center" align="center" width="150">
 				<template v-slot="scope">
-					<el-button v-if="state.hasPermission('product:spuinfo:update')" type="primary" link
+					<el-button v-if="state.hasPermission('product:spuinfo:update') && scope.row.publishStatus === 0" type="primary" link
 						@click="listing(scope.row.id)">上架</el-button>
 					<!-- <el-button v-if="state.hasPermission('product:spuinfo:update')" type="primary" link
 						@click="addOrUpdateHandle(scope.row.id)">修改</el-button> -->

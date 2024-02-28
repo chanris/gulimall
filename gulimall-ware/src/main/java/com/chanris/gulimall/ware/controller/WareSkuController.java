@@ -19,7 +19,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -44,7 +43,7 @@ public class WareSkuController {
 
     // 查询sku是否有库存
     @PostMapping("hasstock")
-    public Result<List<SkuHasStockVo>> getSkusHasStock(List<Long> skuIds) {
+    public Result<List<SkuHasStockVo>> getSkusHasStock(@RequestBody List<Long> skuIds) {
         List<SkuHasStockVo> res = wareSkuService.getSkuHasStock(skuIds);
         return new Result<List<SkuHasStockVo>>().ok(res);
     }

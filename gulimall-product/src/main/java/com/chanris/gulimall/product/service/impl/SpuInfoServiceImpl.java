@@ -281,6 +281,16 @@ public class SpuInfoServiceImpl extends CrudServiceImpl<SpuInfoDao, SpuInfoEntit
         }else {
             // TODO 重复调用？ 接口幂等性； 重试机制
             log.error("远程调用es失败");
+
+            /**
+             * feign的调用流程
+             * 1. 构造请求数据，将对象转为json
+             *    RequestTemplate template = buildTemplateFormArgs.create(argv)
+             * 2. 发生请求进行执行
+             *    executeAndDecode(template)
+             * 3. 执行请求会有重试机制
+             *
+             */
         }
     }
 }
