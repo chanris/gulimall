@@ -14,9 +14,13 @@ spring:
     default-property-inclusion: non_null # json化排除null字段
     date-format: yyyy-MM-dd HH:mm:ss
 #    date-format: java.text.SimpleDateFormat
+  thymeleaf:
+    cache: true # 开发，关闭缓存
+
 mybatis-plus:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 开启sql日志，打印执行的sql语句
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+  # log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 开启sql日志，打印执行的sql语句
   mapper-locations: classpath:/mapper/**/*.xml
   global-config:
     db-config:
@@ -28,3 +32,7 @@ mybatis-plus:
 
 server:
   port: 10004
+logging:
+  level:
+    com.chanris.gulimall: error
+

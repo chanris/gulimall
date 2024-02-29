@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @description
  */
 @Slf4j
-@RestControllerAdvice(basePackages = {"com.chanris.gulimall.product.controller"})
+@RestControllerAdvice(basePackages = {"com.chanris.gulimall.product.app"})
 public class GlobalProductExceptionHandler {
 
 
@@ -25,7 +25,7 @@ public class GlobalProductExceptionHandler {
     public Result defaultExceptionHandle(Exception ex){
         log.warn("===========================捕捉到全局异常=====================================");
         log.warn("异常类型: {}", ex.getClass().toGenericString());
-        log.warn("异常信息：{}", ex.getMessage());
+        log.warn("异常信息", ex);
         log.warn("===============================================================================");
         return new Result().error(CodeEnum.INTERNAL_SERVER_ERROR.code, CodeEnum.INTERNAL_SERVER_ERROR.msg + ": " + ex.getMessage());
     }
@@ -34,7 +34,7 @@ public class GlobalProductExceptionHandler {
     public Result parameterExceptionHandle(Exception ex) {
         log.warn("===========================捕捉到请求参数异常===================================");
         log.warn("异常类型: {}", ex.getClass().toGenericString());
-        log.warn("异常信息：{}", ex.getMessage());
+        log.warn("异常信息", ex);
         log.warn("=============================================================================");
         return new Result().error(CodeEnum.VALID_EXCEPTION.code, CodeEnum.VALID_EXCEPTION.msg + ": " +ex.getMessage());
     }

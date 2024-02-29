@@ -34,3 +34,9 @@ spring:
             - Path=/api/ware/**
           filters:
             - RewritePath=/api/?(?<segment>.*), /$\{segment}
+        # 注意：这个route 规则 需要放在最后面！
+        # 请求接口： gulimall.com  nginx直接代理给网关，网关判断 如果/api/**就转交给对应的服务器，如果 满足域名，转交给对应的服务
+        - id: gulimall-host
+          uri: lb://gulimall-product
+          predicates:
+            - Host=**.gulimall.com
