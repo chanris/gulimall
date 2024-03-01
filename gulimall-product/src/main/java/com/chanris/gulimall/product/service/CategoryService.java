@@ -5,7 +5,6 @@ import com.chanris.gulimall.product.dto.CategoryDTO;
 import com.chanris.gulimall.product.entity.CategoryEntity;
 import com.chanris.gulimall.product.vo.Catelog2Vo;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,5 +20,9 @@ public interface CategoryService extends CrudService<CategoryEntity, CategoryDTO
 
     List<CategoryEntity> getTopLevelCategoryList();
 
+    Map<String, List<Catelog2Vo>> getCatalogViewFromDB();
     Map<String, List<Catelog2Vo>> getCatalogView();
+    Map<String, List<Catelog2Vo>> getCatalogViewWithLock();
+
+    void updateCascade(CategoryEntity categoryEntity);
 }

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -15,7 +16,7 @@ import java.util.Date;
  */
 @Data
 @TableName("pms_category")
-public class CategoryEntity {
+public class CategoryEntity implements Serializable {
 
     // 坑点!!: 使用mybatis plus的curd功能，如果 id字段不加@TableId 会报错
     // org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): com.********Mybatis.deleteBatchIds

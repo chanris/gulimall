@@ -19,5 +19,7 @@ Spring Data Elasticsearch 4.4.x文档 https://docs.spring.io/spring-data/elastic
 Java Rest Client 7.17 文档 https://www.elastic.co/guide/en/elasticsearch/client/java-rest/current/java-rest-high-getting-started-initialization.html
 Thymeleaf 3.0 文档 https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html
 Nginx 文档 http://nginx.org/en/docs/
+Redis 6.x 文档 https://redis.io/docs/get-started/data-store/
+Redisson redis分布式锁 文档 https://github.com/redisson/redisson/wiki/Table-of-Content
 ### 接口文档
 https://easydoc.net/s/78237135/ZUqEdvA4/6JM6txHf

@@ -16,6 +16,15 @@ spring:
 #    date-format: java.text.SimpleDateFormat
   thymeleaf:
     cache: true # 开发，关闭缓存
+  redis:
+    host: 192.168.125.129
+    password: acid10837
+  cache:
+    type: redis
+    redis:
+      time-to-live: 3600000  # ms
+      key-prefix: CACHE_
+      cache-null-values: true  # 开启 缓存空置防止缓存传透
 
 mybatis-plus:
 #  configuration:
