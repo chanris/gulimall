@@ -3,6 +3,7 @@ package com.chanris.gulimall.product.web;
 import com.chanris.gulimall.product.entity.CategoryEntity;
 import com.chanris.gulimall.product.service.CategoryService;
 import com.chanris.gulimall.product.vo.Catelog2Vo;
+import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.*;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,7 @@ import java.util.concurrent.TimeUnit;
  * @date 28/2/2024
  * @description
  */
+@Slf4j
 @Controller
 public class IndexController {
 

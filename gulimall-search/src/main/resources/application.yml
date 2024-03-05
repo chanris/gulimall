@@ -9,3 +9,7 @@ spring:
     cache: false # 开发，关闭
 server:
   port: 12000
+
+logging:
+  level:
+    com.chanris.gulimall: warn

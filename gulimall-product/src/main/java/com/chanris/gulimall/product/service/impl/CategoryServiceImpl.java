@@ -103,7 +103,7 @@ public class CategoryServiceImpl extends CrudServiceImpl<CategoryDao, CategoryEn
         synchronized (this) {
             // 双重检查： 得到锁后，再查一次缓存，如果没有再去查数据库
             String cached = stringRedisTemplate.opsForValue().get("catalogJSON");
-            if(StrUtil.isBlank(cached)) {
+            if(!StrUtil.isBlank(cached)) {
                 return JSONObject.parseObject(cached, new TypeReference<Map<String, List<Catelog2Vo>>>() {
                     @Override
                     public Map<String, List<Catelog2Vo>> parseObject(String text) {
