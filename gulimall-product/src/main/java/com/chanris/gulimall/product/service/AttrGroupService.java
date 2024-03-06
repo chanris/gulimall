@@ -5,6 +5,7 @@ import com.chanris.gulimall.common.service.CrudService;
 import com.chanris.gulimall.product.dto.AttrDTO;
 import com.chanris.gulimall.product.dto.AttrGroupDTO;
 import com.chanris.gulimall.product.entity.AttrGroupEntity;
+import com.chanris.gulimall.product.vo.SpuItemAttrGroupVo;
 import org.springframework.lang.Nullable;
 
 import java.util.List;
@@ -22,4 +23,6 @@ public interface AttrGroupService extends CrudService<AttrGroupEntity, AttrGroup
     List<AttrGroupDTO> attrGroupWithAttr(Long catelogId);
 
     List<AttrDTO> attrListWithoutRelation(Long attrgroupId);
+
+    List<SpuItemAttrGroupVo> getAttrGroupWithAttrsBySpuId(Long spuId, Long catalogId);
 }

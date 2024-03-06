@@ -7,8 +7,11 @@ import com.chanris.gulimall.product.dto.SkuSaleAttrValueDTO;
 import com.chanris.gulimall.product.entity.SkuSaleAttrValueEntity;
 import com.chanris.gulimall.product.service.SkuSaleAttrValueService;
 import cn.hutool.core.util.StrUtil;
+import com.chanris.gulimall.product.vo.SkuItemSaleAttrVo;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,6 +23,9 @@ import java.util.Map;
 @Service
 public class SkuSaleAttrValueServiceImpl extends CrudServiceImpl<SkuSaleAttrValueDao, SkuSaleAttrValueEntity, SkuSaleAttrValueDTO> implements SkuSaleAttrValueService {
 
+    @Resource
+    private SkuSaleAttrValueDao skuSaleAttrValueDao;
+
     @Override
     public QueryWrapper<SkuSaleAttrValueEntity> getWrapper(Map<String, Object> params){
         String id = (String)params.get("id");
@@ -30,5 +36,11 @@ public class SkuSaleAttrValueServiceImpl extends CrudServiceImpl<SkuSaleAttrValu
         return wrapper;
     }
 
+    @Override
+    public List<SkuItemSaleAttrVo> getSaleAttrBySpuId(Long spuId) {
 
+        List<SkuItemSaleAttrVo> saleAttrVos = skuSaleAttrValueDao.getSaleAttrBySpuId(spuId);
+
+        return saleAttrVos;
+    }
 }

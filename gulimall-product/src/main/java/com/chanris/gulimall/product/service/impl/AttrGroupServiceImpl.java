@@ -11,6 +11,7 @@ import com.chanris.gulimall.product.dto.AttrGroupDTO;
 import com.chanris.gulimall.product.entity.AttrGroupEntity;
 import com.chanris.gulimall.product.service.AttrGroupService;
 import cn.hutool.core.util.StrUtil;
+import com.chanris.gulimall.product.vo.SpuItemAttrGroupVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -82,5 +83,17 @@ public class AttrGroupServiceImpl extends CrudServiceImpl<AttrGroupDao, AttrGrou
     @Override
     public List<AttrDTO> attrListWithoutRelation(Long attrgroupId) {
         return attrDao.attrListWithoutRelation(attrgroupId);
+    }
+
+    /**
+     * 查询当前spu对应的所有属性的分组信息以及当前分组下的所有属性对应的值
+     * @param spuId
+     * @param catalogId
+     * @return
+     */
+    @Override
+    public List<SpuItemAttrGroupVo> getAttrGroupWithAttrsBySpuId(Long spuId, Long catalogId) {
+        List<SpuItemAttrGroupVo> vos = attrGroupDao.getAttrGroupListWithSpuIdAndCatalogId(spuId, catalogId);
+        return vos;
     }
 }

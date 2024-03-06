@@ -45,3 +45,8 @@ logging:
   level:
     com.chanris.gulimall: warn
 
+gulimall:
+  thread:
+    coreSize: 30
+    maxSize: 300
+    keepAliveTime: 20

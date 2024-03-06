@@ -22,6 +22,15 @@
         <result property="attrs" column="attrs" typeHandler="com.chanris.gulimall.product.config.mybatis.typeHandler.AttrGroupDtoTypeHandler"/>
     </resultMap>
 
+    <resultMap type="com.chanris.gulimall.product.vo.SpuItemAttrGroupVo" id="spuItemAttrGroupVoMap">
+        <result property="groupName" column="attr_group_name"/>
+        <collection property="attrs" column="attrs" ofType="com.chanris.gulimall.product.vo.Attr" >
+            <result property="attrName" column="attr_name"></result>
+            <result property="attrValue" column="attr_value"></result>
+            <result property="attrId" column="attr_id"></result>
+        </collection>
+    </resultMap>
+
     <select id="getAttrGroupListWithAttr" resultMap="attrGroupDTOMap">
         SELECT
             any_value ( pms_attr_group.attr_group_id ) attr_group_id,
@@ -68,5 +77,21 @@
         WHERE pms_attr_group.catelog_id = #{catelogId}
         </if>
         GROUP BY pms_attr_group.attr_group_id
+    </select>
+
+
+    <select id="getAttrGroupListWithSpuIdAndCatalogId" resultMap="spuItemAttrGroupVoMap">
+        select
+            pav.spu_id,
+            ag.attr_group_name,
+            ag.attr_group_id,
+            aar.attr_id,
+            attr.attr_name,
+            pav.attr_value
+        from pms_attr_group ag
+          left join pms_attr_attrgroup_relation aar on aar.attr_group_id = ag.attr_group_id
+          left join pms_attr attr on attr.attr_id = aar.attr_id
+          left join pms_product_attr_value pav on pav.attr_id = attr.attr_id
+        where ag.catelog_id = #{catalogId} and pav.spu_id = #{spuId}
     </select>
 </mapper>

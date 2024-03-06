@@ -3,6 +3,9 @@ package com.chanris.gulimall.product.service;
 import com.chanris.gulimall.common.service.CrudService;
 import com.chanris.gulimall.product.dto.SkuSaleAttrValueDTO;
 import com.chanris.gulimall.product.entity.SkuSaleAttrValueEntity;
+import com.chanris.gulimall.product.vo.SkuItemSaleAttrVo;
+
+import java.util.List;
 
 /**
  * sku销售属性&值
@@ -12,4 +15,5 @@ import com.chanris.gulimall.product.entity.SkuSaleAttrValueEntity;
  */
 public interface SkuSaleAttrValueService extends CrudService<SkuSaleAttrValueEntity, SkuSaleAttrValueDTO> {
 
+    List<SkuItemSaleAttrVo> getSaleAttrBySpuId(Long spuId);
 }

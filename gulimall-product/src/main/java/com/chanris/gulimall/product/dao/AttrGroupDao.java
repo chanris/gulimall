@@ -3,6 +3,7 @@ package com.chanris.gulimall.product.dao;
 import com.chanris.gulimall.common.dao.BaseDao;
 import com.chanris.gulimall.product.dto.AttrGroupDTO;
 import com.chanris.gulimall.product.entity.AttrGroupEntity;
+import com.chanris.gulimall.product.vo.SpuItemAttrGroupVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.lang.Nullable;
@@ -19,4 +20,6 @@ import java.util.List;
 public interface AttrGroupDao extends BaseDao<AttrGroupEntity> {
 
     List<AttrGroupDTO> getAttrGroupListWithAttr(@Nullable  @Param("catelogId") Long catelogId);
+
+    List<SpuItemAttrGroupVo> getAttrGroupListWithSpuIdAndCatalogId(@Param("spuId") Long spuId, @Param("catalogId") Long catalogId);
 }

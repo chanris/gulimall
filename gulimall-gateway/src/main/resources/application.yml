@@ -40,6 +40,10 @@ spring:
           uri: lb://gulimall-search
           predicates:
             - Host=search.gulimall.com
+        - id: gulimall-item-host
+          uri: lb://gulimall-product
+          predicates:
+            - Host=item.gulimall.com
         - id: gulimall-index-host
           uri: lb://gulimall-product
           predicates:

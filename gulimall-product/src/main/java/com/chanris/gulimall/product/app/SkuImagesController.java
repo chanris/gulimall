@@ -10,7 +10,7 @@ import com.chanris.gulimall.common.validator.ValidatorUtils;
 import com.chanris.gulimall.common.validator.group.AddGroup;
 import com.chanris.gulimall.common.validator.group.DefaultGroup;
 import com.chanris.gulimall.common.validator.group.UpdateGroup;
-import com.chanris.gulimall.product.dto.SkuImagesEntity;
+import com.chanris.gulimall.product.dto.SkuImagesDTO;
 import com.chanris.gulimall.product.excel.SkuImagesExcel;
 import com.chanris.gulimall.product.service.SkuImagesService;
 import io.swagger.annotations.Api;
@@ -49,26 +49,26 @@ public class SkuImagesController {
         @ApiImplicitParam(name = Constant.ORDER, value = "排序方式，可选值(asc、desc)", paramType = "query", dataType="String")
     })
 //    @RequiresPermissions("product:skuimages:page")
-    public Result<PageData<SkuImagesEntity>> page(@ApiIgnore @RequestParam Map<String, Object> params){
-        PageData<SkuImagesEntity> page = skuImagesService.page(params);
+    public Result<PageData<SkuImagesDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params){
+        PageData<SkuImagesDTO> page = skuImagesService.page(params);
 
-        return new Result<PageData<SkuImagesEntity>>().ok(page);
+        return new Result<PageData<SkuImagesDTO>>().ok(page);
     }
 
     @GetMapping("{id}")
     @ApiOperation("信息")
 //    @RequiresPermissions("product:skuimages:info")
-    public Result<SkuImagesEntity> get(@PathVariable("id") Long id){
-        SkuImagesEntity data = skuImagesService.get(id);
+    public Result<SkuImagesDTO> get(@PathVariable("id") Long id){
+        SkuImagesDTO data = skuImagesService.get(id);
 
-        return new Result<SkuImagesEntity>().ok(data);
+        return new Result<SkuImagesDTO>().ok(data);
     }
 
     @PostMapping
     @ApiOperation("保存")
     @LogOperation("保存")
 //    @RequiresPermissions("product:skuimages:save")
-    public Result save(@RequestBody SkuImagesEntity dto){
+    public Result save(@RequestBody SkuImagesDTO dto){
         //效验数据
         ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
 
@@ -81,7 +81,7 @@ public class SkuImagesController {
     @ApiOperation("修改")
     @LogOperation("修改")
 //    @RequiresPermissions("product:skuimages:update")
-    public Result update(@RequestBody SkuImagesEntity dto){
+    public Result update(@RequestBody SkuImagesDTO dto){
         //效验数据
         ValidatorUtils.validateEntity(dto, UpdateGroup.class, DefaultGroup.class);
 
@@ -108,7 +108,7 @@ public class SkuImagesController {
     @LogOperation("导出")
     @RequiresPermissions("product:skuimages:export")
     public void export(@ApiIgnore @RequestParam Map<String, Object> params, HttpServletResponse response) throws Exception {
-        List<SkuImagesEntity> list = skuImagesService.list(params);
+        List<SkuImagesDTO> list = skuImagesService.list(params);
 
         ExcelUtils.exportExcelToTarget(response, null, "sku图片", list, SkuImagesExcel.class);
     }
