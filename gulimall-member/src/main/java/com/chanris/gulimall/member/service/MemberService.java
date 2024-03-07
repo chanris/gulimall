@@ -3,6 +3,7 @@ package com.chanris.gulimall.member.service;
 import com.chanris.gulimall.common.service.CrudService;
 import com.chanris.gulimall.member.dto.MemberDTO;
 import com.chanris.gulimall.member.entity.MemberEntity;
+import com.chanris.gulimall.member.vo.MemberRegistVo;
 
 /**
  * 会员
@@ -12,4 +13,7 @@ import com.chanris.gulimall.member.entity.MemberEntity;
  */
 public interface MemberService extends CrudService<MemberEntity, MemberDTO> {
 
+    void regist(MemberRegistVo registVo);
+    void checkPhoneUnique(String email);
+    void checkUsernameUnique(String username);
 }

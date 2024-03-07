@@ -2,6 +2,7 @@ package com.chanris.gulimall.member.controller;
 
 import com.chanris.gulimall.common.annotation.LogOperation;
 import com.chanris.gulimall.common.constant.Constant;
+import com.chanris.gulimall.common.exception.CodeEnum;
 import com.chanris.gulimall.common.page.PageData;
 import com.chanris.gulimall.common.utils.ExcelUtils;
 import com.chanris.gulimall.common.utils.Result;
@@ -12,8 +13,11 @@ import com.chanris.gulimall.common.validator.group.DefaultGroup;
 import com.chanris.gulimall.common.validator.group.UpdateGroup;
 import com.chanris.gulimall.member.dto.MemberDTO;
 import com.chanris.gulimall.member.excel.MemberExcel;
+import com.chanris.gulimall.member.exception.PhoneExistException;
+import com.chanris.gulimall.member.exception.UsernameExistException;
 import com.chanris.gulimall.member.feign.CouponFeignService;
 import com.chanris.gulimall.member.service.MemberService;
+import com.chanris.gulimall.member.vo.MemberRegistVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -57,6 +61,18 @@ public class MemberController {
             }
         }
         return new Result().ok(memberDTO);
+    }
+
+    @PostMapping("/register")
+    public Result<?> register(MemberRegistVo registVo) {
+        try {
+            memberService.regist(registVo);
+        }catch (PhoneExistException phoneExistException) {
+            return new Result<>().error(CodeEnum.PHONE_EXIST_EXCEPTION.code, CodeEnum.PHONE_EXIST_EXCEPTION.msg);
+        }catch (UsernameExistException usernameExistException) {
+            return new Result<>().error(CodeEnum.USER_EXIST_EXCEPTION.code, CodeEnum.USER_EXIST_EXCEPTION.msg);
+        }
+        return new Result<>();
     }
 
     @GetMapping("page")

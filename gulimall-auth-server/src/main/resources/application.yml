@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: gulimall-auth-server
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848
+  thymeleaf:
+    cache: false # 开发，关闭
+  redis:
+    host: 192.168.125.129
+    password: acid10837
+server:
+  port: 20000
+

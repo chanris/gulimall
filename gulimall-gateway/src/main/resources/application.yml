@@ -44,6 +44,10 @@ spring:
           uri: lb://gulimall-product
           predicates:
             - Host=item.gulimall.com
+        - id: gulimall-auth-host
+          uri: lb://gulimall-auth-server
+          predicates:
+            - Host=auth.gulimall.com
         - id: gulimall-index-host
           uri: lb://gulimall-product
           predicates:

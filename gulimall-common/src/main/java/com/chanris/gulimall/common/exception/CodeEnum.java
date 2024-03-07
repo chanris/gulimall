@@ -13,6 +13,9 @@ package com.chanris.gulimall.common.exception;
 public enum CodeEnum {
     INTERNAL_SERVER_ERROR(10000, "系统内部错误"),
     VALID_EXCEPTION(10001, "请求参数校验错误"),
+    SMS_CODE_EXCEPTION(10002,"验证码获取频率太高，请稍后再试"),
+    PHONE_EXIST_EXCEPTION(15002,"存在相同的手机号"),
+    USER_EXIST_EXCEPTION(15001, "用户已存在"),
     PRODUCT_UP_EXCEPTION(11000, "商品上架异常");
 
     public final int code;
