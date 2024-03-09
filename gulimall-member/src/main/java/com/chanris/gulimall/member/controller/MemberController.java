@@ -12,12 +12,15 @@ import com.chanris.gulimall.common.validator.group.AddGroup;
 import com.chanris.gulimall.common.validator.group.DefaultGroup;
 import com.chanris.gulimall.common.validator.group.UpdateGroup;
 import com.chanris.gulimall.member.dto.MemberDTO;
+import com.chanris.gulimall.member.entity.MemberEntity;
 import com.chanris.gulimall.member.excel.MemberExcel;
 import com.chanris.gulimall.member.exception.PhoneExistException;
 import com.chanris.gulimall.member.exception.UsernameExistException;
 import com.chanris.gulimall.member.feign.CouponFeignService;
 import com.chanris.gulimall.member.service.MemberService;
 import com.chanris.gulimall.member.vo.MemberRegistVo;
+import com.chanris.gulimall.member.vo.MemberUserLoginVo;
+import com.chanris.gulimall.member.vo.SocialUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -64,7 +67,7 @@ public class MemberController {
     }
 
     @PostMapping("/register")
-    public Result<?> register(MemberRegistVo registVo) {
+    public Result<?> register(@RequestBody MemberRegistVo registVo) {
         try {
             memberService.regist(registVo);
         }catch (PhoneExistException phoneExistException) {
@@ -73,6 +76,32 @@ public class MemberController {
             return new Result<>().error(CodeEnum.USER_EXIST_EXCEPTION.code, CodeEnum.USER_EXIST_EXCEPTION.msg);
         }
         return new Result<>();
+    }
+
+    @PostMapping(value = "/login")
+    public Result<?> login(@RequestBody MemberUserLoginVo vo) {
+
+        MemberEntity memberEntity = memberService.login(vo);
+
+        if (memberEntity != null) {
+            return new Result<>().ok(memberEntity);
+        } else {
+            return new Result<>().error(CodeEnum.LOGINACCT_PASSWORD_EXCEPTION.code, CodeEnum.LOGINACCT_PASSWORD_EXCEPTION.msg);
+        }
+    }
+
+    @PostMapping(value = "/oauth2/login")
+    public Result<?> oauthLogin(@RequestBody SocialUser socialUser) throws Exception {
+
+        MemberEntity memberEntity = memberService.login(socialUser);
+
+        if (memberEntity != null) {
+//            return R.ok().setData(memberEntity);
+            return new Result<>().ok(memberEntity);
+        } else {
+//            return R.error(BizCodeEnum.LOGINACCT_PASSWORD_EXCEPTION.getCode(),BizCodeEnum.LOGINACCT_PASSWORD_EXCEPTION.getMessage());
+            return new Result<>().error(CodeEnum.LOGINACCT_PASSWORD_EXCEPTION.code, CodeEnum.LOGINACCT_PASSWORD_EXCEPTION.msg);
+        }
     }
 
     @GetMapping("page")

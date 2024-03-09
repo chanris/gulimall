@@ -87,4 +87,8 @@ public class MemberEntity {
      * 注册时间
      */
 	private Date createTime;
+
+    private String socialUid;
+    private String accessToken;
+    private Long expiresIn;
 }

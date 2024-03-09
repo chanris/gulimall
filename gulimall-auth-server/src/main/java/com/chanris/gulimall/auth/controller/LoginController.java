@@ -3,10 +3,12 @@ package com.chanris.gulimall.auth.controller;
 import com.alibaba.fastjson2.JSON;
 import com.chanris.gulimall.auth.feign.MemberFeignService;
 import com.chanris.gulimall.auth.feign.ThirdPartFeignService;
+import com.chanris.gulimall.auth.vo.UserLoginVo;
 import com.chanris.gulimall.auth.vo.UserRegisterVo;
 import com.chanris.gulimall.common.constant.AuthServerConstant;
 import com.chanris.gulimall.common.exception.CodeEnum;
 import com.chanris.gulimall.common.utils.Result;
+import com.chanris.gulimall.common.vo.MemberResponseVo;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -19,11 +21,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import static com.chanris.gulimall.common.constant.AuthServerConstant.LOGIN_USER;
 
 /**
  * @author chenyue7@foxmail.com
@@ -37,7 +42,7 @@ public class LoginController {
 //    public String loginPage() {
 //        return "login";
 //    }
-//
+
 //    @GetMapping("/reg.html")
 //    public String regPage() {
 //        return "reg";
@@ -70,7 +75,6 @@ public class LoginController {
             long currentTime = Long.parseLong(redisCode.split("_")[1]);
             if (System.currentTimeMillis() - currentTime < 60000) {
                 //60s内不能再发
-//                return R.error(BizCodeEnum.SMS_CODE_EXCEPTION.getCode(), BizCodeEnum.SMS_CODE_EXCEPTION.getMessage());
                 return new Result<>().error(CodeEnum.SMS_CODE_EXCEPTION.code, CodeEnum.SMS_CODE_EXCEPTION.msg);
             }
         }
@@ -140,6 +144,37 @@ public class LoginController {
             errors.put("code", "验证码错误");
             attributes.addFlashAttribute("errors", errors);
             return "redirect:http://auth.gulimall.com/reg.html";
+        }
+    }
+
+    @GetMapping(value = "/login.html")
+    public String loginPage(HttpSession session) {
+
+        //从session先取出来用户的信息，判断用户是否已经登录过了
+        Object attribute = session.getAttribute(LOGIN_USER);
+        //如果用户没登录那就跳转到登录页面
+        if (attribute == null) {
+            return "login";
+        } else {
+            return "redirect:http://gulimall.com";
+        }
+    }
+
+    @PostMapping(value = "/login")
+    public String login(UserLoginVo vo, RedirectAttributes attributes, HttpSession session) {
+
+        //远程登录
+        Result<MemberResponseVo> login = memberFeignService.login(vo);
+
+        if (login.getCode() == 0) {
+            MemberResponseVo data = login.getData();
+            session.setAttribute(LOGIN_USER, data);
+            return "redirect:http://gulimall.com";
+        } else {
+            Map<String,String> errors = new HashMap<>();
+            errors.put("msg", login.getMsg());
+            attributes.addFlashAttribute("errors",errors);
+            return "redirect:http://auth.gulimall.com/login.html";
         }
     }
 }
