@@ -2,6 +2,7 @@ package com.chanris.gulimall.common.vo;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -10,7 +11,8 @@ import java.util.Date;
  * @description
  */
 @Data
-public class MemberResponseVo {
+public class MemberResponseVo implements Serializable {
+
     private Long id;
     /**
      * 会员等级id

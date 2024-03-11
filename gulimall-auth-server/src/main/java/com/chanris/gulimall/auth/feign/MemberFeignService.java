@@ -27,7 +27,7 @@ public interface MemberFeignService {
     Result<MemberResponseVo> login(@RequestBody UserLoginVo vo);
 
     @PostMapping(value = "/member/member/oauth2/login")
-    Result<?> oauthLogin(@RequestBody SocialUser socialUser) throws Exception;
+    Result<MemberResponseVo> oauthLogin(@RequestBody SocialUser socialUser) throws Exception;
 
     @PostMapping(value = "/member/member/weixin/login")
     Result<?> weixinLogin(@RequestParam("accessTokenInfo") String accessTokenInfo);

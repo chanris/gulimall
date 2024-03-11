@@ -16,4 +16,6 @@ import java.util.List;
 public interface SkuSaleAttrValueService extends CrudService<SkuSaleAttrValueEntity, SkuSaleAttrValueDTO> {
 
     List<SkuItemSaleAttrVo> getSaleAttrBySpuId(Long spuId);
+
+    List<String> getSkuSaleAttrValuesAsStringList(Long skuId);
 }

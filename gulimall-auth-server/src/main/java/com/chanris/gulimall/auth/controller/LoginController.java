@@ -95,8 +95,28 @@ public class LoginController {
      * TODO: 重定向携带数据：利用session原理，将数据放在session中。
      * TODO:只要跳转到下一个页面取出这个数据以后，session里面的数据就会删掉
      * TODO：分布下session问题
+     *
      * RedirectAttributes：重定向也可以保留数据，不会丢失
      * 用户注册
+     * 不同的域名，不能使用相同的jsessionid
+     * Session共享问题解决-hash一致性
+     * 优点：
+     * 1. 只需要修改nginx，不需要改应用代码
+     * 2. 负载均衡；只要hash属性的值分布是均匀的，多台web-server的负载是均衡的
+     * 3. 可以支持web-server水平扩展（session同步是不行的，受内存限制）
+     * 缺点：
+     * 1. session还是存在web-server中的，所有web-server重启可能导致session丢失，影响业务，如部分用户需要重新登录
+     * 2. 如果web-server水平扩展，rehash后session重新分布，也会有一部分用户路由不到正确的session
+     *
+     * session共享问题解决-统一存储
+     * 优点
+     * 1.没有安全隐患
+     * 2.可以水平扩展
+     * 3.web-server重启或扩容都不会有session丢失
+     * 不足
+     * 1. 增加了一次网络调用，并且需要修改应用代码；如将所有的getSession方法替换为从redis中查数据，redis获得数据比内存慢很多
+     * 2. 上面的缺点都可以使用SpringSession 完美解决。
+     *
      *
      * @return
      */

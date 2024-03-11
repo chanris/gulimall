@@ -11,6 +11,7 @@ import com.chanris.gulimall.common.validator.ValidatorUtils;
 import com.chanris.gulimall.common.validator.group.AddGroup;
 import com.chanris.gulimall.common.validator.group.DefaultGroup;
 import com.chanris.gulimall.common.validator.group.UpdateGroup;
+import com.chanris.gulimall.common.vo.MemberResponseVo;
 import com.chanris.gulimall.member.dto.MemberDTO;
 import com.chanris.gulimall.member.entity.MemberEntity;
 import com.chanris.gulimall.member.excel.MemberExcel;
@@ -26,6 +27,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -91,16 +93,19 @@ public class MemberController {
     }
 
     @PostMapping(value = "/oauth2/login")
-    public Result<?> oauthLogin(@RequestBody SocialUser socialUser) throws Exception {
+    public Result<MemberResponseVo> oauthLogin(@RequestBody SocialUser socialUser) throws Exception {
 
         MemberEntity memberEntity = memberService.login(socialUser);
 
+
         if (memberEntity != null) {
 //            return R.ok().setData(memberEntity);
-            return new Result<>().ok(memberEntity);
+            MemberResponseVo vo = new MemberResponseVo();
+            BeanUtils.copyProperties(memberEntity, vo);
+            return new Result<MemberResponseVo>().ok(vo);
         } else {
 //            return R.error(BizCodeEnum.LOGINACCT_PASSWORD_EXCEPTION.getCode(),BizCodeEnum.LOGINACCT_PASSWORD_EXCEPTION.getMessage());
-            return new Result<>().error(CodeEnum.LOGINACCT_PASSWORD_EXCEPTION.code, CodeEnum.LOGINACCT_PASSWORD_EXCEPTION.msg);
+            return new Result<MemberResponseVo>().error(CodeEnum.LOGINACCT_PASSWORD_EXCEPTION.code, CodeEnum.LOGINACCT_PASSWORD_EXCEPTION.msg);
         }
     }
 

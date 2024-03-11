@@ -43,4 +43,14 @@ public class SkuSaleAttrValueServiceImpl extends CrudServiceImpl<SkuSaleAttrValu
 
         return saleAttrVos;
     }
+
+    /**
+     * 根据skuId 获得商品销售属性 的StringList 格式数据
+     * @param skuId
+     * @return
+     */
+    @Override
+    public List<String> getSkuSaleAttrValuesAsStringList(Long skuId) {
+        return skuSaleAttrValueDao.getSkuSaleAttrValuesAsStringList(skuId);
+    }
 }

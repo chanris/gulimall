@@ -21,6 +21,11 @@
             <artifactId>gulimall-common</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <!-- 整合spring Session 完成 session 共享问题-->
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>

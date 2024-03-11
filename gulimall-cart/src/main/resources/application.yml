@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: gulimall-cart
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848
+  redis:
+    host: 192.168.125.129
+    password: acid10837
+server:
+  port: 30010

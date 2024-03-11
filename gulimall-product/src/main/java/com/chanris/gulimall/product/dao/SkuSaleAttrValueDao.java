@@ -17,4 +17,6 @@ import java.util.List;
 public interface SkuSaleAttrValueDao extends BaseDao<SkuSaleAttrValueEntity> {
 
     List<SkuItemSaleAttrVo> getSaleAttrBySpuId(Long spuId);
+
+    List<String> getSkuSaleAttrValuesAsStringList(Long skuId);
 }

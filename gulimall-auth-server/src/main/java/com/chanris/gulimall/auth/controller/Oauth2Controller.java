@@ -5,6 +5,8 @@ import com.alibaba.fastjson2.JSONObject;
 import com.chanris.gulimall.auth.component.GiteeHttpClient;
 import com.chanris.gulimall.auth.feign.MemberFeignService;
 import com.chanris.gulimall.auth.vo.SocialUser;
+import com.chanris.gulimall.common.utils.Result;
+import com.chanris.gulimall.common.vo.MemberResponseVo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -81,7 +83,7 @@ public class Oauth2Controller {
                 "&code=" + code +
                 "&redirect_uri=" + URL;
         JSONObject accessTokenJson = GiteeHttpClient.getAccessToken(url);
-        System.out.println("accessTokenJson:" + accessTokenJson);
+//        System.out.println("accessTokenJson:" + accessTokenJson);
         SocialUser socialUser = new SocialUser();
         assert accessTokenJson != null;
         socialUser.setAccess_token(accessTokenJson.getString("access_token"));
@@ -96,7 +98,13 @@ public class Oauth2Controller {
          */
         System.out.println(JSON.toJSONString(jsonObject));
 
-        memberFeignService.oauthLogin(socialUser);
-        return "redirect:http://gulimall.com";
+        Result<MemberResponseVo> result = memberFeignService.oauthLogin(socialUser);
+        if(result.success()) {
+            session.setAttribute("loginUser", result.getData());
+            return "redirect:http://gulimall.com";
+        }else {
+            return "redirect:http://auth.gulimall.com/login.html";
+        }
+
     }
 }

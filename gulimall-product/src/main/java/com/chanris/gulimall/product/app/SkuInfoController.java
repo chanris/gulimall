@@ -11,6 +11,7 @@ import com.chanris.gulimall.common.validator.group.AddGroup;
 import com.chanris.gulimall.common.validator.group.DefaultGroup;
 import com.chanris.gulimall.common.validator.group.UpdateGroup;
 import com.chanris.gulimall.product.dto.SkuInfoDTO;
+import com.chanris.gulimall.product.entity.SkuInfoEntity;
 import com.chanris.gulimall.product.excel.SkuInfoExcel;
 import com.chanris.gulimall.product.service.SkuInfoService;
 import io.swagger.annotations.Api;
@@ -23,6 +24,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -40,6 +42,21 @@ public class SkuInfoController {
     @Resource
     private SkuInfoService skuInfoService;
 
+    /**
+     * 根据skuId查询当前商品的价格
+     * @param skuId
+     * @return
+     */
+    @GetMapping(value = "/{skuId}/price")
+    public BigDecimal getPrice(@PathVariable("skuId") Long skuId) {
+
+        //获取当前商品的信息
+        SkuInfoDTO skuInfoDTO = skuInfoService.get(skuId);
+
+        //获取商品的价格
+        return skuInfoDTO.getPrice();
+    }
+
     @GetMapping("page")
     @ApiOperation("分页")
     @ApiImplicitParams({
@@ -48,7 +65,7 @@ public class SkuInfoController {
         @ApiImplicitParam(name = Constant.ORDER_FIELD, value = "排序字段", paramType = "query", dataType="String") ,
         @ApiImplicitParam(name = Constant.ORDER, value = "排序方式，可选值(asc、desc)", paramType = "query", dataType="String")
     })
-    @RequiresPermissions("product:skuinfo:page")
+//    @RequiresPermissions("product:skuinfo:page")
     public Result<PageData<SkuInfoDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params){
         PageData<SkuInfoDTO> page = skuInfoService.page(params);
 
@@ -67,7 +84,7 @@ public class SkuInfoController {
     @PostMapping
     @ApiOperation("保存")
     @LogOperation("保存")
-    @RequiresPermissions("product:skuinfo:save")
+//    @RequiresPermissions("product:skuinfo:save")
     public Result save(@RequestBody SkuInfoDTO dto){
         //效验数据
         ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
@@ -80,7 +97,7 @@ public class SkuInfoController {
     @PutMapping
     @ApiOperation("修改")
     @LogOperation("修改")
-    @RequiresPermissions("product:skuinfo:update")
+//    @RequiresPermissions("product:skuinfo:update")
     public Result update(@RequestBody SkuInfoDTO dto){
         //效验数据
         ValidatorUtils.validateEntity(dto, UpdateGroup.class, DefaultGroup.class);
@@ -93,7 +110,7 @@ public class SkuInfoController {
     @DeleteMapping
     @ApiOperation("删除")
     @LogOperation("删除")
-    @RequiresPermissions("product:skuinfo:delete")
+//    @RequiresPermissions("product:skuinfo:delete")
     public Result delete(@RequestBody Long[] ids){
         //效验数据
         AssertUtils.isArrayEmpty(ids, "id");
@@ -106,7 +123,7 @@ public class SkuInfoController {
     @GetMapping("export")
     @ApiOperation("导出")
     @LogOperation("导出")
-    @RequiresPermissions("product:skuinfo:export")
+//    @RequiresPermissions("product:skuinfo:export")
     public void export(@ApiIgnore @RequestParam Map<String, Object> params, HttpServletResponse response) throws Exception {
         List<SkuInfoDTO> list = skuInfoService.list(params);
 
