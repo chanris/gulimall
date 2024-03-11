@@ -18,7 +18,7 @@ import java.util.List;
  */
 @FeignClient("gulimall-product")
 public interface ProductFeignService {
-    @GetMapping("{id}")
+    @GetMapping("product/skuinfo/{id}")
     Result<SkuInfoTo> get(@PathVariable("id") Long id);
 
     @GetMapping("product/skusaleattrvalue/stringlist/{skuId}")

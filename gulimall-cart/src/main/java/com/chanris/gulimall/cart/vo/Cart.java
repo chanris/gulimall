@@ -1,6 +1,5 @@
 package com.chanris.gulimall.cart.vo;
 
-import lombok.Data;
 import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;

@@ -4,6 +4,8 @@ import com.chanris.gulimall.common.service.CrudService;
 import com.chanris.gulimall.member.dto.MemberReceiveAddressDTO;
 import com.chanris.gulimall.member.entity.MemberReceiveAddressEntity;
 
+import java.util.List;
+
 /**
  * 会员收货地址
  *
@@ -12,4 +14,5 @@ import com.chanris.gulimall.member.entity.MemberReceiveAddressEntity;
  */
 public interface MemberReceiveAddressService extends CrudService<MemberReceiveAddressEntity, MemberReceiveAddressDTO> {
 
+    List<MemberReceiveAddressEntity> getAddress(Long memberId);
 }

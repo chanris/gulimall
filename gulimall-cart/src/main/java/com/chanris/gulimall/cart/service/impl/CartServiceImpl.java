@@ -18,7 +18,6 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -40,10 +39,11 @@ public class CartServiceImpl implements CartService {
     @Resource
     ThreadPoolExecutor executor;
 
-    private final String CART_PREFIX= "gulimall:cart:";
+    private final String CART_PREFIX = "gulimall:cart:";
 
     /**
      * 向购物车添加商品
+     *
      * @param skuId
      * @param num
      * @return
@@ -52,8 +52,8 @@ public class CartServiceImpl implements CartService {
     public CartItem addToCart(Long skuId, Integer num) throws ExecutionException, InterruptedException {
         BoundHashOperations<String, Object, Object> cartOps = getCartOps();
         // 有商品直接加数量
-        String ct = (String)cartOps.get(skuId.toString());
-        if(StringUtils.hasLength(ct)) {
+        String ct = (String) cartOps.get(skuId.toString());
+        if (StringUtils.hasLength(ct)) {
             CartItem item = JSON.parseObject(ct, CartItem.class);
             item.setCount(item.getCount() + 1);
             cartOps.put(skuId.toString(), JSON.toJSONString(item));
@@ -79,8 +79,9 @@ public class CartServiceImpl implements CartService {
             List<String> attrValues = productFeignService.getSkuSaleAttrValues(skuId);
             cartItem.setSkuAttrValues(attrValues);
         });
-        String s = JSON.toJSONString(cartItem);
+
         CompletableFuture.allOf(getSkuInfo, getSkuAttrValues).get();//阻塞
+        String s = JSON.toJSONString(cartItem);
         cartOps.put(skuId.toString(), s);
         return cartItem;
     }
@@ -98,10 +99,10 @@ public class CartServiceImpl implements CartService {
         Cart cart = new Cart();
         UserInfoTo userInfoTo = CartInterceptor.threadLocal.get();
         if (userInfoTo.isTempUser()) {
-            String cartKey =  CART_PREFIX + userInfoTo.getUserKey();
+            String cartKey = CART_PREFIX + userInfoTo.getUserKey();
             List<CartItem> cartItems = getCartItems(cartKey);
             cart.setItems(cartItems);
-        }else {
+        } else {
             //1、登录
             String cartKey = CART_PREFIX + userInfoTo.getUserId();
             //临时购物车的键
@@ -112,7 +113,7 @@ public class CartServiceImpl implements CartService {
             if (tempCartItems != null) {
                 //临时购物车有数据需要进行合并操作
                 for (CartItem item : tempCartItems) {
-                    addToCart(item.getSkuId(),item.getCount());
+                    addToCart(item.getSkuId(), item.getCount());
                 }
                 //清除临时购物车的数据
                 clearCartInfo(temptCartKey);
@@ -141,13 +142,12 @@ public class CartServiceImpl implements CartService {
         String redisValue = JSON.toJSONString(cartItem);
 
         BoundHashOperations<String, Object, Object> cartOps = getCartOps();
-        cartOps.put(skuId.toString(),redisValue);
-
+        cartOps.put(skuId.toString(), redisValue);
     }
 
     @Override
     public List<CartItem> getUserCartItems() {
-        List<CartItem> cartItemVoList = new ArrayList<>();
+        List<CartItem> cartItemVoList;
         //获取当前用户登录的信息
         UserInfoTo userInfoTo = CartInterceptor.threadLocal.get();
         //如果用户未登录直接返回null
@@ -163,21 +163,20 @@ public class CartServiceImpl implements CartService {
             }
             //筛选出选中的
             cartItemVoList = cartItems.stream()
-                    .filter(items -> items.getCheck())
-                    .map(item -> {
+                    .filter(CartItem::getCheck)
+                    .peek(item -> {
                         //更新为最新的价格（查询数据库）
+                        // TODO 11/3/24 查询每件商品的实际价格 （循环调用 浪费资源，需要优化）
                         BigDecimal price = productFeignService.getPrice(item.getSkuId());
                         item.setPrice(price);
-                        return item;
-                    })
-                    .collect(Collectors.toList());
+                    }).collect(Collectors.toList());
         }
-
         return cartItemVoList;
     }
 
     /**
      * 获取购物车里面的数据
+     *
      * @param cartKey
      * @return
      */
@@ -196,6 +195,7 @@ public class CartServiceImpl implements CartService {
 
     /**
      * 获取到我们要操作的购物车
+     *
      * @return
      */
     private BoundHashOperations<String, Object, Object> getCartOps() {
@@ -225,7 +225,7 @@ public class CartServiceImpl implements CartService {
         BoundHashOperations<String, Object, Object> cartOps = getCartOps();
         //序列化存入redis中
         String redisValue = JSON.toJSONString(cartItem);
-        cartOps.put(skuId.toString(),redisValue);
+        cartOps.put(skuId.toString(), redisValue);
     }
 
     @Override

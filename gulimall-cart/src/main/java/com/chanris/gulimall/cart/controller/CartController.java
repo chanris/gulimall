@@ -70,7 +70,7 @@ public class CartController {
 
         cartService.addToCart(skuId,num);
 
-        attributes.addAttribute("skuId",skuId);
+        attributes.addAttribute("skuId", skuId);
         return "redirect:http://cart.gulimall.com/addToCartSuccessPage.html";
     }
 
@@ -82,8 +82,7 @@ public class CartController {
     @ResponseBody
     public List<CartItem> getCurrentCartItems() {
 
-        List<CartItem> cartItemList = cartService.getUserCartItems();
-        return cartItemList;
+        return cartService.getUserCartItems();
     }
 
 
@@ -98,7 +97,7 @@ public class CartController {
                                        Model model) {
         //重定向到成功页面。再次查询购物车数据即可
         CartItem cartItem = cartService.getCartItem(skuId);
-        model.addAttribute("cartItem",cartItem);
+        model.addAttribute("cartItem", cartItem);
         return "success";
     }
 

@@ -55,7 +55,7 @@ public class MemberController {
     private CouponFeignService couponFeignService;
 
     @RequestMapping("/coupons")
-    public Result test() {
+    public Result<MemberDTO> test() {
         MemberDTO memberDTO = new MemberDTO();
         memberDTO.setNickname("张三");
         Result res = couponFeignService.memebercoupons();
@@ -65,7 +65,7 @@ public class MemberController {
                 System.out.println(Arrays.toString(data.toArray()));
             }
         }
-        return new Result().ok(memberDTO);
+        return new Result<MemberDTO>().ok(memberDTO);
     }
 
     @PostMapping("/register")

@@ -9,6 +9,8 @@ import com.chanris.gulimall.member.entity.MemberReceiveAddressEntity;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,6 +22,8 @@ import java.util.Map;
 @Service
 public class MemberReceiveAddressServiceImpl extends CrudServiceImpl<MemberReceiveAddressDao, MemberReceiveAddressEntity, MemberReceiveAddressDTO> implements MemberReceiveAddressService {
 
+    @Resource
+    private MemberReceiveAddressDao memberReceiveAddressDao;
     @Override
     public QueryWrapper<MemberReceiveAddressEntity> getWrapper(Map<String, Object> params){
         String id = (String)params.get("id");
@@ -30,5 +34,8 @@ public class MemberReceiveAddressServiceImpl extends CrudServiceImpl<MemberRecei
         return wrapper;
     }
 
-
+    @Override
+    public List<MemberReceiveAddressEntity> getAddress(Long memberId) {
+        return memberReceiveAddressDao.selectList(new QueryWrapper<MemberReceiveAddressEntity>().eq("member_id", memberId));
+    }
 }

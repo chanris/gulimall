@@ -3,6 +3,9 @@ package com.chanris.gulimall.order.service;
 import com.chanris.gulimall.common.service.CrudService;
 import com.chanris.gulimall.order.dto.OrderDTO;
 import com.chanris.gulimall.order.entity.OrderEntity;
+import com.chanris.gulimall.order.vo.OrderConfirmVo;
+
+import java.util.concurrent.ExecutionException;
 
 /**
  * 订单
@@ -12,4 +15,5 @@ import com.chanris.gulimall.order.entity.OrderEntity;
  */
 public interface OrderService extends CrudService<OrderEntity, OrderDTO> {
 
+    OrderConfirmVo confirmOrder() throws ExecutionException, InterruptedException;
 }

@@ -21,5 +21,7 @@ Thymeleaf 3.0 文档 https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.
 Nginx 文档 http://nginx.org/en/docs/
 Redis 6.x 文档 https://redis.io/docs/get-started/data-store/
 Redisson redis分布式锁 文档 https://github.com/redisson/redisson/wiki/Table-of-Content
+Spring Session 文档 https://docs.spring.io/spring-session/reference/2.7/whats-new.html
+RabbitMQ 3.13 文档 https://www.rabbitmq.com/tutorials/tutorial-two-java
 ### 接口文档
 https://easydoc.net/s/78237135/ZUqEdvA4/6JM6txHf
