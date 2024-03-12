@@ -23,10 +23,11 @@ public class GuliFeignConfig {
             @Override
             public void apply(RequestTemplate template) {
                 ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-                assert attributes != null;
-                HttpServletRequest request = attributes.getRequest();
-                //同步请求数据
-                template.header("Cookie", request.getHeader("Cookie"));
+                if(attributes != null) {
+                    HttpServletRequest request = attributes.getRequest();
+                    //同步请求数据
+                    template.header("Cookie", request.getHeader("Cookie"));
+                }
             }
         };
     }

@@ -5,6 +5,7 @@ import com.chanris.gulimall.common.service.CrudService;
 import com.chanris.gulimall.ware.dto.WareSkuDTO;
 import com.chanris.gulimall.ware.entity.WareSkuEntity;
 import com.chanris.gulimall.ware.vo.SkuHasStockVo;
+import com.chanris.gulimall.ware.vo.WareSkuLockVo;
 
 import java.util.List;
 
@@ -19,4 +20,6 @@ public interface WareSkuService extends CrudService<WareSkuEntity, WareSkuDTO> {
     WareSkuEntity getByWrapper(QueryWrapper<WareSkuEntity> wrapper);
 
     List<SkuHasStockVo> getSkuHasStock(List<Long> skuIds);
+
+    boolean orderLockStock(WareSkuLockVo vo);
 }

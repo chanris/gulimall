@@ -4,6 +4,7 @@ import com.chanris.gulimall.cart.vo.UserInfoTo;
 import com.chanris.gulimall.common.constant.AuthServerConstant;
 import com.chanris.gulimall.common.constant.CartConstant;
 import com.chanris.gulimall.common.vo.MemberResponseVo;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -33,35 +34,44 @@ public class CartInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        HttpSession session = request.getSession();
         UserInfoTo userInfoTo = new UserInfoTo();
-        MemberResponseVo attribute = (MemberResponseVo) session.getAttribute(AuthServerConstant.LOGIN_USER);
-        if (attribute != null){
-            userInfoTo.setUserId(attribute.getId());
-        }else {
-            Cookie[] cookies = request.getCookies();
-            if(cookies != null && cookies.length > 0) {
-                for (Cookie c : cookies) {
-                    if (c.getName().equals(CartConstant.TEMP_USER_COOKIE)) {
-                        userInfoTo.setUserKey(c.getValue());
-                        break;
-                    }
+
+        HttpSession session = request.getSession();
+        //获得当前登录用户的信息
+        MemberResponseVo memberResponseVo = (MemberResponseVo) session.getAttribute(AuthServerConstant.LOGIN_USER);
+
+        if (memberResponseVo != null) {
+            //用户登录了
+            userInfoTo.setUserId(memberResponseVo.getId());
+        }
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null && cookies.length > 0) {
+            for (Cookie cookie : cookies) {
+                //user-key
+                String name = cookie.getName();
+                if (name.equals(CartConstant.TEMP_USER_COOKIE)) {
+                    userInfoTo.setUserKey(cookie.getValue());
+                    //标记为已是临时用户
+                    userInfoTo.setTempUser(true);
                 }
             }
         }
-        // 没有临时用户
-        if (userInfoTo.getUserKey() == null) {
+
+        //如果没有临时用户一定分配一个临时用户
+        if (!StringUtils.hasLength(userInfoTo.getUserKey())) {
             String uuid = UUID.randomUUID().toString();
             userInfoTo.setUserKey(uuid);
-            userInfoTo.setTempUser(true);
         }
+
+        //目标方法执行之前
         threadLocal.set(userInfoTo);
         return true;
     }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        if (threadLocal.get().isTempUser()) {
+        // 如果没有临时用户，创建一个临时用户user-key
+        if (!threadLocal.get().isTempUser()) {
             Cookie c = new Cookie(CartConstant.TEMP_USER_COOKIE, threadLocal.get().getUserKey());
             c.setDomain("gulimall.com");
             c.setMaxAge(CartConstant.TEMP_USER_COOKIE_TIMEOUT);

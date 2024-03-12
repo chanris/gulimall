@@ -74,7 +74,7 @@ public class SkuInfoController {
 
     @GetMapping("{id}")
     @ApiOperation("信息")
-    @RequiresPermissions("product:skuinfo:info")
+//    @RequiresPermissions("product:skuinfo:info")
     public Result<SkuInfoDTO> get(@PathVariable("id") Long id){
         SkuInfoDTO data = skuInfoService.get(id);
 

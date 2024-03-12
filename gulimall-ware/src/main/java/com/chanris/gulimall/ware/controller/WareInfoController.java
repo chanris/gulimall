@@ -13,6 +13,7 @@ import com.chanris.gulimall.common.validator.group.UpdateGroup;
 import com.chanris.gulimall.ware.dto.WareInfoDTO;
 import com.chanris.gulimall.ware.excel.WareInfoExcel;
 import com.chanris.gulimall.ware.service.WareInfoService;
+import com.chanris.gulimall.ware.vo.FareVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -22,7 +23,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -37,8 +40,17 @@ import java.util.Map;
 @RequestMapping("ware/wareinfo")
 @Api(tags="仓库信息")
 public class WareInfoController {
-    @Autowired
+    @Resource
     private WareInfoService wareInfoService;
+
+
+
+
+    @GetMapping("/fare")
+    public Result<FareVo> getFare(@RequestParam("addrId") Long addrId) {
+        FareVo fare = wareInfoService.getFare(addrId);
+        return  new Result<FareVo>().ok(fare);
+    }
 
     @GetMapping("page")
     @ApiOperation("分页")
@@ -48,7 +60,7 @@ public class WareInfoController {
         @ApiImplicitParam(name = Constant.ORDER_FIELD, value = "排序字段", paramType = "query", dataType="String") ,
         @ApiImplicitParam(name = Constant.ORDER, value = "排序方式，可选值(asc、desc)", paramType = "query", dataType="String")
     })
-    @RequiresPermissions("ware:wareinfo:page")
+//    @RequiresPermissions("ware:wareinfo:page")
     public Result<PageData<WareInfoDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params){
         PageData<WareInfoDTO> page = wareInfoService.page(params);
 
@@ -57,7 +69,7 @@ public class WareInfoController {
 
     @GetMapping("{id}")
     @ApiOperation("信息")
-    @RequiresPermissions("ware:wareinfo:info")
+//    @RequiresPermissions("ware:wareinfo:info")
     public Result<WareInfoDTO> get(@PathVariable("id") Long id){
         WareInfoDTO data = wareInfoService.get(id);
 
@@ -67,7 +79,7 @@ public class WareInfoController {
     @PostMapping
     @ApiOperation("保存")
     @LogOperation("保存")
-    @RequiresPermissions("ware:wareinfo:save")
+//    @RequiresPermissions("ware:wareinfo:save")
     public Result save(@RequestBody WareInfoDTO dto){
         //效验数据
         ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
@@ -80,7 +92,7 @@ public class WareInfoController {
     @PutMapping
     @ApiOperation("修改")
     @LogOperation("修改")
-    @RequiresPermissions("ware:wareinfo:update")
+//    @RequiresPermissions("ware:wareinfo:update")
     public Result update(@RequestBody WareInfoDTO dto){
         //效验数据
         ValidatorUtils.validateEntity(dto, UpdateGroup.class, DefaultGroup.class);
@@ -93,7 +105,7 @@ public class WareInfoController {
     @DeleteMapping
     @ApiOperation("删除")
     @LogOperation("删除")
-    @RequiresPermissions("ware:wareinfo:delete")
+//    @RequiresPermissions("ware:wareinfo:delete")
     public Result delete(@RequestBody Long[] ids){
         //效验数据
         AssertUtils.isArrayEmpty(ids, "id");
@@ -106,7 +118,7 @@ public class WareInfoController {
     @GetMapping("export")
     @ApiOperation("导出")
     @LogOperation("导出")
-    @RequiresPermissions("ware:wareinfo:export")
+//    @RequiresPermissions("ware:wareinfo:export")
     public void export(@ApiIgnore @RequestParam Map<String, Object> params, HttpServletResponse response) throws Exception {
         List<WareInfoDTO> list = wareInfoService.list(params);
 

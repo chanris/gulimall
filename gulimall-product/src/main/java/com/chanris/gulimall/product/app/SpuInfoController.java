@@ -11,6 +11,7 @@ import com.chanris.gulimall.common.validator.group.AddGroup;
 import com.chanris.gulimall.common.validator.group.DefaultGroup;
 import com.chanris.gulimall.common.validator.group.UpdateGroup;
 import com.chanris.gulimall.product.dto.SpuInfoDTO;
+import com.chanris.gulimall.product.entity.SpuInfoEntity;
 import com.chanris.gulimall.product.excel.SpuInfoExcel;
 import com.chanris.gulimall.product.service.SpuInfoService;
 import com.chanris.gulimall.product.vo.SpuSaveVo;
@@ -35,7 +36,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("product/spuinfo")
-@Api(tags="spu信息")
+@Api(tags = "spu信息")
 public class SpuInfoController {
     @Resource
     private SpuInfoService spuInfoService;
@@ -43,13 +44,13 @@ public class SpuInfoController {
     @GetMapping("page")
     @ApiOperation("分页")
     @ApiImplicitParams({
-        @ApiImplicitParam(name = Constant.PAGE, value = "当前页码，从1开始", paramType = "query", required = true, dataType="int") ,
-        @ApiImplicitParam(name = Constant.LIMIT, value = "每页显示记录数", paramType = "query",required = true, dataType="int") ,
-        @ApiImplicitParam(name = Constant.ORDER_FIELD, value = "排序字段", paramType = "query", dataType="String") ,
-        @ApiImplicitParam(name = Constant.ORDER, value = "排序方式，可选值(asc、desc)", paramType = "query", dataType="String")
+            @ApiImplicitParam(name = Constant.PAGE, value = "当前页码，从1开始", paramType = "query", required = true, dataType = "int"),
+            @ApiImplicitParam(name = Constant.LIMIT, value = "每页显示记录数", paramType = "query", required = true, dataType = "int"),
+            @ApiImplicitParam(name = Constant.ORDER_FIELD, value = "排序字段", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = Constant.ORDER, value = "排序方式，可选值(asc、desc)", paramType = "query", dataType = "String")
     })
 //    @RequiresPermissions("product:spuinfo:page")
-    public Result<PageData<SpuInfoDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params){
+    public Result<PageData<SpuInfoDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params) {
         PageData<SpuInfoDTO> page = spuInfoService.page(params);
 
         return new Result<PageData<SpuInfoDTO>>().ok(page);
@@ -62,10 +63,16 @@ public class SpuInfoController {
         return new Result();
     }
 
+    @GetMapping("/skuId/{id}")
+    public Result<SpuInfoEntity> getSpuInfoBySkuId(@PathVariable("id") Long id) {
+        SpuInfoEntity entity = spuInfoService.getSpuInfoBySkuId(id);
+        return new Result<SpuInfoEntity>().ok(entity);
+    }
+
     @GetMapping("{id}")
     @ApiOperation("信息")
 //    @RequiresPermissions("product:spuinfo:info")
-    public Result<SpuInfoDTO> get(@PathVariable("id") Long id){
+    public Result<SpuInfoDTO> get(@PathVariable("id") Long id) {
         SpuInfoDTO data = spuInfoService.get(id);
 
         return new Result<SpuInfoDTO>().ok(data);
@@ -76,7 +83,7 @@ public class SpuInfoController {
     @ApiOperation("保存")
     @LogOperation("保存")
 //    @RequiresPermissions("product:spuinfo:save")
-    public Result save(@RequestBody SpuSaveVo spuSaveVo){
+    public Result save(@RequestBody SpuSaveVo spuSaveVo) {
         //效验数据
         ValidatorUtils.validateEntity(spuSaveVo, AddGroup.class, DefaultGroup.class);
 
@@ -89,7 +96,7 @@ public class SpuInfoController {
     @ApiOperation("修改")
     @LogOperation("修改")
 //    @RequiresPermissions("product:spuinfo:update")
-    public Result update(@RequestBody SpuInfoDTO dto){
+    public Result update(@RequestBody SpuInfoDTO dto) {
         //效验数据
         ValidatorUtils.validateEntity(dto, UpdateGroup.class, DefaultGroup.class);
 
@@ -102,7 +109,7 @@ public class SpuInfoController {
     @ApiOperation("删除")
     @LogOperation("删除")
 //    @RequiresPermissions("product:spuinfo:delete")
-    public Result delete(@RequestBody Long[] ids){
+    public Result delete(@RequestBody Long[] ids) {
         //效验数据
         AssertUtils.isArrayEmpty(ids, "id");
 

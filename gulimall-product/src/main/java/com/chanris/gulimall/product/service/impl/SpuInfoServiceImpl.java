@@ -207,7 +207,6 @@ public class SpuInfoServiceImpl extends CrudServiceImpl<SpuInfoDao, SpuInfoEntit
      */
     @Override
     public void up(Long spuId) {
-
         // 组装需要的数据
         // 1.查出当前spuId对应的商品信息
         List<SkuInfoEntity> skus = skuInfoService.getSkusBySpuId(spuId);
@@ -292,5 +291,15 @@ public class SpuInfoServiceImpl extends CrudServiceImpl<SpuInfoDao, SpuInfoEntit
              *
              */
         }
+    }
+
+    @Override
+    public SpuInfoEntity getSpuInfoBySkuId(Long skuId) {
+        SkuInfoDTO skuInfoDTO = skuInfoService.get(skuId);
+        Long spuId = skuInfoDTO.getSpuId();
+        SpuInfoDTO spuInfoDTO = this.get(spuId);
+        SpuInfoEntity entity = new SpuInfoEntity();
+        BeanUtils.copyProperties(spuInfoDTO, entity);
+        return entity;
     }
 }

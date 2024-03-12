@@ -13,7 +13,8 @@ spring:
   jackson:
     default-property-inclusion: non_null # json化排除null字段
     date-format: yyyy-MM-dd HH:mm:ss
-#    date-format: java.text.SimpleDateFormat
+    time-zone: GMT+8
+  #    date-format: java.text.SimpleDateFormat
   thymeleaf:
     cache: true # 开发，关闭缓存
   redis:

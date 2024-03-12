@@ -28,6 +28,9 @@ spring:
   redis:
     host: 192.168.125.129
     password: acid10837
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
   global-config:

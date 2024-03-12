@@ -19,7 +19,7 @@
         <el-input v-model="dataForm.icon" placeholder="属性图标"></el-input>
       </el-form-item>
       <el-form-item label="可选值列表" prop="valueSelect">
-        <el-input v-model="dataForm.valueSelect" placeholder="可选值列表[用逗号分隔]"></el-input>
+        <el-input v-model="dataForm.valueSelect" placeholder="可选值列表[用分号分隔]"></el-input>
       </el-form-item>
       <!-- <el-form-item label="属性类型" prop="attrType">
         <el-input v-model="dataForm.attrType" placeholder="属性类型[0-销售属性，1-基本属性，2-既是销售属性又是基本属性]"></el-input>

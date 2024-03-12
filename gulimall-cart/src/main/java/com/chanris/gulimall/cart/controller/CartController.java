@@ -3,6 +3,7 @@ package com.chanris.gulimall.cart.controller;
 import com.chanris.gulimall.cart.service.CartService;
 import com.chanris.gulimall.cart.vo.Cart;
 import com.chanris.gulimall.cart.vo.CartItem;
+import com.chanris.gulimall.common.utils.Result;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -68,7 +69,7 @@ public class CartController {
                               @RequestParam("num") Integer num,
                               RedirectAttributes attributes) throws ExecutionException, InterruptedException {
 
-        cartService.addToCart(skuId,num);
+        cartService.addToCart(skuId, num);
 
         attributes.addAttribute("skuId", skuId);
         return "redirect:http://cart.gulimall.com/addToCartSuccessPage.html";

@@ -18,4 +18,8 @@ import java.util.List;
 public interface WareSkuDao extends BaseDao<WareSkuEntity> {
 
     List<SkuHasStockVo> getSkuHasStock(@Param("skuIds") List<Long> skuIds);
+
+    List<Long> listWareIdHasSkuStock(Long skuId);
+
+    long lockSkuStock(@Param("skuId") Long skuId, @Param("wareId") Long wareId, @Param("num") Integer num);
 }

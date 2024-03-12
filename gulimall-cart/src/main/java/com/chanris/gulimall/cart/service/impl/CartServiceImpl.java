@@ -98,7 +98,7 @@ public class CartServiceImpl implements CartService {
     public Cart getCart() throws ExecutionException, InterruptedException {
         Cart cart = new Cart();
         UserInfoTo userInfoTo = CartInterceptor.threadLocal.get();
-        if (userInfoTo.isTempUser()) {
+        if (userInfoTo.getUserId() == null) {
             String cartKey = CART_PREFIX + userInfoTo.getUserKey();
             List<CartItem> cartItems = getCartItems(cartKey);
             cart.setItems(cartItems);

@@ -1,21 +1,21 @@
 package com.chanris.gulimall.order.feign;
 
+import com.chanris.gulimall.common.to.product.SpuInfoTo;
 import com.chanris.gulimall.common.utils.Result;
-import com.chanris.gulimall.order.vo.OrderItemVo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.List;
 
 /**
  * @author chenyue7@foxmail.com
- * @date 11/3/2024
+ * @date 12/3/2024
  * @description
  */
-@FeignClient("gulimall-cart")
-public interface CartFeignService {
-    @GetMapping(value = "/currentUserCartItems")
+@FeignClient("gulimall-product")
+public interface ProductFeignService {
+
+    @GetMapping("product/spuinfo/skuId/{id}")
     @ResponseBody
-    List<OrderItemVo> getCurrentCartItems();
+    Result<SpuInfoTo> getSpuInfoBySkuId(@PathVariable("id") Long id);
 }

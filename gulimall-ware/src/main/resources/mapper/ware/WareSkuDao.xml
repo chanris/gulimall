@@ -25,4 +25,12 @@
         group by ws.sku_id
     </select>
 
+    <select id="listWareIdHasSkuStock" parameterType="long"  resultType="long">
+        select ware_id from wms_ware_sku where sku_id = #{skuId} and stock - wms_ware_sku.stock_locked > 0
+    </select>
+
+    <update id="lockSkuStock">
+        update wms_ware_sku set stock_locked = stock_locked + #{num}
+        where sku_id = #{skuId} and ware_id = #{wareId} and stock - stock_locked >= #{num}
+    </update>
 </mapper>

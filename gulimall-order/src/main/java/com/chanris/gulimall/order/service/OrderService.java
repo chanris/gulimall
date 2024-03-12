@@ -4,6 +4,8 @@ import com.chanris.gulimall.common.service.CrudService;
 import com.chanris.gulimall.order.dto.OrderDTO;
 import com.chanris.gulimall.order.entity.OrderEntity;
 import com.chanris.gulimall.order.vo.OrderConfirmVo;
+import com.chanris.gulimall.order.vo.OrderSubmitVo;
+import com.chanris.gulimall.order.vo.SubmitOrderRespVo;
 
 import java.util.concurrent.ExecutionException;
 
@@ -16,4 +18,6 @@ import java.util.concurrent.ExecutionException;
 public interface OrderService extends CrudService<OrderEntity, OrderDTO> {
 
     OrderConfirmVo confirmOrder() throws ExecutionException, InterruptedException;
+
+    SubmitOrderRespVo submitOrder(OrderSubmitVo orderSubmitVo);
 }
