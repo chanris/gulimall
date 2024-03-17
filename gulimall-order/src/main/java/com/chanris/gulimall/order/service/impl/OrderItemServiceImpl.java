@@ -45,7 +45,7 @@ public class OrderItemServiceImpl extends CrudServiceImpl<OrderItemDao, OrderIte
      * 3. Channel channel: 当前传输的通道
      * Queue: 可以有很多人都来监听，只要收到消息，队列删除消息，只能有一个收到消息
      */
-    @RabbitListener(queues = {"hello-java-queue"})
+   // @RabbitListener(queues = {"hello-java-queue"})
     public void receiveMessage(Message message, RabbitHelloMessageVo vo, Channel channel) throws IOException {
         System.out.println("接收到消息---内容：" + message + "===>类型：" + vo);
 

@@ -2,6 +2,7 @@ package com.chanris.gulimall.ware.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.chanris.gulimall.common.service.CrudService;
+import com.chanris.gulimall.common.to.mq.StockLockedTo;
 import com.chanris.gulimall.ware.dto.WareSkuDTO;
 import com.chanris.gulimall.ware.entity.WareSkuEntity;
 import com.chanris.gulimall.ware.vo.SkuHasStockVo;
@@ -22,4 +23,6 @@ public interface WareSkuService extends CrudService<WareSkuEntity, WareSkuDTO> {
     List<SkuHasStockVo> getSkuHasStock(List<Long> skuIds);
 
     boolean orderLockStock(WareSkuLockVo vo);
+
+    void unlockStock(StockLockedTo to);
 }

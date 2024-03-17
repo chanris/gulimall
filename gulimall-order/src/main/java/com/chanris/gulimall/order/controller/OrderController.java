@@ -11,6 +11,7 @@ import com.chanris.gulimall.common.validator.group.AddGroup;
 import com.chanris.gulimall.common.validator.group.DefaultGroup;
 import com.chanris.gulimall.common.validator.group.UpdateGroup;
 import com.chanris.gulimall.order.dto.OrderDTO;
+import com.chanris.gulimall.order.entity.OrderEntity;
 import com.chanris.gulimall.order.excel.OrderExcel;
 import com.chanris.gulimall.order.service.OrderService;
 import io.swagger.annotations.Api;
@@ -22,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
@@ -37,8 +39,15 @@ import java.util.Map;
 @RequestMapping("order/order")
 @Api(tags="订单")
 public class OrderController {
-    @Autowired
+    @Resource
     private OrderService orderService;
+
+    @GetMapping("/status/{orderSn}")
+    public Result<OrderEntity> getOrderStatus(@PathVariable("orderSn") String orderSn) {
+        OrderEntity entity = orderService.getOrderByOrderSn(orderSn);
+        return new Result<OrderEntity>().ok(entity);
+    }
+
 
     @GetMapping("page")
     @ApiOperation("分页")
@@ -48,7 +57,7 @@ public class OrderController {
         @ApiImplicitParam(name = Constant.ORDER_FIELD, value = "排序字段", paramType = "query", dataType="String") ,
         @ApiImplicitParam(name = Constant.ORDER, value = "排序方式，可选值(asc、desc)", paramType = "query", dataType="String")
     })
-    @RequiresPermissions("order:order:page")
+//    @RequiresPermissions("order:order:page")
     public Result<PageData<OrderDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params){
         PageData<OrderDTO> page = orderService.page(params);
 
@@ -57,7 +66,7 @@ public class OrderController {
 
     @GetMapping("{id}")
     @ApiOperation("信息")
-    @RequiresPermissions("order:order:info")
+//    @RequiresPermissions("order:order:info")
     public Result<OrderDTO> get(@PathVariable("id") Long id){
         OrderDTO data = orderService.get(id);
 
@@ -67,7 +76,7 @@ public class OrderController {
     @PostMapping
     @ApiOperation("保存")
     @LogOperation("保存")
-    @RequiresPermissions("order:order:save")
+//    @RequiresPermissions("order:order:save")
     public Result save(@RequestBody OrderDTO dto){
         //效验数据
         ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
@@ -80,7 +89,7 @@ public class OrderController {
     @PutMapping
     @ApiOperation("修改")
     @LogOperation("修改")
-    @RequiresPermissions("order:order:update")
+//    @RequiresPermissions("order:order:update")
     public Result update(@RequestBody OrderDTO dto){
         //效验数据
         ValidatorUtils.validateEntity(dto, UpdateGroup.class, DefaultGroup.class);
@@ -93,7 +102,7 @@ public class OrderController {
     @DeleteMapping
     @ApiOperation("删除")
     @LogOperation("删除")
-    @RequiresPermissions("order:order:delete")
+//    @RequiresPermissions("order:order:delete")
     public Result delete(@RequestBody Long[] ids){
         //效验数据
         AssertUtils.isArrayEmpty(ids, "id");
@@ -106,7 +115,7 @@ public class OrderController {
     @GetMapping("export")
     @ApiOperation("导出")
     @LogOperation("导出")
-    @RequiresPermissions("order:order:export")
+//    @RequiresPermissions("order:order:export")
     public void export(@ApiIgnore @RequestParam Map<String, Object> params, HttpServletResponse response) throws Exception {
         List<OrderDTO> list = orderService.list(params);
 

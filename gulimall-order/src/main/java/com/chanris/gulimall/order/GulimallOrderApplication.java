@@ -28,7 +28,13 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
  *
  *  ============================ 订单 =========================
  *
+ * Seata控制分布式事务
+ * AT: 自动事务回滚，不支持高并发场景
+ * TCC: 自定义事务准备、提交、回滚逻辑
  *
+ * 柔性事务： 可靠消息+保证最终一致性方案（异步确保法）
+ * 业务处理服务在业务事务提交之前，向实时消息服务请求发送消息，实时消息只记录消息数据，而不是真正的发送。
+ * 业务处理服务在业务事务提交之后，向实时消息服务确认发送。只要得到确认发送指令后，实时消息服务才会真正发送。
  */
 @EnableFeignClients(basePackages = "com.chanris.gulimall.order.feign")
 @EnableRedisHttpSession // Spring Session

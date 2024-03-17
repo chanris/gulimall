@@ -1,7 +1,9 @@
 package com.chanris.gulimall.ware.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -12,6 +14,8 @@ import java.util.Date;
  * @since 1.0.0 2024-01-27
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @TableName("wms_ware_order_task_detail")
 public class WareOrderTaskDetailEntity {
 
@@ -35,4 +39,6 @@ public class WareOrderTaskDetailEntity {
      * 工作单id
      */
 	private Long taskId;
+    private Long wareId;
+    private Integer lockStatus;
 }

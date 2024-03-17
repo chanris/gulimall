@@ -117,6 +117,7 @@ public class OrderServiceImpl extends CrudServiceImpl<OrderDao, OrderEntity, Ord
             List<OrderItemVo> items = confirmVo.getItems();
             List<Long> skuIds = items.stream().map(OrderItemVo::getSkuId).collect(Collectors.toList());
             // 批量远程查询 商品列表是否有库存
+            // 为了保证高并发，库存服务自己回滚 使用消息队列
             Result<List<SkuHasStockVo>> r = wmsFeignService.getSkusHasStock(skuIds);
             if (r.success()) {
                 List<SkuHasStockVo> hasStockVos = r.getData();
@@ -199,6 +200,11 @@ public class OrderServiceImpl extends CrudServiceImpl<OrderDao, OrderEntity, Ord
 
         response.setOrder(order.getOrder());
         return response;
+    }
+
+    @Override
+    public OrderEntity getOrderByOrderSn(String orderSn) {
+        return orderDao.selectOne(new QueryWrapper<OrderEntity>().eq("order_sn", orderSn));
     }
 
     /**

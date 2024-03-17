@@ -34,5 +34,8 @@ public class WareOrderTaskDetailDTO implements Serializable {
 	@ApiModelProperty(value = "工作单id")
 	private Long taskId;
 
+	private Long wareId;
+
+	private Integer lockStatus;
 
 }

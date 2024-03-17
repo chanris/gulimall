@@ -4,6 +4,7 @@ import com.chanris.gulimall.order.service.OrderService;
 import com.chanris.gulimall.order.vo.OrderConfirmVo;
 import com.chanris.gulimall.order.vo.OrderSubmitVo;
 import com.chanris.gulimall.order.vo.SubmitOrderRespVo;
+//import io.seata.spring.annotation.GlobalTransactional;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +38,7 @@ public class OrderWebController {
      * @param orderSubmitVo
      * @return
      */
+//    @GlobalTransactional
     @PostMapping("/submitOrder")
     public String submitOrder(OrderSubmitVo vo, Model model, RedirectAttributes attributes) {
         try {

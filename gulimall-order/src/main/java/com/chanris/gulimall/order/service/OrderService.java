@@ -20,4 +20,6 @@ public interface OrderService extends CrudService<OrderEntity, OrderDTO> {
     OrderConfirmVo confirmOrder() throws ExecutionException, InterruptedException;
 
     SubmitOrderRespVo submitOrder(OrderSubmitVo orderSubmitVo);
+
+    OrderEntity getOrderByOrderSn(String orderSn);
 }
