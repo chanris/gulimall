@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @FeignClient("gulimall-order")
 public interface OrderFeignService {
-    @GetMapping("/status/{orderSn}")
+    @GetMapping("order/order/status/{orderSn}")
     @ResponseBody
     Result<OrderTo> getOrderStatus(@PathVariable("orderSn") String orderSn);
 }

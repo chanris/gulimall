@@ -1,11 +1,6 @@
 package com.chanris.gulimall.ware.listener;
 
-import com.chanris.gulimall.common.to.OrderTo;
-import com.chanris.gulimall.common.to.mq.StockDetailTo;
 import com.chanris.gulimall.common.to.mq.StockLockedTo;
-import com.chanris.gulimall.common.utils.Result;
-import com.chanris.gulimall.ware.dto.WareOrderTaskDTO;
-import com.chanris.gulimall.ware.dto.WareOrderTaskDetailDTO;
 import com.chanris.gulimall.ware.service.WareSkuService;
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +40,7 @@ public class StockReleaseListener {
             log.info("发送自动释放库存ACK消息");
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         }catch (Exception e) {
+            e.printStackTrace();
             log.info("发送自动释放库存REJECT消息");
             channel.basicReject(message.getMessageProperties().getDeliveryTag(), true);
         }
