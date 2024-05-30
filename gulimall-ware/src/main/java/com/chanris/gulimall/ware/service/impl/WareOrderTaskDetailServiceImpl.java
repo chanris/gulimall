@@ -1,7 +1,9 @@
 package com.chanris.gulimall.ware.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.chanris.gulimall.common.service.impl.CrudServiceImpl;
+import com.chanris.gulimall.common.utils.ObjectConvert;
 import com.chanris.gulimall.ware.dao.WareOrderTaskDetailDao;
 import com.chanris.gulimall.ware.dto.WareOrderTaskDetailDTO;
 import com.chanris.gulimall.ware.entity.WareOrderTaskDetailEntity;
@@ -22,11 +24,14 @@ public class WareOrderTaskDetailServiceImpl extends CrudServiceImpl<WareOrderTas
 
     @Override
     public QueryWrapper<WareOrderTaskDetailEntity> getWrapper(Map<String, Object> params){
-        String id = (String)params.get("id");
+        Object id = params.get("id");
+        Object taskId = params.get("task_id");
+        Object lockStatus = params.get("lock_status");
 
         QueryWrapper<WareOrderTaskDetailEntity> wrapper = new QueryWrapper<>();
-        wrapper.eq(StrUtil.isNotBlank(id), "id", id);
-
+        wrapper.eq(ObjectUtil.isNotNull(id), "id", ObjectConvert.toLong(id));
+        wrapper.eq(ObjectUtil.isNotNull(taskId), "task_id", ObjectConvert.toLong(taskId));
+        wrapper.eq(ObjectUtil.isNotNull(lockStatus), "lock_status", ObjectConvert.toInteger(lockStatus));
         return wrapper;
     }
 

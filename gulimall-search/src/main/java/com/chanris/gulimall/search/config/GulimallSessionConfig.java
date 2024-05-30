@@ -1,4 +1,4 @@
-package com.chanris.gulimall.auth.config;
+package com.chanris.gulimall.search.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,16 +10,11 @@ import org.springframework.session.web.http.DefaultCookieSerializer;
 /**
  * @author chenyue7@foxmail.com
  * @date 9/3/2024
- * @description
+ * @description 装饰session-分布式共享session
  */
 @Configuration
 public class GulimallSessionConfig {
 
-    /**
-     * 设置 cookie的作用域范围 和 cookie的名称
-     *
-     * @return
-     */
     @Bean
     public CookieSerializer cookieSerializer() {
         DefaultCookieSerializer cookieSerializer = new DefaultCookieSerializer();

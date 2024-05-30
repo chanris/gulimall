@@ -1,5 +1,6 @@
 package com.chanris.gulimall.ware.listener;
 
+import com.chanris.gulimall.common.to.OrderTo;
 import com.chanris.gulimall.common.to.mq.StockLockedTo;
 import com.chanris.gulimall.ware.service.WareSkuService;
 import com.rabbitmq.client.Channel;
@@ -37,11 +38,24 @@ public class StockReleaseListener {
     public void handleStockLockedRelease(StockLockedTo to, Message message, Channel channel) throws IOException {
         try {
             wareSkuService.unlockStock(to);
-            log.info("发送自动释放库存ACK消息");
+            log.info("被动解库存：发送自动释放库存ACK消息");
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         }catch (Exception e) {
             e.printStackTrace();
-            log.info("发送自动释放库存REJECT消息");
+            log.info("被动解库存：发送自动释放库存REJECT消息");
+            channel.basicReject(message.getMessageProperties().getDeliveryTag(), true);
+        }
+    }
+
+    @RabbitHandler
+    public void handleOrderCloseRelease(OrderTo orderTo,Message message, Channel channel) throws IOException {
+        try {
+            wareSkuService.unlockStock(orderTo);
+            log.info("主动解库存：发送自动释放库存ACK消息");
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+        }catch (Exception e) {
+            e.printStackTrace();
+            log.info("主动解库存：发送自动释放库存REJECT消息");
             channel.basicReject(message.getMessageProperties().getDeliveryTag(), true);
         }
     }

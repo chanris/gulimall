@@ -20,5 +20,7 @@
         <result property="taskComment" column="task_comment"/>
     </resultMap>
 
-
+    <select id="getOrderTaskByOrderSn" resultType="com.chanris.gulimall.ware.entity.WareOrderTaskEntity" parameterType="string">
+        select * from wms_ware_order_task where order_sn = #{val}
+    </select>
 </mapper>

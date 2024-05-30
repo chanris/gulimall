@@ -25,6 +25,13 @@ public class OrderWebController {
     @Resource
     private OrderService orderService;
 
+    /**
+     * 去结算页面
+     * @param model
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     @GetMapping("/toTrade")
     public String toTrade(Model model) throws ExecutionException, InterruptedException {
         OrderConfirmVo confirmVo = orderService.confirmOrder();
@@ -33,7 +40,7 @@ public class OrderWebController {
     }
 
     /**
-     * 下单
+     * 下单功能
      * 重定向会丢失数据
      * @param orderSubmitVo
      * @return

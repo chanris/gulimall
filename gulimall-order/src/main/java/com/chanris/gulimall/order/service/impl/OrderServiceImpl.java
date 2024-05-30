@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.chanris.gulimall.common.service.impl.CrudServiceImpl;
+import com.chanris.gulimall.common.to.OrderTo;
 import com.chanris.gulimall.common.to.SkuHasStockVo;
 import com.chanris.gulimall.common.to.product.SpuInfoTo;
 import com.chanris.gulimall.common.to.ware.FareTo;
@@ -28,6 +29,7 @@ import com.chanris.gulimall.order.service.OrderService;
 import com.chanris.gulimall.order.to.OrderCreateTo;
 import com.chanris.gulimall.order.vo.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
@@ -53,6 +55,11 @@ import static com.chanris.gulimall.order.constant.OrderConstant.USER_ORDER_TOKEN
  *
  * @author Chen Yue chenyue7@foxmail.com
  * @since 1.0.0 2024-01-27
+ *
+ * 柔性事务-可靠消息+最终一致性方案（异步确保型）
+ * 实现：业务处理服务在业务事务提交之前，项实时消息服务请求发送消息，实时消息服务只记录消息数据，
+ * 而不是真正的发送。业务处理服务在业务事务提交之后，向实时消息服务确认发送。只有在得到确认发送指令后，
+ * 实时消息服务才会真正发送。
  */
 @Service
 @Slf4j
@@ -74,6 +81,8 @@ public class OrderServiceImpl extends CrudServiceImpl<OrderDao, OrderEntity, Ord
     private ProductFeignService productFeignService;
     @Resource
     private OrderItemService orderItemService;
+    @Resource
+    private RabbitTemplate rabbitTemplate;
 
     @Override
     public QueryWrapper<OrderEntity> getWrapper(Map<String, Object> params) {
@@ -109,7 +118,7 @@ public class OrderServiceImpl extends CrudServiceImpl<OrderDao, OrderEntity, Ord
             RequestContextHolder.setRequestAttributes(requestAttributes);
             // 2. 远程查询购物车所有选中的购物项
             List<OrderItemVo> cartItems = cartFeignService.getCurrentCartItems();
-            if (cartItems == null || cartItems.size() == 0) {
+            if (cartItems == null || cartItems.isEmpty()) {
                 log.warn("远程查询购物车为空");
             }
             confirmVo.setItems(cartItems);
@@ -199,12 +208,30 @@ public class OrderServiceImpl extends CrudServiceImpl<OrderDao, OrderEntity, Ord
         }
 
         response.setOrder(order.getOrder());
+        // 订单创建成功，把订单信息发送给rabbit mq
+        rabbitTemplate.convertAndSend("order-event-exchange", "order.create.order", order.getOrder());
         return response;
     }
 
     @Override
     public OrderEntity getOrderByOrderSn(String orderSn) {
         return orderDao.selectOne(new QueryWrapper<OrderEntity>().eq("order_sn", orderSn));
+    }
+
+    @Override
+    public void closeOrder(OrderEntity order) {
+        // 当前订单的最新状态
+        OrderEntity orderEntity = selectById(order.getId());
+        if (Objects.equals(orderEntity.getStatus(), OrderStatusEnum.CREATE_NEW.code)) {
+            OrderEntity update = new OrderEntity();
+            update.setId(orderEntity.getId());
+            update.setStatus(OrderStatusEnum.CANCELED.code);
+            updateById(update); // 空字段不更新
+            OrderTo orderTo = new OrderTo();
+            BeanUtils.copyProperties(orderEntity, orderTo);
+            // 通知mq 解锁库存
+            rabbitTemplate.convertAndSend("order-event-exchange", "order.release.order.#", orderTo);
+        }
     }
 
     /**
@@ -293,7 +320,7 @@ public class OrderServiceImpl extends CrudServiceImpl<OrderDao, OrderEntity, Ord
     // 构建所有订单项数据
     private List<OrderItemEntity> buildOderItems(String orderSn) {
         List<OrderItemVo> currentCartItems = cartFeignService.getCurrentCartItems();
-        if (currentCartItems != null &&currentCartItems.size() > 0) {
+        if (currentCartItems != null && !currentCartItems.isEmpty()) {
             List<OrderItemEntity> orderItemEntities = currentCartItems.stream().map(cartItem -> {
                 OrderItemEntity itemEntity = buildOderItem(cartItem);
                 itemEntity.setOrderSn(orderSn);

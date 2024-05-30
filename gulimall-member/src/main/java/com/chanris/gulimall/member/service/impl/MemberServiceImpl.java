@@ -16,6 +16,7 @@ import com.chanris.gulimall.member.util.GiteeHttpClient;
 import com.chanris.gulimall.member.vo.MemberRegistVo;
 import com.chanris.gulimall.member.vo.MemberUserLoginVo;
 import com.chanris.gulimall.member.vo.SocialUser;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,7 @@ import java.util.Map;
  * @since 1.0.0 2024-01-27
  */
 @Service
+@Slf4j
 public class MemberServiceImpl extends CrudServiceImpl<MemberDao, MemberEntity, MemberDTO> implements MemberService {
 
     @Resource
@@ -95,6 +97,7 @@ public class MemberServiceImpl extends CrudServiceImpl<MemberDao, MemberEntity, 
 
     @Override
     public MemberEntity login(MemberUserLoginVo vo) {
+        log.debug("登录账号：{}", vo.getLoginacct());
         String loginacct = vo.getLoginacct();
         String password = vo.getPassword();
 
@@ -102,16 +105,14 @@ public class MemberServiceImpl extends CrudServiceImpl<MemberDao, MemberEntity, 
         MemberEntity memberEntity = memberDao.selectOne(new QueryWrapper<MemberEntity>()
                 .eq("username", loginacct).or().eq("mobile", loginacct));
 
-        if (memberEntity == null) {
-            //登录失败
-            return null;
-        } else {
+        if (memberEntity != null) {
             //获取到数据库里的password
             String password1 = memberEntity.getPassword();
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             //进行密码匹配
             boolean matches = passwordEncoder.matches(password, password1);
             if (matches) {
+                log.debug("账号： {}，登录成功", loginacct);
                 //登录成功
                 return memberEntity;
             }

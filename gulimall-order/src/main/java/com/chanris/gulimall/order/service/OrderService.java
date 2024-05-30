@@ -22,4 +22,6 @@ public interface OrderService extends CrudService<OrderEntity, OrderDTO> {
     SubmitOrderRespVo submitOrder(OrderSubmitVo orderSubmitVo);
 
     OrderEntity getOrderByOrderSn(String orderSn);
+
+    void closeOrder(OrderEntity order);
 }

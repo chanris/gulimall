@@ -9,6 +9,7 @@ import com.chanris.gulimall.ware.service.WareOrderTaskService;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Map;
 
 /**
@@ -20,6 +21,9 @@ import java.util.Map;
 @Service
 public class WareOrderTaskServiceImpl extends CrudServiceImpl<WareOrderTaskDao, WareOrderTaskEntity, WareOrderTaskDTO> implements WareOrderTaskService {
 
+    @Resource
+    private WareOrderTaskDao wareOrderTaskDao;
+
     @Override
     public QueryWrapper<WareOrderTaskEntity> getWrapper(Map<String, Object> params){
         String id = (String)params.get("id");
@@ -30,5 +34,8 @@ public class WareOrderTaskServiceImpl extends CrudServiceImpl<WareOrderTaskDao, 
         return wrapper;
     }
 
-
+    @Override
+    public WareOrderTaskEntity getOrderTaskByOrderSn(String orderSn) {
+        return wareOrderTaskDao.getOrderTaskByOrderSn(orderSn);
+    }
 }

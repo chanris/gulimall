@@ -33,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -75,7 +76,6 @@ public class WareSkuServiceImpl extends CrudServiceImpl<WareSkuDao, WareSkuEntit
 
         QueryWrapper<WareSkuEntity> wrapper = new QueryWrapper<>();
         wrapper.eq(StrUtil.isNotBlank(id), "id", id);
-
         return wrapper;
     }
 
@@ -131,7 +131,7 @@ public class WareSkuServiceImpl extends CrudServiceImpl<WareSkuDao, WareSkuEntit
             boolean skuStocked = false;
             Long skuId = hasStock.getSkuId();
             List<Long> wareIds = hasStock.getWareId();
-            if(wareIds == null || wareIds.size() == 0) {
+            if(wareIds == null || wareIds.isEmpty()) {
                 throw new NoStockException("库存不足 skuId:" + skuId);
             }
             for(Long wareId: wareIds) {
@@ -157,6 +157,12 @@ public class WareSkuServiceImpl extends CrudServiceImpl<WareSkuDao, WareSkuEntit
         return true;
     }
 
+    /**
+     * 解锁库存
+     *
+     * @param to
+     * @throws RuntimeException
+     */
     @Override
     public void unlockStock(StockLockedTo to) throws RuntimeException {
         System.out.println("收到解锁库存的消息");
@@ -190,6 +196,23 @@ public class WareSkuServiceImpl extends CrudServiceImpl<WareSkuDao, WareSkuEntit
             }else {
                 throw new RuntimeException("远程获得订单信息失败");
             }
+        }
+    }
+
+    /**
+     * 订单取消时，通知库存服务解锁库存
+     */
+    @Override
+    public void unlockStock(OrderTo orderTo) {
+        String orderSn = orderTo.getOrderSn();
+        WareOrderTaskEntity task = orderTaskService.getOrderTaskByOrderSn(orderSn);
+        Long taskId = task.getId();
+        HashMap<String, Object> params = new HashMap<>(2);
+        params.put("task_id", taskId);
+        params.put("lock_status", 1);
+        List<WareOrderTaskDetailDTO> list = wareOrderTaskDetailService.list(params);
+        for (WareOrderTaskDetailDTO entity : list) {
+            unlockStock(entity.getSkuId(), entity.getWareId(), entity.getSkuNum(), entity.getId());
         }
     }
 

@@ -97,7 +97,6 @@ public class MemberController {
 
         MemberEntity memberEntity = memberService.login(socialUser);
 
-
         if (memberEntity != null) {
 //            return R.ok().setData(memberEntity);
             MemberResponseVo vo = new MemberResponseVo();

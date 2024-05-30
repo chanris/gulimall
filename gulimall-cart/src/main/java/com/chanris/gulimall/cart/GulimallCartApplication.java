@@ -6,7 +6,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
-@EnableRedisHttpSession
+@EnableRedisHttpSession // 启动spring session
 @EnableFeignClients(basePackages = "com.chanris.gulimall.cart.feign")
 @EnableDiscoveryClient
 @SpringBootApplication

@@ -12,4 +12,5 @@ import com.chanris.gulimall.ware.entity.WareOrderTaskEntity;
  */
 public interface WareOrderTaskService extends CrudService<WareOrderTaskEntity, WareOrderTaskDTO> {
 
+    WareOrderTaskEntity getOrderTaskByOrderSn(String orderSn);
 }

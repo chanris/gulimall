@@ -43,6 +43,12 @@ public class WareSkuController {
     @Resource
     private WareSkuService wareSkuService;
 
+    /**
+     * 库存锁定
+     *
+     * @param vo
+     * @return
+     */
     @PostMapping("/lock/order")
     public Result<?> orderLockStock(@RequestBody WareSkuLockVo vo) {
         if (wareSkuService.orderLockStock(vo)) {

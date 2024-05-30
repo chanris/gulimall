@@ -17,7 +17,7 @@ import javax.annotation.Resource;
 /**
  * @author chenyue7@foxmail.com
  * @date 11/3/2024
- * @description
+ * @description 配置rabbitTemplate
  */
 @Configuration
 public class MyRabbitConfig {
@@ -25,24 +25,18 @@ public class MyRabbitConfig {
     @Resource
     private RabbitTemplate rabbitTemplate;
 
-//    public MyRabbitConfig(RabbitTemplate rabbitTemplate) {
-//        this.rabbitTemplate = rabbitTemplate;
-//    }
-
     /**
      * 使用JSON系列化机制，进行消息转换
-     * @return
+     *
      */
     @Bean
     public MessageConverter messageConverter() {
         return new Jackson2JsonMessageConverter();
     }
 
-    @RabbitListener(queues = "order.release.order.queue")
-    public void listener(OrderEntity entity) {
-        System.out.println("收到过期的订单信息：准备关闭订单" + entity.getOrderSn());
-    }
-
+    /**
+     * 设置 rabbit 消费者 接收到消息后ack和reject消息的回调函数
+     */
     @PostConstruct
     public void initRabbitTemplate() {
         System.out.println("initRabbitTemplate...");

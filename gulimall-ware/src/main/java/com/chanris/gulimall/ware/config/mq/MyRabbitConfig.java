@@ -61,15 +61,6 @@ public class MyRabbitConfig {
         return new Binding("stock.delay.queue", Binding.DestinationType.QUEUE,"stock-event-exchange","stock.locked", null);
     }
 
-    /**
-     * 得开一个监听 创建交换机、绑定、队列才能写到rabbit中
-     * @param entity
-     */
-    @RabbitListener(queues = "stock.release.stock.queue")
-    public void listener(WareSkuEntity entity) {
-
-    }
-
     @PostConstruct
     public void initRabbitTemplate() {
         System.out.println("initRabbitTemplate...");
