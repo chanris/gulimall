@@ -1,4 +1,4 @@
-package com.chanris.gulimall.product.config;
+package com.chanris.gulimall.product.config.cache;
 
 import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

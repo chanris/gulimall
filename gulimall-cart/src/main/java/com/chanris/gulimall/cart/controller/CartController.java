@@ -4,6 +4,7 @@ import com.chanris.gulimall.cart.service.CartService;
 import com.chanris.gulimall.cart.vo.Cart;
 import com.chanris.gulimall.cart.vo.CartItem;
 import com.chanris.gulimall.common.utils.Result;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import java.util.concurrent.ExecutionException;
  * @date 9/3/2024
  * @description
  */
+@Slf4j
 @Controller
 public class CartController {
 
@@ -38,6 +40,7 @@ public class CartController {
         // UserInfoTo userInfoTo = CartInterceptor.toThreadLocal.get();
 
         Cart cart = cartService.getCart();
+        log.info("购物车信息：{}", cart);
         model.addAttribute("cart",cart);
         return "cartList";
     }
@@ -82,7 +85,7 @@ public class CartController {
     @GetMapping(value = "/currentUserCartItems")
     @ResponseBody
     public List<CartItem> getCurrentCartItems() {
-
+        log.info("获得用户当前的购物车商品项");
         return cartService.getUserCartItems();
     }
 

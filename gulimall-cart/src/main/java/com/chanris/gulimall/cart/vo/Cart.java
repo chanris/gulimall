@@ -1,5 +1,6 @@
 package com.chanris.gulimall.cart.vo;
 
+import lombok.ToString;
 import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
@@ -10,6 +11,7 @@ import java.util.List;
  * @date 9/3/2024
  * @description
  */
+@ToString
 public class Cart {
     /**
      * 购物车子项信息

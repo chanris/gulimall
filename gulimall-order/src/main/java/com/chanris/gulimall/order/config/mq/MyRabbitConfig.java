@@ -1,4 +1,4 @@
-package com.chanris.gulimall.order.config;
+package com.chanris.gulimall.order.config.mq;
 
 import com.chanris.gulimall.order.entity.OrderEntity;
 import org.springframework.amqp.core.ReturnedMessage;

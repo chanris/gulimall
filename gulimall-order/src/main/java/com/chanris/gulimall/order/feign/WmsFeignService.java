@@ -2,7 +2,6 @@ package com.chanris.gulimall.order.feign;
 
 import com.chanris.gulimall.common.to.SkuHasStockVo;
 import com.chanris.gulimall.common.to.ware.FareTo;
-import com.chanris.gulimall.common.to.ware.LockStockResultTo;
 import com.chanris.gulimall.common.to.ware.WareSkuLockTo;
 import com.chanris.gulimall.common.utils.Result;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -18,13 +17,13 @@ import java.util.List;
  * @date 12/3/2024
  * @description
  */
-@FeignClient("gulimall-ware")
+@FeignClient(name = "gulimall-ware")
 public interface WmsFeignService {
     @PostMapping("ware/waresku/hasstock")
     Result<List<SkuHasStockVo>> getSkusHasStock(@RequestBody List<Long> skuIds);
 
     @GetMapping("ware/wareinfo/fare")
-    Result<FareTo> getFare(@RequestParam("addrId") Long addrId);
+    Result<FareTo> getFare(@RequestParam("memberId") Long addrId);
 
     @PostMapping("ware/waresku/lock/order")
     Result<?> orderLockStock(@RequestBody WareSkuLockTo vo);

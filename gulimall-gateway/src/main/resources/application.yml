@@ -60,3 +60,7 @@ spring:
           uri: lb://gulimall-order
           predicates:
             - Host=order.gulimall.com
+        - id: gulimall-member-host
+          uri: lb://gulimall-member
+          predicates:
+            - Host=member.gulimall.com

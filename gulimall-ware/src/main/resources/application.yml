@@ -24,12 +24,17 @@ spring:
         acknowledge-mode: manual # 客户端手动确认
   main:
     allow-circular-references: true # 允许循环依赖
+  redis:
+    host: 192.168.125.129
+    password: acid10837
+  session:
+    store-type: redis
+    timeout: 30m
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
   global-config:
     db-config:
       id-type: auto
-
 
 server:
   port: 11000

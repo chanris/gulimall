@@ -1,4 +1,4 @@
-package com.chanris.gulimall.cart.config;
+package com.chanris.gulimall.order.config.threadpool;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

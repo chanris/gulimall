@@ -16,6 +16,7 @@ import com.chanris.gulimall.common.vo.MemberResponseVo;
 import com.chanris.gulimall.order.constant.OrderConstant;
 import com.chanris.gulimall.order.dao.OrderDao;
 import com.chanris.gulimall.order.dto.OrderDTO;
+import com.chanris.gulimall.order.dto.OrderItemDTO;
 import com.chanris.gulimall.order.entity.OrderEntity;
 import com.chanris.gulimall.order.entity.OrderItemEntity;
 import com.chanris.gulimall.order.enums.OrderStatusEnum;
@@ -41,6 +42,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -107,6 +109,7 @@ public class OrderServiceImpl extends CrudServiceImpl<OrderDao, OrderEntity, Ord
         // 解决feign 远程调用 在异步环境下，请求头信息丢失问题
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
 
+        // 封装异步任务：获得地址
         CompletableFuture<Void> getAddress = CompletableFuture.runAsync(() -> {
             // 1.远程查询所有的收获地址列表
             RequestContextHolder.setRequestAttributes(requestAttributes);
@@ -114,6 +117,7 @@ public class OrderServiceImpl extends CrudServiceImpl<OrderDao, OrderEntity, Ord
             confirmVo.setAddress(address);
         }, executor);
 
+        // 封装异步任务：获得购物车信息
         CompletableFuture<Void> getCartItem = CompletableFuture.runAsync(() -> {
             RequestContextHolder.setRequestAttributes(requestAttributes);
             // 2. 远程查询购物车所有选中的购物项
@@ -123,6 +127,7 @@ public class OrderServiceImpl extends CrudServiceImpl<OrderDao, OrderEntity, Ord
             }
             confirmVo.setItems(cartItems);
         }, executor).thenRunAsync(() -> {
+            RequestContextHolder.setRequestAttributes(requestAttributes);
             List<OrderItemVo> items = confirmVo.getItems();
             List<Long> skuIds = items.stream().map(OrderItemVo::getSkuId).collect(Collectors.toList());
             // 批量远程查询 商品列表是否有库存
@@ -235,6 +240,32 @@ public class OrderServiceImpl extends CrudServiceImpl<OrderDao, OrderEntity, Ord
     }
 
     /**
+     * 根据订单号获得支付信息
+     *
+     */
+    @Override
+    public PayVo getOrderPay(String orderSn) {
+        PayVo payVo = new PayVo();
+        OrderEntity orderInfo = this.getOrderByOrderSn(orderSn);
+
+        //保留两位小数点，向上取值
+        BigDecimal payAmount = orderInfo.getPayAmount().setScale(2, BigDecimal.ROUND_UP);
+        payVo.setTotal_amount(payAmount.toString());
+        payVo.setOut_trade_no(orderInfo.getOrderSn());
+
+        //查询订单项的数据
+        HashMap<String, Object> param = new HashMap<>(1);
+        param.put("order_sn", orderSn);
+        List<OrderItemDTO> orderItemInfo = orderItemService.list(param);
+        OrderItemDTO orderItemEntity = orderItemInfo.get(0);
+        payVo.setBody(orderItemEntity.getSkuAttrsVals());
+
+        payVo.setSubject(orderItemEntity.getSkuName());
+
+        return payVo;
+    }
+
+    /**
      * 保存订单所有数据
      *
      * @param orderCreateTo
@@ -252,6 +283,10 @@ public class OrderServiceImpl extends CrudServiceImpl<OrderDao, OrderEntity, Ord
         orderItemService.insertBatch(orderItems);
     }
 
+    /**
+     * 创建订单信息
+     *
+     */
     private OrderCreateTo createOrder() {
         OrderCreateTo createTo = new OrderCreateTo();
         //1、生成订单号

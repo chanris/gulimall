@@ -5,6 +5,7 @@ import com.chanris.gulimall.order.vo.OrderConfirmVo;
 import com.chanris.gulimall.order.vo.OrderSubmitVo;
 import com.chanris.gulimall.order.vo.SubmitOrderRespVo;
 //import io.seata.spring.annotation.GlobalTransactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ import java.util.concurrent.ExecutionException;
  * @date 11/3/2024
  * @description
  */
+@Slf4j
 @Controller
 public class OrderWebController {
 
@@ -34,6 +36,7 @@ public class OrderWebController {
      */
     @GetMapping("/toTrade")
     public String toTrade(Model model) throws ExecutionException, InterruptedException {
+
         OrderConfirmVo confirmVo = orderService.confirmOrder();
         model.addAttribute("confirmOrderData", confirmVo);
         return "confirm";
@@ -50,11 +53,12 @@ public class OrderWebController {
     public String submitOrder(OrderSubmitVo vo, Model model, RedirectAttributes attributes) {
         try {
             SubmitOrderRespVo responseVo = orderService.submitOrder(vo);
+            log.info("下单成功");
             //下单成功来到支付选择页
             //下单失败回到订单确认页重新确定订单信息
             if (responseVo.getCode() == 0) {
                 //成功
-                model.addAttribute("submitOrderResp",responseVo);
+                model.addAttribute("submitOrderResp", responseVo);
                 return "pay";
             } else {
                 String msg = "下单失败";
@@ -67,6 +71,7 @@ public class OrderWebController {
                 return "redirect:http://order.gulimall.com/toTrade";
             }
         } catch (Exception e) {
+                e.printStackTrace();
                 String message = e.getMessage();
                 attributes.addFlashAttribute("msg",message);
             return "redirect:http://order.gulimall.com/toTrade";

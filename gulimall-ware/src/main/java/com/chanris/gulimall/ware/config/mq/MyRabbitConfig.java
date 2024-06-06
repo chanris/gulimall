@@ -32,16 +32,25 @@ public class MyRabbitConfig {
         return new Jackson2JsonMessageConverter();
     }
 
+    /**
+     * 创建交换机
+     */
     @Bean
     public Exchange stockEventExchange() {
         return new TopicExchange("stock-event-exchange", true, false);
     }
 
+    /**
+     * 创建队列
+     */
     @Bean
     public Queue stockReleaseStockQueue() {
         return new Queue("stock.release.stock.queue", true, false, false);
     }
 
+    /**
+     * 创建延迟队列
+     */
     @Bean
     public Queue stockDelayQueue() {
         Map<String, Object> arguments = new HashMap<>();

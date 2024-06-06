@@ -1,4 +1,4 @@
-package com.chanris.gulimall.product.config;
+package com.chanris.gulimall.product.config.session;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

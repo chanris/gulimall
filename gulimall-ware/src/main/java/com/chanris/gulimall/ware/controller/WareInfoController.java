@@ -43,11 +43,8 @@ public class WareInfoController {
     @Resource
     private WareInfoService wareInfoService;
 
-
-
-
     @GetMapping("/fare")
-    public Result<FareVo> getFare(@RequestParam("addrId") Long addrId) {
+    public Result<FareVo> getFare(@RequestParam("memberId") Long addrId) {
         FareVo fare = wareInfoService.getFare(addrId);
         return  new Result<FareVo>().ok(fare);
     }

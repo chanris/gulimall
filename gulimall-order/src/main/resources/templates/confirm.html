@@ -1005,7 +1005,13 @@
 	function getFare(addrId) {
 		//给表单回填选择的地址
 		$("#addrInput").val(addrId);
-		$.get("http://gulimall.com/api/ware/wareinfo/fare?addrId=" + addrId, function (resp) {
+		$.ajaxSetup({
+			xhrFields: {
+				withCredentials: true  // 携带 cookie
+			},
+			crossDomain: true  // 跨域请求
+		});
+		$.get("http://gulimall.com/api/ware/wareinfo/fare?memberId=" + addrId, function (resp) {
 			console.log(resp);
 			$("#fare").text(resp.data.fare);
 			var total = [[${confirmOrderData.total}]];

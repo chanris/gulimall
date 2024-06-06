@@ -5,6 +5,7 @@ import com.chanris.gulimall.order.dto.OrderDTO;
 import com.chanris.gulimall.order.entity.OrderEntity;
 import com.chanris.gulimall.order.vo.OrderConfirmVo;
 import com.chanris.gulimall.order.vo.OrderSubmitVo;
+import com.chanris.gulimall.order.vo.PayVo;
 import com.chanris.gulimall.order.vo.SubmitOrderRespVo;
 
 import java.util.concurrent.ExecutionException;
@@ -24,4 +25,6 @@ public interface OrderService extends CrudService<OrderEntity, OrderDTO> {
     OrderEntity getOrderByOrderSn(String orderSn);
 
     void closeOrder(OrderEntity order);
+
+    PayVo getOrderPay(String orderSn);
 }

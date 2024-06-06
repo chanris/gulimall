@@ -1,4 +1,4 @@
-package com.chanris.gulimall.product.config;
+package com.chanris.gulimall.order.config.threadpool;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

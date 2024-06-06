@@ -1,4 +1,4 @@
-package com.chanris.gulimall.cart.config;
+package com.chanris.gulimall.cart.config.interceptor;
 
 import com.chanris.gulimall.cart.interceptor.CartInterceptor;
 import org.springframework.context.annotation.Configuration;

@@ -18,5 +18,5 @@ import java.math.BigDecimal;
  */
 public interface WareInfoService extends CrudService<WareInfoEntity, WareInfoDTO> {
 
-    FareVo getFare(Long addrId);
+    FareVo getFare(Long memberId);
 }

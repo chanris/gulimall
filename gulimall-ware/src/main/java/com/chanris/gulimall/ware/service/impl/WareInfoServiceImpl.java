@@ -41,12 +41,13 @@ public class WareInfoServiceImpl extends CrudServiceImpl<WareInfoDao, WareInfoEn
 
     /**
      * 根据用户的收货地址，计算运费
-     * @param addrId
+     * 模拟：根据用户的手机尾号当做运费
+     * @param memberId
      * @return
      */
     @Override
-    public FareVo getFare(Long addrId) {
-        Result<MemberReceiveAddressTo> r = memberFeignService.get(addrId);
+    public FareVo getFare(Long memberId) {
+        Result<MemberReceiveAddressTo> r = memberFeignService.get(memberId);
         if (r.success()) {
             FareVo fareVo = new FareVo();
             MemberReceiveAddressTo data = r.getData();

@@ -1,5 +1,6 @@
 package com.chanris.gulimall.common.to.product;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -43,6 +44,7 @@ public class SpuInfoTo {
     /**
      *
      */
+    @JsonFormat(pattern= "YYY-")
     private Date createTime;
     /**
      *

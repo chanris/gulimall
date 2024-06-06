@@ -21,21 +21,21 @@ public class GlobalProductExceptionHandler {
     // 如果显示声明了某子异常就不会在该exceptionHandler处理！！
     // 如果有多个父类exceptionHandler 会选择最近的父类exceptionHandler处理
     @ExceptionHandler(value = {Exception.class})
-    public Result defaultExceptionHandle(Exception ex){
+    public Result<?> defaultExceptionHandle(Exception ex){
         log.warn("===========================捕捉到全局异常=====================================");
         log.warn("异常类型: {}", ex.getClass().toGenericString());
         log.warn("异常信息", ex);
         log.warn("===============================================================================");
-        return new Result().error(CodeEnum.INTERNAL_SERVER_ERROR.code, CodeEnum.INTERNAL_SERVER_ERROR.msg + ": " + ex.getMessage());
+        return new Result<>().error(CodeEnum.INTERNAL_SERVER_ERROR.code, CodeEnum.INTERNAL_SERVER_ERROR.msg + ": " + ex.getMessage());
     }
 
     @ExceptionHandler(value = {RenException.class})
-    public Result parameterExceptionHandle(Exception ex) {
+    public Result<?> parameterExceptionHandle(Exception ex) {
         log.warn("===========================捕捉到请求参数异常===================================");
         log.warn("异常类型: {}", ex.getClass().toGenericString());
         log.warn("异常信息", ex);
         log.warn("=============================================================================");
-        return new Result().error(CodeEnum.VALID_EXCEPTION.code, CodeEnum.VALID_EXCEPTION.msg + ": " +ex.getMessage());
+        return new Result<>().error(CodeEnum.VALID_EXCEPTION.code, CodeEnum.VALID_EXCEPTION.msg + ": " +ex.getMessage());
     }
 
     /*@ExceptionHandler(value = {RenException.class})

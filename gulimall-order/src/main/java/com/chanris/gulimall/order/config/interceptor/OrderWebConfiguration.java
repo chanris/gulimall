@@ -1,4 +1,4 @@
-package com.chanris.gulimall.order.config;
+package com.chanris.gulimall.order.config.interceptor;
 
 import com.chanris.gulimall.order.interceptor.LoginUserInterceptor;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +10,7 @@ import javax.annotation.Resource;
 /**
  * @author chenyue7@foxmail.com
  * @date 11/3/2024
- * @description
+ * @description web mvc 设置
  */
 @Configuration
 public class OrderWebConfiguration implements WebMvcConfigurer {

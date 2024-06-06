@@ -1,10 +1,9 @@
-package com.chanris.gulimall.product.config;
+package com.chanris.gulimall.product.config.threadpool;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.Resource;
-import java.util.Collections;
 import java.util.concurrent.*;
 
 /**

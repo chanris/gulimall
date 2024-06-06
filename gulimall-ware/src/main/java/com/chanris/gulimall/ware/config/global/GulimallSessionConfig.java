@@ -1,4 +1,4 @@
-package com.chanris.gulimall.order.config;
+package com.chanris.gulimall.ware.config.global;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +9,7 @@ import org.springframework.session.web.http.DefaultCookieSerializer;
 
 /**
  * @author chenyue7@foxmail.com
- * @date 9/3/2024
+ * @date 31/5/2024
  * @description
  */
 @Configuration

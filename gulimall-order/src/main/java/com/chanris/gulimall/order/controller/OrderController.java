@@ -1,5 +1,6 @@
 package com.chanris.gulimall.order.controller;
 
+import cn.hutool.core.util.PageUtil;
 import com.chanris.gulimall.common.annotation.LogOperation;
 import com.chanris.gulimall.common.constant.Constant;
 import com.chanris.gulimall.common.page.PageData;
@@ -48,6 +49,11 @@ public class OrderController {
         return new Result<OrderEntity>().ok(entity);
     }
 
+    @RequestMapping("/listWithItem")
+    public Result<PageData<OrderDTO>> list(Map<String, Object> params) {
+        Result<PageData<OrderDTO>> page = page(params);
+        return page;
+    }
 
     @GetMapping("page")
     @ApiOperation("分页")
