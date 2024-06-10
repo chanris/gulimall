@@ -1,5 +1,6 @@
 package com.chanris.gulimall.order.dto;
 
+import com.chanris.gulimall.order.entity.OrderItemEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -7,6 +8,7 @@ import lombok.Data;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 订单
@@ -145,5 +147,5 @@ public class OrderDTO implements Serializable {
 	@ApiModelProperty(value = "修改时间")
 	private Date modifyTime;
 
-
+	private List<OrderItemEntity> orderItemEntityList;
 }

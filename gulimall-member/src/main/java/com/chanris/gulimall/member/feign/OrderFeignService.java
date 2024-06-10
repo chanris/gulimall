@@ -14,6 +14,7 @@ import java.util.Map;
  * @author chenyue7@foxmail.com
  * @date 2024/6/2
  * @description
+ * FeignClientConfig作用：使用自定义的feign解码器
  */
 @FeignClient(value = "gulimall-order", configuration = FeignClientConfig.class)
 public interface OrderFeignService {

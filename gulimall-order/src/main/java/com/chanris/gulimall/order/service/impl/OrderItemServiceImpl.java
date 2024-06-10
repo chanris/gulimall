@@ -14,7 +14,11 @@ import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,6 +29,9 @@ import java.util.Map;
  */
 @Service
 public class OrderItemServiceImpl extends CrudServiceImpl<OrderItemDao, OrderItemEntity, OrderItemDTO> implements OrderItemService {
+
+    @Resource
+    private OrderItemDao orderItemDao;
 
     @Override
     public QueryWrapper<OrderItemEntity> getWrapper(Map<String, Object> params){
@@ -57,4 +64,19 @@ public class OrderItemServiceImpl extends CrudServiceImpl<OrderItemDao, OrderIte
         channel.basicReject(message.getMessageProperties().getDeliveryTag(), false);
     }
 
+    @Override
+    public Map<String, List<OrderItemEntity>> getOrderItemEntityByOrderSnList(List<String> orderSnList) {
+        List<OrderItemEntity> orderItemEntityList = orderItemDao.getOrderItemEntityByOrderSnList(orderSnList);
+        HashMap<String, List<OrderItemEntity>> map = new HashMap<>();
+        orderItemEntityList.forEach(item -> {
+            if(!map.containsKey(item.getOrderSn())) {
+                ArrayList<OrderItemEntity> list = new ArrayList<>();
+                list.add(item);
+                map.put(item.getOrderSn(), list);
+            }else {
+                map.get(item.getOrderSn()).add(item);
+            }
+        });
+        return map;
+    }
 }

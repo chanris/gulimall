@@ -3,17 +3,16 @@ package com.chanris.gulimall.order.service.impl;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
+import com.chanris.gulimall.common.page.PageData;
 import com.chanris.gulimall.common.service.impl.CrudServiceImpl;
 import com.chanris.gulimall.common.to.OrderTo;
 import com.chanris.gulimall.common.to.SkuHasStockVo;
 import com.chanris.gulimall.common.to.product.SpuInfoTo;
 import com.chanris.gulimall.common.to.ware.FareTo;
-import com.chanris.gulimall.common.to.ware.LockStockResultTo;
 import com.chanris.gulimall.common.to.ware.OrderItemTo;
 import com.chanris.gulimall.common.to.ware.WareSkuLockTo;
 import com.chanris.gulimall.common.utils.Result;
 import com.chanris.gulimall.common.vo.MemberResponseVo;
-import com.chanris.gulimall.order.constant.OrderConstant;
 import com.chanris.gulimall.order.dao.OrderDao;
 import com.chanris.gulimall.order.dto.OrderDTO;
 import com.chanris.gulimall.order.dto.OrderItemDTO;
@@ -42,7 +41,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -240,6 +238,21 @@ public class OrderServiceImpl extends CrudServiceImpl<OrderDao, OrderEntity, Ord
     }
 
     /**
+     * 获得订单以及订单项
+     */
+    @Override
+    public PageData<OrderDTO> listWithItem(Map<String, Object> params) {
+        PageData<OrderDTO> page = page(params);
+        List<String> orderSnList = page.getList().stream().map(OrderDTO::getOrderSn).toList();
+        Map<String, List<OrderItemEntity>> map = orderItemService.getOrderItemEntityByOrderSnList(orderSnList);
+        List<OrderDTO> list = page.getList();
+        list.forEach(orderDTO -> {
+            orderDTO.setOrderItemEntityList(map.get(orderDTO.getOrderSn()));
+        });
+        return page;
+    }
+
+    /**
      * 根据订单号获得支付信息
      *
      */
@@ -308,6 +321,8 @@ public class OrderServiceImpl extends CrudServiceImpl<OrderDao, OrderEntity, Ord
             entity.setReceiverPhone(fareTo.getAddress().getPhone());
             entity.setReceiverPostCode(fareTo.getAddress().getPostCode());
             entity.setReceiverRegion(fareTo.getAddress().getRegion());
+        }else {
+            throw new RuntimeException("获得远程运费失败");
         }
         // 获得所有订单项信息
         List<OrderItemEntity> orderItemEntities = buildOderItems(orderSn);

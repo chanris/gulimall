@@ -4,6 +4,9 @@ import com.chanris.gulimall.common.service.CrudService;
 import com.chanris.gulimall.order.dto.OrderItemDTO;
 import com.chanris.gulimall.order.entity.OrderItemEntity;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 订单项信息
  *
@@ -12,4 +15,5 @@ import com.chanris.gulimall.order.entity.OrderItemEntity;
  */
 public interface OrderItemService extends CrudService<OrderItemEntity, OrderItemDTO> {
 
+    Map<String, List<OrderItemEntity>> getOrderItemEntityByOrderSnList(List<String> orderSnList);
 }

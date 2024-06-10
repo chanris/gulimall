@@ -1,9 +1,11 @@
 package com.chanris.gulimall.common.to;
 
+import com.chanris.gulimall.common.to.order.OrderItemTo;
 import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Description:
@@ -181,4 +183,8 @@ public class OrderTo {
      */
     private Date modifyTime;
 
+    /**
+     * 订单项列表
+     */
+    private List<OrderItemTo> orderItemEntityList;
 }

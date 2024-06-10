@@ -1,6 +1,6 @@
 package com.chanris.gulimall.order.controller;
 
-import cn.hutool.core.util.PageUtil;
+
 import com.chanris.gulimall.common.annotation.LogOperation;
 import com.chanris.gulimall.common.constant.Constant;
 import com.chanris.gulimall.common.page.PageData;
@@ -19,8 +19,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -49,10 +47,13 @@ public class OrderController {
         return new Result<OrderEntity>().ok(entity);
     }
 
+    /**
+     * 获取订单以及订单项信息
+     */
     @RequestMapping("/listWithItem")
     public Result<PageData<OrderDTO>> list(Map<String, Object> params) {
-        Result<PageData<OrderDTO>> page = page(params);
-        return page;
+        PageData<OrderDTO> page = orderService.listWithItem(params);
+        return new Result<PageData<OrderDTO>>().ok(page);
     }
 
     @GetMapping("page")

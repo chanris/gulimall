@@ -26,4 +26,38 @@
         <result property="giftGrowth" column="gift_growth"/>
     </resultMap>
 
+    <!--24/6/10 todo 原本想把结果集 封装成 Map<String, List<OrderItemEntity>>-->
+    <resultMap id="OrderItemListMapByOrderSn" type="java.util.HashMap">
+        <result property="orderSn" column="order_sn"/> <!--键名-->
+        <collection property="orderItemList" javaType="java.util.ArrayList" ofType="com.chanris.gulimall.order.entity.OrderItemEntity">
+            <id property="id" column="id"/>
+            <result property="orderId" column="order_id"/>
+            <result property="spuId" column="spu_id"/>
+            <result property="spuName" column="spu_name"/>
+            <result property="spuPic" column="spu_pic"/>
+            <result property="spuBrand" column="spu_brand"/>
+            <result property="categoryId" column="category_id"/>
+            <result property="skuId" column="sku_id"/>
+            <result property="skuName" column="sku_name"/>
+            <result property="skuPic" column="sku_pic"/>
+            <result property="skuPrice" column="sku_price"/>
+            <result property="skuQuantity" column="sku_quantity"/>
+            <result property="skuAttrsVals" column="sku_attrs_vals"/>
+            <result property="promotionAmount" column="promotion_amount"/>
+            <result property="couponAmount" column="coupon_amount"/>
+            <result property="integrationAmount" column="integration_amount"/>
+            <result property="realAmount" column="real_amount"/>
+            <result property="giftIntegration" column="gift_integration"/>
+            <result property="giftGrowth" column="gift_growth"/>
+        </collection>
+    </resultMap>
+
+    <select id="getOrderItemEntityByOrderSnList" resultMap="orderItemMap">
+        select `order_sn`, `id`, `spu_id`, `spu_name`, `spu_pic`, `spu_brand`, `category_id`, `sku_id`, `sku_pic`,
+                `sku_price`, `sku_quantity`, `sku_attrs_vals`, `promotion_amount`, `coupon_amount`, `integration_amount`,
+                `real_amount`, `gift_growth`, `gift_growth`, `sku_name`
+        from oms_order_item where order_sn in
+        <foreach collection="orderSnList" open="(" close=")" separator="," item="orderSn">#{orderSn}</foreach>
+    </select>
+
 </mapper>

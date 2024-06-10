@@ -2,7 +2,12 @@ package com.chanris.gulimall.order.dao;
 
 import com.chanris.gulimall.common.dao.BaseDao;
 import com.chanris.gulimall.order.entity.OrderItemEntity;
+import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 订单项信息
@@ -12,5 +17,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface OrderItemDao extends BaseDao<OrderItemEntity> {
-	
+
+    List<OrderItemEntity> getOrderItemEntityByOrderSnList(@Param("orderSnList") List<String> orderSnList);
 }

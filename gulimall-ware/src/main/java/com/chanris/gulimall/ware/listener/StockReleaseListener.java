@@ -48,7 +48,7 @@ public class StockReleaseListener {
     }
 
     @RabbitHandler
-    public void handleOrderCloseRelease(OrderTo orderTo,Message message, Channel channel) throws IOException {
+    public void handleOrderCloseRelease(OrderTo orderTo, Message message, Channel channel) throws IOException {
         try {
             wareSkuService.unlockStock(orderTo);
             log.info("主动解库存：发送自动释放库存ACK消息");
