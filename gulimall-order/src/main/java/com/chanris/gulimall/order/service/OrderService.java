@@ -5,10 +5,7 @@ import com.chanris.gulimall.common.service.CrudService;
 import com.chanris.gulimall.common.to.OrderTo;
 import com.chanris.gulimall.order.dto.OrderDTO;
 import com.chanris.gulimall.order.entity.OrderEntity;
-import com.chanris.gulimall.order.vo.OrderConfirmVo;
-import com.chanris.gulimall.order.vo.OrderSubmitVo;
-import com.chanris.gulimall.order.vo.PayVo;
-import com.chanris.gulimall.order.vo.SubmitOrderRespVo;
+import com.chanris.gulimall.order.vo.*;
 
 import java.util.List;
 import java.util.Map;
@@ -33,4 +30,6 @@ public interface OrderService extends CrudService<OrderEntity, OrderDTO> {
     PayVo getOrderPay(String orderSn);
 
     PageData<OrderDTO> listWithItem(Map<String, Object> params);
+
+    String handlePayResult(PayAsyncVo vo);
 }

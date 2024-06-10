@@ -3,6 +3,7 @@ package com.chanris.gulimall.order.dao;
 import com.chanris.gulimall.common.dao.BaseDao;
 import com.chanris.gulimall.order.entity.OrderEntity;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 订单
@@ -12,5 +13,11 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface OrderDao extends BaseDao<OrderEntity> {
-	
+
+    /**
+     * 根据订单号更新状态
+     * @param outTradeNo
+     * @param code
+     */
+    void updateOrderStatus(@Param("orderSn") String outTradeNo,@Param("status") Integer code);
 }

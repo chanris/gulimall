@@ -16,8 +16,10 @@ import com.chanris.gulimall.common.vo.MemberResponseVo;
 import com.chanris.gulimall.order.dao.OrderDao;
 import com.chanris.gulimall.order.dto.OrderDTO;
 import com.chanris.gulimall.order.dto.OrderItemDTO;
+import com.chanris.gulimall.order.dto.PaymentInfoDTO;
 import com.chanris.gulimall.order.entity.OrderEntity;
 import com.chanris.gulimall.order.entity.OrderItemEntity;
+import com.chanris.gulimall.order.entity.PaymentInfoEntity;
 import com.chanris.gulimall.order.enums.OrderStatusEnum;
 import com.chanris.gulimall.order.feign.CartFeignService;
 import com.chanris.gulimall.order.feign.MemberFeignService;
@@ -26,6 +28,7 @@ import com.chanris.gulimall.order.feign.WmsFeignService;
 import com.chanris.gulimall.order.interceptor.LoginUserInterceptor;
 import com.chanris.gulimall.order.service.OrderItemService;
 import com.chanris.gulimall.order.service.OrderService;
+import com.chanris.gulimall.order.service.PaymentInfoService;
 import com.chanris.gulimall.order.to.OrderCreateTo;
 import com.chanris.gulimall.order.vo.*;
 import lombok.extern.slf4j.Slf4j;
@@ -73,6 +76,8 @@ public class OrderServiceImpl extends CrudServiceImpl<OrderDao, OrderEntity, Ord
     private CartFeignService cartFeignService;
     @Resource
     private WmsFeignService wmsFeignService;
+    @Resource
+    private PaymentInfoService paymentInfoService;
     @Resource
     private ThreadPoolExecutor executor;
     @Resource
@@ -276,6 +281,31 @@ public class OrderServiceImpl extends CrudServiceImpl<OrderDao, OrderEntity, Ord
         payVo.setSubject(orderItemEntity.getSkuName());
 
         return payVo;
+    }
+
+    /**
+     * 处理支付宝的通知信息
+     * @param vo
+     * @return
+     */
+    @Override
+    public String handlePayResult(PayAsyncVo vo) {
+        //1.保存交易流水
+        PaymentInfoDTO infoDTO = new PaymentInfoDTO();
+        infoDTO.setAlipayTradeNo(vo.getTrade_no());
+        infoDTO.setOrderSn(vo.getOut_trade_no());
+        infoDTO.setPaymentStatus(vo.getTrade_status());
+        infoDTO.setCallbackTime(vo.getNotify_time());
+
+        paymentInfoService.save(infoDTO);
+        //2.修改顶订单的状态信息
+        if (vo.getTrade_status().equals("TRADE_SUCCESS") || vo.getTrade_status().equals("TRADE_FINISHED")) {
+            // 支付成功状态
+            String outTradeNo = vo.getOut_trade_no();
+            orderDao.updateOrderStatus(outTradeNo, OrderStatusEnum.PAYED.code);
+        }
+
+        return "success";
     }
 
     /**
