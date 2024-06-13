@@ -12,5 +12,8 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
+    <select id="getLatest3DaysSession" resultType="com.chanris.gulimall.coupon.dto.SeckillSessionDTO">
+        select * from sms_seckill_session where start_time between   '2020-02-19 00:00:00' and  '2020-02-19 00:00:00'
+    </select>
 
 </mapper>

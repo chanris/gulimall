@@ -1,9 +1,11 @@
 package com.chanris.gulimall.coupon.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 秒杀活动场次
@@ -39,4 +41,7 @@ public class SeckillSessionEntity {
      * 创建时间
      */
 	private Date createTime;
+
+    @TableField(exist = false)
+    private List<SeckillSkuRelationEntity> relationSkus;
 }

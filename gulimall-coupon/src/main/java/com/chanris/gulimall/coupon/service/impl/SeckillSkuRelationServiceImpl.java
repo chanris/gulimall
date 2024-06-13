@@ -2,6 +2,8 @@ package com.chanris.gulimall.coupon.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.chanris.gulimall.common.service.impl.CrudServiceImpl;
+import com.chanris.gulimall.common.utils.ConvertUtils;
+import com.chanris.gulimall.common.utils.ObjectConvert;
 import com.chanris.gulimall.coupon.dao.SeckillSkuRelationDao;
 import com.chanris.gulimall.coupon.dto.SeckillSkuRelationDTO;
 import com.chanris.gulimall.coupon.service.SeckillSkuRelationService;
@@ -23,9 +25,10 @@ public class SeckillSkuRelationServiceImpl extends CrudServiceImpl<SeckillSkuRel
     @Override
     public QueryWrapper<SeckillSkuRelationEntity> getWrapper(Map<String, Object> params){
         String id = (String)params.get("id");
-
+        Object promotionSessionId = params.get("promotionSessionId");
         QueryWrapper<SeckillSkuRelationEntity> wrapper = new QueryWrapper<>();
         wrapper.eq(StrUtil.isNotBlank(id), "id", id);
+        wrapper.eq(promotionSessionId != null, "promotion_session_id", ObjectConvert.toLong(promotionSessionId));
 
         return wrapper;
     }

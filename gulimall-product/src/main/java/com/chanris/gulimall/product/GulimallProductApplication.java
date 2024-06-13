@@ -20,7 +20,6 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
  * 4. 原理
  *   CacheAutoConfiguration -> RedisCacheConfiguration
  *   自动配置了 RedisCacheManager  -> 初始化所有的缓存
- *   ->
  */
 // @EnableCaching // 使用 Spring Cache
 @EnableRedisHttpSession

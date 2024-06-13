@@ -4,6 +4,8 @@ import com.chanris.gulimall.common.service.CrudService;
 import com.chanris.gulimall.coupon.dto.SeckillSessionDTO;
 import com.chanris.gulimall.coupon.entity.SeckillSessionEntity;
 
+import java.util.List;
+
 /**
  * 秒杀活动场次
  *
@@ -12,4 +14,5 @@ import com.chanris.gulimall.coupon.entity.SeckillSessionEntity;
  */
 public interface SeckillSessionService extends CrudService<SeckillSessionEntity, SeckillSessionDTO> {
 
+    List<SeckillSessionEntity> getLatest3DaySession();
 }

@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +38,7 @@ import java.util.Map;
 @RequestMapping("coupon/seckillskurelation")
 @Api(tags="秒杀活动商品关联")
 public class SeckillSkuRelationController {
-    @Autowired
+    @Resource
     private SeckillSkuRelationService seckillSkuRelationService;
 
     @GetMapping("page")
@@ -48,7 +49,7 @@ public class SeckillSkuRelationController {
         @ApiImplicitParam(name = Constant.ORDER_FIELD, value = "排序字段", paramType = "query", dataType="String") ,
         @ApiImplicitParam(name = Constant.ORDER, value = "排序方式，可选值(asc、desc)", paramType = "query", dataType="String")
     })
-    @RequiresPermissions("coupon:seckillskurelation:page")
+//    @RequiresPermissions("coupon:seckillskurelation:page")
     public Result<PageData<SeckillSkuRelationDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params){
         PageData<SeckillSkuRelationDTO> page = seckillSkuRelationService.page(params);
 
@@ -57,7 +58,7 @@ public class SeckillSkuRelationController {
 
     @GetMapping("{id}")
     @ApiOperation("信息")
-    @RequiresPermissions("coupon:seckillskurelation:info")
+//    @RequiresPermissions("coupon:seckillskurelation:info")
     public Result<SeckillSkuRelationDTO> get(@PathVariable("id") Long id){
         SeckillSkuRelationDTO data = seckillSkuRelationService.get(id);
 
@@ -67,7 +68,7 @@ public class SeckillSkuRelationController {
     @PostMapping
     @ApiOperation("保存")
     @LogOperation("保存")
-    @RequiresPermissions("coupon:seckillskurelation:save")
+//    @RequiresPermissions("coupon:seckillskurelation:save")
     public Result save(@RequestBody SeckillSkuRelationDTO dto){
         //效验数据
         ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
@@ -80,7 +81,7 @@ public class SeckillSkuRelationController {
     @PutMapping
     @ApiOperation("修改")
     @LogOperation("修改")
-    @RequiresPermissions("coupon:seckillskurelation:update")
+//    @RequiresPermissions("coupon:seckillskurelation:update")
     public Result update(@RequestBody SeckillSkuRelationDTO dto){
         //效验数据
         ValidatorUtils.validateEntity(dto, UpdateGroup.class, DefaultGroup.class);
@@ -93,7 +94,7 @@ public class SeckillSkuRelationController {
     @DeleteMapping
     @ApiOperation("删除")
     @LogOperation("删除")
-    @RequiresPermissions("coupon:seckillskurelation:delete")
+//    @RequiresPermissions("coupon:seckillskurelation:delete")
     public Result delete(@RequestBody Long[] ids){
         //效验数据
         AssertUtils.isArrayEmpty(ids, "id");
@@ -106,7 +107,7 @@ public class SeckillSkuRelationController {
     @GetMapping("export")
     @ApiOperation("导出")
     @LogOperation("导出")
-    @RequiresPermissions("coupon:seckillskurelation:export")
+//    @RequiresPermissions("coupon:seckillskurelation:export")
     public void export(@ApiIgnore @RequestParam Map<String, Object> params, HttpServletResponse response) throws Exception {
         List<SeckillSkuRelationDTO> list = seckillSkuRelationService.list(params);
 

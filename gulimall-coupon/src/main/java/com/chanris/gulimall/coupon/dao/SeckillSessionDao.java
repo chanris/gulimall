@@ -1,8 +1,11 @@
 package com.chanris.gulimall.coupon.dao;
 
 import com.chanris.gulimall.common.dao.BaseDao;
+import com.chanris.gulimall.coupon.dto.SeckillSessionDTO;
 import com.chanris.gulimall.coupon.entity.SeckillSessionEntity;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * 秒杀活动场次
@@ -12,5 +15,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface SeckillSessionDao extends BaseDao<SeckillSessionEntity> {
-	
+
+    List<SeckillSessionDTO> getLatest3DaysSession();
 }
