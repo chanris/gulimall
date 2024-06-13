@@ -3,15 +3,13 @@ package com.chanris.gulimall.common.to.mq;
 import lombok.Data;
 
 /**
- * @Description:
- * @Created: with IntelliJ IDEA.
- * @author: 夏沫止水
- * @createTime: 2020-07-06 21:14
- **/
+ * @author chenyue7@foxmail.com
+ * @date 23/2/2024
+ * @description
+ */
 
 @Data
 public class StockDetailTo {
-
     private Long id;
     /**
      * sku_id
@@ -39,5 +37,4 @@ public class StockDetailTo {
      * 锁定状态
      */
     private Integer lockStatus;
-
 }

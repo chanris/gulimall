@@ -3,6 +3,7 @@ package com.chanris.gulimall.order.service;
 import com.chanris.gulimall.common.page.PageData;
 import com.chanris.gulimall.common.service.CrudService;
 import com.chanris.gulimall.common.to.OrderTo;
+import com.chanris.gulimall.common.to.mq.SeckillOrderTo;
 import com.chanris.gulimall.order.dto.OrderDTO;
 import com.chanris.gulimall.order.entity.OrderEntity;
 import com.chanris.gulimall.order.vo.*;
@@ -32,4 +33,6 @@ public interface OrderService extends CrudService<OrderEntity, OrderDTO> {
     PageData<OrderDTO> listWithItem(Map<String, Object> params);
 
     String handlePayResult(PayAsyncVo vo);
+
+    void createSeckillOrder(SeckillOrderTo orderTo);
 }

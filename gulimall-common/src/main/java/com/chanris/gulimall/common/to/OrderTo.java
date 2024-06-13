@@ -8,11 +8,10 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @Description:
- * @Created: with IntelliJ IDEA.
- * @author: 夏沫止水
- * @createTime: 2020-07-07 11:07
- **/
+ * @author chenyue7@foxmail.com
+ * @date 23/2/2024
+ * @description
+ */
 
 @Data
 public class OrderTo {

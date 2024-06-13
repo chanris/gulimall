@@ -1,7 +1,5 @@
 package com.chanris.gulimall.common.to.product;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**

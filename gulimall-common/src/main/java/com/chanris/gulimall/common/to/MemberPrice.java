@@ -6,10 +6,9 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 /**
- * Auto-generated: 2020-05-31 11:3:26
- *
- * @author bejson.com (i@bejson.com)
- * @website http://www.bejson.com/java2pojo/
+ * @author chenyue7@foxmail.com
+ * @date 23/2/2024
+ * @description
  */
 
 @Data

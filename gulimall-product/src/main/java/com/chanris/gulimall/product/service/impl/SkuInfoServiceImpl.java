@@ -3,15 +3,19 @@ package com.chanris.gulimall.product.service.impl;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.chanris.gulimall.common.service.impl.CrudServiceImpl;
+import com.chanris.gulimall.common.to.seckill.SeckillSkuRedisTo;
 import com.chanris.gulimall.common.utils.ObjectConvert;
+import com.chanris.gulimall.common.utils.Result;
 import com.chanris.gulimall.product.dao.SkuInfoDao;
 import com.chanris.gulimall.product.dto.SkuInfoDTO;
 import com.chanris.gulimall.product.dto.SpuInfoDescDTO;
 import com.chanris.gulimall.product.entity.SkuImagesEntity;
 import com.chanris.gulimall.product.entity.SkuInfoEntity;
 import com.chanris.gulimall.product.entity.SpuInfoDescEntity;
+import com.chanris.gulimall.product.feign.SeckillFeignService;
 import com.chanris.gulimall.product.service.*;
 import cn.hutool.core.util.StrUtil;
+import com.chanris.gulimall.product.vo.SeckillSkuVo;
 import com.chanris.gulimall.product.vo.SkuItemSaleAttrVo;
 import com.chanris.gulimall.product.vo.SkuItemVo;
 import com.chanris.gulimall.product.vo.SpuItemAttrGroupVo;
@@ -46,6 +50,8 @@ public class SkuInfoServiceImpl extends CrudServiceImpl<SkuInfoDao, SkuInfoEntit
     private SkuImagesService skuImagesService;
     @Resource
     private ThreadPoolExecutor executor;
+    @Resource
+    private SeckillFeignService seckillFeignService;
 
     @Override
     public QueryWrapper<SkuInfoEntity> getWrapper(Map<String, Object> params){
@@ -113,28 +119,25 @@ public class SkuInfoServiceImpl extends CrudServiceImpl<SkuInfoDao, SkuInfoEntit
             skuItemVo.setImages(imagesEntities);
         }, executor);
 
-/*
         CompletableFuture<Void> seckillFuture = CompletableFuture.runAsync(() -> {
             //3、远程调用查询当前sku是否参与秒杀优惠活动
-            R skuSeckilInfo = seckillFeignService.getSkuSeckilInfo(skuId);
-            if (skuSeckilInfo.getCode() == 0) {
+            Result<SeckillSkuRedisTo> r = seckillFeignService.getSkuSeckillInfo(skuId);
+            if (r.getCode() == 0) {
                 //查询成功
-                SeckillSkuVo seckilInfoData = skuSeckilInfo.getData("data", new TypeReference<SeckillSkuVo>() {
-                });
-                skuItemVo.setSeckillSkuVo(seckilInfoData);
+                SeckillSkuRedisTo data = r.getData();
+                SeckillSkuVo seckillSkuVo = new SeckillSkuVo();
+                BeanUtils.copyProperties(data, seckillSkuVo);
+                skuItemVo.setSeckillSkuVo(seckillSkuVo);
 
-                if (seckilInfoData != null) {
-                    long currentTime = System.currentTimeMillis();
-                    if (currentTime > seckilInfoData.getEndTime()) {
-                        skuItemVo.setSeckillSkuVo(null);
-                    }
+                long currentTime = System.currentTimeMillis();
+                if (currentTime > data.getEndTime()) {
+                    skuItemVo.setSeckillSkuVo(null);
                 }
             }
         }, executor);
-*/
 
         //等到所有任务都完成
-        CompletableFuture.allOf(saleAttrFuture,descFuture,baseAttrFuture,imageFuture).get();
+        CompletableFuture.allOf(saleAttrFuture,descFuture,baseAttrFuture,imageFuture, seckillFuture).get();
 
         return skuItemVo;
     }

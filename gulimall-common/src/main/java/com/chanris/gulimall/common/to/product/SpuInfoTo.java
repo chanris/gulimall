@@ -33,6 +33,7 @@ public class SpuInfoTo {
      * 品牌id
      */
     private Long brandId;
+    private String brandName;
     /**
      *
      */

@@ -9,11 +9,8 @@
   <link rel="stylesheet" href="/static/index/css/swiper-3.4.2.min.css">
   <link rel="stylesheet" href="/static/index/css/GL.css">
   <script src="/static/index/js/jquery-3.1.1.min.js" type="text/javascript" charset="utf-8"></script>
-
   <script src="/static/index/js/swiper-3.4.2.jquery.min.js" type="text/javascript" charset="utf-8"></script>
-
   <script src="/static/index/js/swiper-3.4.2.min.js"></script>
-
 </head>
 
 <body>
@@ -585,13 +582,14 @@
     window.location.href="http://search.gulimall.com/list.html?keyword="+keyword;
   }
 
-  $.get("http://seckill.gulimall.com/getCurrentSeckillSkus", function (res) {
+  $.get("http://seckill.gulimall.com/currentSeckillSkus", function (res) {
     if (res.data.length > 0) {
       res.data.forEach(function (item) {
-        $("<li onclick='toDetail(" + item.skuId + ")'></li>").append($("<img style='width: 130px; height: 130px' src='" + item.skuInfo.skuDefaultImg + "' />"))
-                .append($("<p>"+item.skuInfo.skuTitle+"</p>"))
+        $("<li onclick='toDetail(" + item.skuId + ")'></li>")
+                .append($("<img style='width: 130px; height: 130px' src='" + item.skuInfoTo.skuDefaultImg + "' />"))
+                .append($("<p>"+item.skuInfoTo.skuTitle+"</p>"))
                 .append($("<span>" + item.seckillPrice + "</span>"))
-                .append($("<s>" + item.skuInfo.price + "</s>"))
+                .append($("<s>" + item.skuInfoTo.price + "</s>"))
                 .appendTo("#seckillSkuContent");
       })
     }

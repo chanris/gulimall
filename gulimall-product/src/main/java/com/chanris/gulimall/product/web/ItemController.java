@@ -14,13 +14,15 @@ import java.util.concurrent.ExecutionException;
 /**
  * @author chenyue7@foxmail.com
  * @date 5/3/2024
- * @description
+ * @description 商品详细页
  */
 @Controller
 public class ItemController {
 
     @Resource
     private SkuInfoServiceImpl skuInfoService;
+
+
     @GetMapping("/{skuId}.html")
     public String skuItem(@PathVariable Long skuId, Model model) throws ExecutionException, InterruptedException {
         SkuItemVo item = skuInfoService.item(skuId);

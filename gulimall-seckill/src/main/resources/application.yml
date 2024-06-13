@@ -15,10 +15,19 @@ spring:
       pool:
         core-size: 20
         max-size: 50
-
 # spring session
-#  session:
-#    store-type: redis
-#    timeout: 30m
+  session:
+    store-type: redis
+    timeout: 30m
+  rabbitmq:
+    host: 192.168.125.129
+    port: 5672
+    publisher-confirm-type: correlated # 新版： 确认消息已发送到交换机 选择确认类型未交互
+    publisher-returns: true  # 开启 发送端消息抵达队列的确认
+    template:
+      mandatory: true
+    listener:
+      simple:
+        acknowledge-mode: manual # 客户端手动确认
 server:
   port: 25000

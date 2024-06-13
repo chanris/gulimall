@@ -3,18 +3,15 @@ package com.chanris.gulimall.common.to.mq;
 import lombok.Data;
 
 /**
- * @Description: 发送到mq消息队列的to
- * @Created: with IntelliJ IDEA.
- * @author: 夏沫止水
- * @createTime: 2020-07-06 21:03
- **/
+ * @author chenyue7@foxmail.com
+ * @date 23/2/2024
+ * @description
+ */
 
 @Data
 public class StockLockedTo {
-
     /** 库存工作单的id **/
     private Long id;
-
     /** 工作单详情的所有信息 **/
     private StockDetailTo detailTo;
 }

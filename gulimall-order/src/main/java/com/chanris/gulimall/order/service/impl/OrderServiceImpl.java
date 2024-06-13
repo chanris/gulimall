@@ -7,6 +7,7 @@ import com.chanris.gulimall.common.page.PageData;
 import com.chanris.gulimall.common.service.impl.CrudServiceImpl;
 import com.chanris.gulimall.common.to.OrderTo;
 import com.chanris.gulimall.common.to.SkuHasStockVo;
+import com.chanris.gulimall.common.to.mq.SeckillOrderTo;
 import com.chanris.gulimall.common.to.product.SpuInfoTo;
 import com.chanris.gulimall.common.to.ware.FareTo;
 import com.chanris.gulimall.common.to.ware.OrderItemTo;
@@ -14,6 +15,7 @@ import com.chanris.gulimall.common.to.ware.WareSkuLockTo;
 import com.chanris.gulimall.common.utils.Result;
 import com.chanris.gulimall.common.vo.MemberResponseVo;
 import com.chanris.gulimall.order.dao.OrderDao;
+import com.chanris.gulimall.order.dao.OrderItemDao;
 import com.chanris.gulimall.order.dto.OrderDTO;
 import com.chanris.gulimall.order.dto.OrderItemDTO;
 import com.chanris.gulimall.order.dto.PaymentInfoDTO;
@@ -70,6 +72,8 @@ public class OrderServiceImpl extends CrudServiceImpl<OrderDao, OrderEntity, Ord
     private final ThreadLocal<OrderSubmitVo> confirmVoThreadLocal = new ThreadLocal<>();
     @Resource
     private OrderDao orderDao;
+    @Resource
+    private OrderItemDao orderItemDao;
     @Resource
     private MemberFeignService memberFeignService;
     @Resource
@@ -306,6 +310,47 @@ public class OrderServiceImpl extends CrudServiceImpl<OrderDao, OrderEntity, Ord
         }
 
         return "success";
+    }
+
+    /**
+     * 创建秒杀单
+     * @param orderTo
+     */
+    @Override
+    public void createSeckillOrder(SeckillOrderTo orderTo) {
+        //TODO 保存订单信息
+        OrderEntity orderEntity = new OrderEntity();
+        orderEntity.setOrderSn(orderTo.getOrderSn());
+        orderEntity.setMemberId(orderTo.getMemberId());
+        orderEntity.setCreateTime(new Date());
+        BigDecimal totalPrice = orderTo.getSeckillPrice().multiply(BigDecimal.valueOf(orderTo.getNum()));
+        orderEntity.setPayAmount(totalPrice);
+        orderEntity.setStatus(OrderStatusEnum.CREATE_NEW.code);
+
+        //保存订单
+        orderDao.insert(orderEntity);
+
+        //保存订单项信息
+        OrderItemEntity orderItem = new OrderItemEntity();
+        orderItem.setOrderSn(orderTo.getOrderSn());
+        orderItem.setRealAmount(totalPrice);
+
+        orderItem.setSkuQuantity(orderTo.getNum());
+
+        //保存商品的spu信息
+        Result<SpuInfoTo> r = productFeignService.getSpuInfoBySkuId(orderTo.getSkuId());
+        if (!r.success()) {
+            throw new RuntimeException("远程调用商品微服务失败");
+        }
+        SpuInfoTo spuInfoTo = r.getData();
+
+        orderItem.setSpuId(spuInfoTo.getId());
+        orderItem.setSpuName(spuInfoTo.getSpuName());
+        orderItem.setSpuBrand(spuInfoTo.getBrandName());
+        orderItem.setCategoryId(spuInfoTo.getCatalogId());
+
+        //保存订单项数据
+        orderItemDao.insert(orderItem);
     }
 
     /**

@@ -6,11 +6,10 @@ import java.math.BigDecimal;
 import java.util.List;
 
 /**
- * @Description:
- * @Created: with IntelliJ IDEA.
- * @author: 夏沫止水
- * @createTime: 2020-06-01 08:56
- **/
+ * @author chenyue7@foxmail.com
+ * @date 23/2/2024
+ * @description
+ */
 
 @Data
 public class SkuReductionTo {

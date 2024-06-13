@@ -17,11 +17,7 @@ public class RedissonConfig {
     @Bean
     RedissonClient redissonClient() {
         Config config = new Config();
-//        config.useClusterServers()
-//                // use "rediss://" for SSL connection
-//                .addNodeAddress("perredis://192.168.125.129:6379");
         config.useSingleServer().setAddress("redis://192.168.125.129:6379").setPassword("acid10837");
-        RedissonClient redisson = Redisson.create(config);
-        return redisson;
+        return Redisson.create(config);
     }
 }

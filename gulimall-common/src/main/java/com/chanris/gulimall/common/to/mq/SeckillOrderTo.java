@@ -5,20 +5,17 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 /**
- * @Description:
- * @Created: with IntelliJ IDEA.
- * @author: 夏沫止水
- * @createTime: 2020-07-11 16:20
- **/
+ * @author chenyue7@foxmail.com
+ * @date 23/2/2024
+ * @description
+ */
 
 @Data
 public class SeckillOrderTo {
-
     /**
      * 订单号
      */
     private String orderSn;
-
     /**
      * 活动场次id
      */
@@ -31,16 +28,12 @@ public class SeckillOrderTo {
      * 秒杀价格
      */
     private BigDecimal seckillPrice;
-
     /**
      * 购买数量
      */
     private Integer num;
-
     /**
      * 会员ID
      */
     private Long memberId;
-
-
 }
