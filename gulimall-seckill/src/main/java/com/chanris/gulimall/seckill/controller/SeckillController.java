@@ -3,10 +3,9 @@ package com.chanris.gulimall.seckill.controller;
 import com.chanris.gulimall.common.to.seckill.SeckillSkuRedisTo;
 import com.chanris.gulimall.common.utils.Result;
 import com.chanris.gulimall.seckill.service.SeckillService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.List;
  * @date 2024/6/13
  * @description
  */
-@RestController
+@Controller
 public class SeckillController {
 
     @Resource
@@ -26,6 +25,7 @@ public class SeckillController {
      * 获取当前时间可以参与的秒杀获得商品信息
      * @return Result result
      */
+    @ResponseBody
     @GetMapping("/currentSeckillSkus")
     public Result<List<SeckillSkuRedisTo>> getCurrentSeckillSkus() {
         List<SeckillSkuRedisTo> data = seckillService.getCurrentSeckillSkus();
@@ -37,6 +37,7 @@ public class SeckillController {
      * @param skuId
      * @return
      */
+    @ResponseBody
     @GetMapping("/sku/seckill/{skuId}")
     public Result<SeckillSkuRedisTo> getSkuSeckillInfo(@PathVariable("skuId") Long skuId) {
         SeckillSkuRedisTo skuSeckillInfo = seckillService.getSkuSeckillInfo(skuId);
@@ -51,10 +52,12 @@ public class SeckillController {
      * @return
      */
     @GetMapping("/kill")
-    public Result<String> seckill(@RequestParam("killId") String killId,
+    public String seckill(@RequestParam("killId") String killId,
                           @RequestParam("key") String key,
-                          @RequestParam("num") Integer num) {
-        String res = seckillService.kill(killId, key, num);
-        return new Result<String>().ok(res);
+                          @RequestParam("num") Integer num,
+                          Model model) {
+        String orderSn = seckillService.kill(killId, key, num);
+        model.addAttribute("orderSn", orderSn);
+        return "success.html";
     }
 }

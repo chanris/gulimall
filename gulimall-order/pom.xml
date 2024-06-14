@@ -103,7 +103,6 @@
             <version>4.9.28.ALL</version>
         </dependency>s
 
-
         <dependency>
             <groupId>cn.springboot</groupId>
             <artifactId>best-pay-sdk</artifactId>

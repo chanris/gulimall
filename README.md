@@ -47,6 +47,8 @@ Seata 2.0 文档 https://seata.apache.org/zh-cn/docs/overview/what-is-seata
 
 quartz 定时任务 https://www.quartz-scheduler.org/ 
 
+alibaba sentinel https://sentinelguard.io/zh-cn/docs/introduction.html
+
 ### 接口文档
 
 https://easydoc.net/s/78237135/ZUqEdvA4/6JM6txHf

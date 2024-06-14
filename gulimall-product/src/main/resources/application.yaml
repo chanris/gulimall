@@ -10,6 +10,10 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848  # nacos 服务发现地址
+    sentinel:
+      transport:
+        port: 8719
+        dashboard: localhost:8080
   jackson:
     default-property-inclusion: non_null # json化排除null字段
     date-format: yyyy-MM-dd HH:mm:ss
@@ -54,3 +58,14 @@ gulimall:
     coreSize: 30
     maxSize: 300
     keepAliveTime: 20
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+# 开启feign 整合 sentinel 限量、熔断、降级
+feign:
+  sentinel:
+    enabled: true

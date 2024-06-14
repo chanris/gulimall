@@ -5,6 +5,10 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848  # nacos 服务发现地址
+    sentinel:
+      transport:
+        port: 8719
+        dashboard: localhost:8080
   thymeleaf:
     cache: false
   redis:
@@ -31,3 +35,8 @@ spring:
         acknowledge-mode: manual # 客户端手动确认
 server:
   port: 25000
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

@@ -137,7 +137,7 @@ public class SeckillServiceImpl implements SeckillService {
      * @param killId
      * @param key 随机码
      * @param num 秒杀数量
-     * @return
+     * @return String orderSn 订单号
      */
     @Override
     public String kill(String killId, String key, Integer num) {

@@ -19,6 +19,7 @@ public enum CodeEnum {
     INTERNAL_SERVER_ERROR(10000, "系统内部错误"),
     VALID_EXCEPTION(10001, "请求参数校验错误"),
     SMS_CODE_EXCEPTION(10002,"验证码获取频率太高，请稍后再试"),
+    TOO_MANY_REQUEST(10003, "请求流量过大"),
     PHONE_EXIST_EXCEPTION(15002,"存在相同的手机号"),
     USER_EXIST_EXCEPTION(15001, "用户已存在"),
     LOGINACCT_PASSWORD_EXCEPTION(15003,"账号或密码错误"),
