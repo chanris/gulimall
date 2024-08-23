@@ -49,7 +49,6 @@ public class SeckillServiceImpl implements SeckillService {
     RedissonClient redissonClient;
     @Resource
     RabbitTemplate rabbitTemplate;
-
     @Resource
     private ProductFeignService productFeignService;
     private final String SESSIONS_CACHE_PREFIX = "seckill:sessions:";
@@ -100,7 +99,6 @@ public class SeckillServiceImpl implements SeckillService {
                 break;
             }
         }
-        // 2.
         return null;
     }
 

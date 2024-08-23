@@ -92,18 +92,23 @@ public class MemberController {
         }
     }
 
+    /**
+     * 社交登录（不管是github、gitee、微博、微信、支付宝的信息）
+     * 统一封装成SocialUser对象，根据SocialUser的信息去判断用户是否存在。
+     * 1.存在，返回MemberEntity
+     * 2.不存在，创建用户信息，返回MemberEntity
+     * @param socialUser
+     * @return
+     * @throws Exception
+     */
     @PostMapping(value = "/oauth2/login")
     public Result<MemberResponseVo> oauthLogin(@RequestBody SocialUser socialUser) throws Exception {
-
         MemberEntity memberEntity = memberService.login(socialUser);
-
         if (memberEntity != null) {
-//            return R.ok().setData(memberEntity);
             MemberResponseVo vo = new MemberResponseVo();
             BeanUtils.copyProperties(memberEntity, vo);
             return new Result<MemberResponseVo>().ok(vo);
         } else {
-//            return R.error(BizCodeEnum.LOGINACCT_PASSWORD_EXCEPTION.getCode(),BizCodeEnum.LOGINACCT_PASSWORD_EXCEPTION.getMessage());
             return new Result<MemberResponseVo>().error(CodeEnum.LOGINACCT_PASSWORD_EXCEPTION.code, CodeEnum.LOGINACCT_PASSWORD_EXCEPTION.msg);
         }
     }

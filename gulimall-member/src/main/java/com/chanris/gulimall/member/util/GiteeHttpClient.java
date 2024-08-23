@@ -52,7 +52,6 @@ public class GiteeHttpClient {
         }
 
         httpGet.releaseConnection();
-
         return jsonObject;
     }
 }

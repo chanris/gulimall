@@ -134,7 +134,7 @@ public class OrderRabbitConfig {
      */
     @Bean
     public Binding orderReleaseOtherBinding() {
-        return new Binding("stock.release.stock.queue", Binding.DestinationType.QUEUE, "order-event-exchange", "order.release.order.#", null);
+        return new Binding("stock.release.stock.queue", Binding.DestinationType.QUEUE, "order-event-exchange", "order.release.other.#", null);
     }
 
     @Bean

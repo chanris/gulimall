@@ -30,7 +30,6 @@ public class OrderCloseListener {
         log.info("收到过期的订单信息：关闭订单: " + entity.getOrderSn());
         try {
             orderService.closeOrder(entity);
-            //手动调用支付宝收单
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
             log.info("关闭订单成功：{}", entity.getOrderSn());
         }catch (Exception e) {

@@ -98,4 +98,17 @@ public class CartItem {
         this.totalPrice = totalPrice;
     }
 
+    @Override
+    public String toString() {
+        return "CartItem{" +
+                "skuId=" + skuId +
+                ", check=" + check +
+                ", title='" + title + '\'' +
+                ", image='" + image + '\'' +
+                ", skuAttrValues=" + skuAttrValues +
+                ", price=" + price +
+                ", count=" + count +
+                ", totalPrice=" + totalPrice +
+                '}';
+    }
 }

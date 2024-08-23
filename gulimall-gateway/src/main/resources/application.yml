@@ -79,6 +79,8 @@ spring:
       transport:
         port: 8719
         dashboard: localhost:8080
+  application:
+    name: gulimall-gateway
 #  redis:
 #    host: 192.168.125.129
 #    password: acid10837

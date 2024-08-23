@@ -49,6 +49,9 @@ quartz 定时任务 https://www.quartz-scheduler.org/
 
 alibaba sentinel https://sentinelguard.io/zh-cn/docs/introduction.html
 
+Spring Cloud Sleuth https://docs.spring.io/spring-cloud-sleuth/docs/2.2.8.RELEASE/reference/html/#terminology
+
+zipkin https://zipkin.io/
 ### 接口文档
 
 https://easydoc.net/s/78237135/ZUqEdvA4/6JM6txHf

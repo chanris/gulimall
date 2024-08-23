@@ -65,32 +65,4 @@ public class CustomDecoder implements Decoder {
             throw new RuntimeException(e);
         }
     }
-
-    private Object handleGenerics(Response response, Type type) throws Exception{
-        JsonNode jsonNode = om.readTree(response.body().asInputStream());
-        return doHandle(jsonNode, type);
-    }
-
-    private Object doHandle(JsonNode jsonNode, Type type) throws Exception {
-        int len = ((ParameterizedType) type).getActualTypeArguments().length;
-        for (int i = 0; i < len; i++) {
-            doHandle(jsonNode, ((ParameterizedType) type).getActualTypeArguments()[i]);
-        }
-        String className = type.getTypeName();
-        Class<?> rClazz = Class.forName(className);
-        Constructor<?> declaredConstructor = rClazz.getDeclaredConstructor();
-        declaredConstructor.newInstance();
-
-        return null;
-    }
-
-    private static String inputStreamToString(InputStream inputStream) throws IOException {
-        StringBuilder stringBuilder = new StringBuilder();
-        byte[] buffer = new byte[1024];
-        int bytesRead;
-        while ((bytesRead = inputStream.read(buffer)) != -1) {
-            stringBuilder.append(new String(buffer, 0, bytesRead, StandardCharsets.UTF_8));
-        }
-        return stringBuilder.toString();
-    }
 }

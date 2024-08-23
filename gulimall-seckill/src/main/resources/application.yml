@@ -11,6 +11,14 @@ spring:
         dashboard: localhost:8080
   thymeleaf:
     cache: false
+  zipkin:
+    base-url: http://localhost:9411
+    discoveryClientEnabled: false;
+    sender:
+      type: web
+  sleuth:
+    sampler:
+      probability: 1
   redis:
     host: 192.168.125.129
     password: acid10837

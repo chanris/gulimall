@@ -85,8 +85,9 @@ public class CartController {
     @GetMapping(value = "/currentUserCartItems")
     @ResponseBody
     public List<CartItem> getCurrentCartItems() {
-        log.info("获得用户当前的购物车商品项");
-        return cartService.getUserCartItems();
+        List<CartItem> userCartItems = cartService.getUserCartItems();
+        log.info("获得用户当前的购物车商品项 size: {}", userCartItems.size());
+        return userCartItems;
     }
 
 

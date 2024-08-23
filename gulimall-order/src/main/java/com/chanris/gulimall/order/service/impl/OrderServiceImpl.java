@@ -21,7 +21,6 @@ import com.chanris.gulimall.order.dto.OrderItemDTO;
 import com.chanris.gulimall.order.dto.PaymentInfoDTO;
 import com.chanris.gulimall.order.entity.OrderEntity;
 import com.chanris.gulimall.order.entity.OrderItemEntity;
-import com.chanris.gulimall.order.entity.PaymentInfoEntity;
 import com.chanris.gulimall.order.enums.OrderStatusEnum;
 import com.chanris.gulimall.order.feign.CartFeignService;
 import com.chanris.gulimall.order.feign.MemberFeignService;
@@ -234,6 +233,7 @@ public class OrderServiceImpl extends CrudServiceImpl<OrderDao, OrderEntity, Ord
     public void closeOrder(OrderEntity order) {
         // 当前订单的最新状态
         OrderEntity orderEntity = selectById(order.getId());
+        // 如果商品还未支付，那么通知rabbitmq 解锁库存
         if (Objects.equals(orderEntity.getStatus(), OrderStatusEnum.CREATE_NEW.code)) {
             OrderEntity update = new OrderEntity();
             update.setId(orderEntity.getId());
@@ -242,7 +242,7 @@ public class OrderServiceImpl extends CrudServiceImpl<OrderDao, OrderEntity, Ord
             OrderTo orderTo = new OrderTo();
             BeanUtils.copyProperties(orderEntity, orderTo);
             // 通知mq 解锁库存
-            rabbitTemplate.convertAndSend("order-event-exchange", "order.release.order.#", orderTo);
+            rabbitTemplate.convertAndSend("order-event-exchange", "order.release.other", orderTo);
         }
     }
 
@@ -404,7 +404,7 @@ public class OrderServiceImpl extends CrudServiceImpl<OrderDao, OrderEntity, Ord
         createTo.setOrderItems(orderItemEntities);
         createTo.setOrder(entity);
 
-        // 3. 验价
+        // 3. 计算价格
         computePrice(entity, orderItemEntities);
         return createTo;
     }

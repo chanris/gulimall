@@ -83,6 +83,5 @@ public class AlipayTemplate {
         System.out.println("支付宝的响应："+result);
 
         return result;
-
     }
 }

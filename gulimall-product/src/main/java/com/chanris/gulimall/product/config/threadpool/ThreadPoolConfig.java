@@ -19,7 +19,6 @@ public class ThreadPoolConfig {
 
     /**
      * 向spring容器注入一个线程池
-     * @return
      */
     @Bean
     public ThreadPoolExecutor executor() {

@@ -10,3 +10,8 @@ spring:
     password: acid10837
 server:
   port: 30010
+
+logging:
+  level:
+    org.springframework.cloud.openfeign: debug
+    org.springframework.cloud.sleuth: debug

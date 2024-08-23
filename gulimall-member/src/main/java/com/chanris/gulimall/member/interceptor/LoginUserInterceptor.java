@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @author chenyue7@foxmail.com
  * @date 11/3/2024
- * @description
+ * @description 请求拦截器
+ * 分布式Session登录方案，登录信息保存在Cookie中。
  */
 @Slf4j
 @Component
@@ -24,12 +25,14 @@ public class LoginUserInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String uri = request.getRequestURI();
         log.info("请求地址：{}", uri);
-        log.info("请求头参数：{}", request.getHeader("Cookie"));
-        boolean match = new AntPathMatcher().match("/member/member/login", uri); // 开放登录接口
-        if (match) {
+        log.info("Cookie信息：{}", request.getHeader("Cookie"));
+        boolean tryLogin = new AntPathMatcher().match("/member/member/login", uri); // 开放登录接口
+        boolean tryLogin2 = new AntPathMatcher().match("/member/member/oauth2/login", uri);
+        // 登录请求，不验证
+        if (tryLogin || tryLogin2) {
             return true;
         }
-
+        // 从Redis中获得分布式Session信息
         MemberResponseVo attribute = (MemberResponseVo) request.getSession().getAttribute(AuthServerConstant.LOGIN_USER);
         if(attribute != null) {
             loginUser.set(attribute);

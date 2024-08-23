@@ -52,7 +52,8 @@ server:
 logging:
   level:
     com.chanris.gulimall: warn
-
+#    org.springframework.cloud.openfeign: debug
+#    org.springframework.cloud.sleuth: debug
 gulimall:
   thread:
     coreSize: 30
